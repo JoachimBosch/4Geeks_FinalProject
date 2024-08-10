@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import Carousel from './carousel';
 import { Link } from 'react-router-dom';
-
+import { Accordion } from "flowbite-react";
 
 
 export default function Home() {
@@ -128,50 +128,100 @@ export default function Home() {
 
         {/*Section 6 */}
         
-        
-        <div className="h-screen py-24">
+
+        <div className="h-screen pt-24 mb-96">
             <h2 className="text-center mb-16">Frequently Asked Questions</h2>
-            <div style={{backgroundColor: "#FAEAE0"}} className="max-w-[70%] mx-auto my-10 leading-loose py-9 shadow-[4px_4px_8px_rgba(0,0,0,0.2)] ">
-                <p className="px-9">
-                    <span className="me-3"><FontAwesomeIcon icon = {faPlus} /></span>
-                     What's included in each box?</p>
-                <hr></hr>
-                <p className="px-9">
-                    <span className="me-3"><FontAwesomeIcon icon = {faPlus} /></span>
-                    How often will I receive my box?</p>
-                <hr></hr>
-                <p className="px-9">
-                    <span className="me-3"><FontAwesomeIcon icon = {faPlus} /></span>
-                    Can I customize my box?</p>
-                <hr></hr>
-                <p className="px-9">
-                    <span className="me-3"><FontAwesomeIcon icon = {faPlus} /></span>
-                    Can I gift a subscription to someone else?</p>
-                <hr></hr>
-                <p className="px-9">
-                    <span className="me-3"><FontAwesomeIcon icon = {faPlus} /></span>
-                    What if I have allergies or specific preferences?</p>
-                <hr></hr>
-                <p className="px-9">
-                    <span className="me-3"><FontAwesomeIcon icon = {faPlus} /></span>
-                    How do I cancel or pause my subscription?</p>
-                <hr></hr>
-                <p className="px-9">
-                    <span className="me-3"><FontAwesomeIcon icon = {faPlus} /></span>
-                    Do you ship internationally?</p>
-                <hr></hr>
-                <p className="px-9">
-                    <span className="me-3"><FontAwesomeIcon icon = {faPlus} /></span>
-                    What is your return policy</p>
-                <hr></hr>
-                <p className="px-9">
-                    <span className="me-3"><FontAwesomeIcon icon = {faPlus} /></span>
-                    How can I contact customer service?</p>
+            <div style={{backgroundColor: "#FAEAE0"}} className="max-w-[70%] mx-auto my-10 leading-loose py-2 shadow-[4px_4px_8px_rgba(0,0,0,0.2)] ">
+                <Accordion collapseAll>
+                    <Accordion.Panel>
+                        <Accordion.Title className="accordion-title">
+                            What's included in each box?
+                        </Accordion.Title>
+                        <Accordion.Content>
+                            <p className="px-5 text-gray-500">
+                            Each box contains a curated selection of self-care products tailored to help you reset and rejuvenate, including skincare, wellness items, and relaxation tools.
+                            </p>
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                    <Accordion.Panel>
+                        <Accordion.Title className="accordion-title">
+                            How often will I receive my box?
+                        </Accordion.Title>
+                        <Accordion.Content>
+                            <p className="px-5 text-gray-500">
+                            Our subscription boxes are delivered monthly to ensure you have a consistent supply of self-care essentials.
+                            </p>
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                    <Accordion.Panel>
+                        <Accordion.Title className="accordion-title">
+                            Can I customize my box?
+                        </Accordion.Title>
+                        <Accordion.Content>
+                            <p className="px-5 text-gray-500">
+                            While each box is curated with a specific theme in mind, we offer options to customize certain products based on your preferences.
+                            </p>
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                    <Accordion.Panel>
+                        <Accordion.Title className="accordion-title">
+                            Can I gift a subscription to someone else?
+                        </Accordion.Title>
+                        <Accordion.Content>
+                            <p className="px-5 text-gray-500">
+                            Yes, our self-care boxes make perfect gifts! You can purchase a gift subscription and include a personalized message.
+                            </p>
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                    <Accordion.Panel>
+                        <Accordion.Title className="accordion-title">
+                            How do I cancel or pause my subscription?
+                        </Accordion.Title>
+                        <Accordion.Content>
+                            <p className="px-5 text-gray-500">
+                            You can easily manage your subscription through your account settings on our website. There are options to pause or cancel at any time.
+                            </p>
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                    <Accordion.Panel>
+                        <Accordion.Title className="accordion-title">
+                            Do you ship internationally?
+                        </Accordion.Title>
+                        <Accordion.Content>
+                            <p className="px-5 text-gray-500">
+                            Currently, we ship within Europe. We are working on expanding our shipping options to include international destinations.
+                            </p>
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                    <Accordion.Panel>
+                        <Accordion.Title className="accordion-title">
+                            What is your return policy?
+                        </Accordion.Title>
+                        <Accordion.Content>
+                            <p className="px-5 text-gray-500">
+                            If you are not satisfied with your box, please contact our customer service within 30 days of receiving it for a refund or replacement.
+                            </p>
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                    <Accordion.Panel>
+                        <Accordion.Title className="accordion-title">
+                            How can I contact customer service?
+                        </Accordion.Title>
+                        <Accordion.Content>
+                            <p className="px-5 text-gray-500">
+                            Our customer service team is available via email at or by phone.
+                            </p>
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                </Accordion>
             </div>
             <div className="flex justify-center">
-                <button className="px-10 py-5 bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)] text-xl md:text-1xl">Choose your experience</button>
+                <button className="px-10 py-5 bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)] text-xl md:text-xl">Choose your experience</button>
             </div>
         </div>
+
+
+
     </div>
   )
 }
