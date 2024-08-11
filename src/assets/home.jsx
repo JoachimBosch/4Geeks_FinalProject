@@ -103,6 +103,7 @@ export default function Home() {
             <Carousel>
                 {boxes.map((box) => <Carousel_content 
                                         key={box.id}
+                                        id={box.id}
                                         name={box.name}
                                         callout={box.callout}
                                         button_color={box.button_color}

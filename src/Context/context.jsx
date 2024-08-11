@@ -11,6 +11,7 @@ const boxes = [
     description_2: "Bring into your life feelings of tranquility and peace, enhanced ability to unwind and let go of daily tensions.",
     button_color: "bg-stone-700",
     text_color: "text-white",
+    bg_color: "bg-[#F2D2C6]",
     background: "/Relax1.jpg",
     box_out: "/Relax2.png",
   }, 
