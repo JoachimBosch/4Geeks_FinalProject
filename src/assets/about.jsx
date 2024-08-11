@@ -1,6 +1,5 @@
 import image1 from '../images/AboutUs1.jpg'
 import image2 from '../images/AboutUs2.jpg'
-import image3 from '../images/AboutUs3.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faSpa , faBoxOpen , faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
 

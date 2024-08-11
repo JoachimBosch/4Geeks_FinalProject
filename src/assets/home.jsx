@@ -2,15 +2,18 @@ import image1 from '../images/Wellbeing1.jpg'
 import image2 from '../images/ChoosingProducts.jpg';
 import image3 from '../images/OurClients.jpg';
 import videoSrc from '../video/AdobeStock_471309002.mp4';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import Carousel from './carousel';
+import Carousel_content from './carousel';
 import { Link } from 'react-router-dom';
 import { Accordion } from "flowbite-react";
+import { Carousel } from "flowbite-react";
+import { useContext } from 'react'
+import MyContext from "../Context/context";
 
 
 export default function Home() {
-    console.log('Video source path:', videoSrc);
+    
+    const { boxes } = useContext(MyContext)
+
   return (
     <div>
 
@@ -67,8 +70,52 @@ export default function Home() {
         {/*Section 3 */}
         
         
-        <Carousel />
+        
+        <div className="h-view text-center pt-24" style={{backgroundColor: "#FAEAE0"}}>
+                <h2>Choose Your Experience</h2>
+                <div className = "w-full mt-16">
+                    <ul className="pb-5 relative flex flex-wrap p-1 list-none text-base md:text-lg lg:text-xl" data-tabs="tabs" role="list">
+                        <li className="z-30 flex-auto text-center hover:underline">
+                            <Link to="">RELAX</Link>
+                        </li>
+                        <li className="z-30 flex-auto text-center hover:underline">
+                            <Link to="">REVIVE</Link>
+                        </li>
+                        <li className="z-30 flex-auto text-center hover:underline">
+                            <Link to="">RECONNECT</Link>
+                        </li>
+                        <li className="z-30 flex-auto text-center hover:underline">
+                            <Link to="">RECHARGE</Link>
+                        </li>
+                        <li className="z-30 flex-auto text-center hover:underline">
+                            <Link to="">REFRESH</Link>
+                        </li>
+                        <li className="z-30 flex-auto text-center hover:underline">
+                            <Link to="">REFOCUS</Link>
+                        </li>
+                        <li className="z-30 flex-auto text-center hover:underline">
+                            <Link to="">REBALANCE</Link>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        
+            <Carousel>
+                {boxes.map((box) => <Carousel_content 
+                                        key={box.id}
+                                        name={box.name}
+                                        callout={box.callout}
+                                        button_color={box.button_color}
+                                        text_color={box.text_color}
+                                        background={box.background}
+                                        box_out={box.box_out}
+                                        />)}
+                
+            </Carousel>
 
+        <div className="bg-black text-white p-4 opacity-70">
+                <p className="text-center text-sm md:text-xl lg:text-2xl">* Buy yourself a one-time experience, or treat yourself every month by taking a subscription. *</p>
+        </div>
 
 
         {/*Section 4 */}
@@ -138,7 +185,7 @@ export default function Home() {
                             What's included in each box?
                         </Accordion.Title>
                         <Accordion.Content>
-                            <p className="px-5 text-gray-500">
+                            <p className="ps-10 text-gray-500">
                             Each box contains a curated selection of self-care products tailored to help you reset and rejuvenate, including skincare, wellness items, and relaxation tools.
                             </p>
                         </Accordion.Content>
@@ -148,7 +195,7 @@ export default function Home() {
                             How often will I receive my box?
                         </Accordion.Title>
                         <Accordion.Content>
-                            <p className="px-5 text-gray-500">
+                            <p className="ps-10 text-gray-500">
                             Our subscription boxes are delivered monthly to ensure you have a consistent supply of self-care essentials.
                             </p>
                         </Accordion.Content>
@@ -158,7 +205,7 @@ export default function Home() {
                             Can I customize my box?
                         </Accordion.Title>
                         <Accordion.Content>
-                            <p className="px-5 text-gray-500">
+                            <p className="ps-10 text-gray-500">
                             While each box is curated with a specific theme in mind, we offer options to customize certain products based on your preferences.
                             </p>
                         </Accordion.Content>
@@ -168,7 +215,7 @@ export default function Home() {
                             Can I gift a subscription to someone else?
                         </Accordion.Title>
                         <Accordion.Content>
-                            <p className="px-5 text-gray-500">
+                            <p className="ps-10 text-gray-500">
                             Yes, our self-care boxes make perfect gifts! You can purchase a gift subscription and include a personalized message.
                             </p>
                         </Accordion.Content>
@@ -178,7 +225,7 @@ export default function Home() {
                             How do I cancel or pause my subscription?
                         </Accordion.Title>
                         <Accordion.Content>
-                            <p className="px-5 text-gray-500">
+                            <p className="ps-10 text-gray-500">
                             You can easily manage your subscription through your account settings on our website. There are options to pause or cancel at any time.
                             </p>
                         </Accordion.Content>
@@ -188,7 +235,7 @@ export default function Home() {
                             Do you ship internationally?
                         </Accordion.Title>
                         <Accordion.Content>
-                            <p className="px-5 text-gray-500">
+                            <p className="ps-10 text-gray-500">
                             Currently, we ship within Europe. We are working on expanding our shipping options to include international destinations.
                             </p>
                         </Accordion.Content>
@@ -198,7 +245,7 @@ export default function Home() {
                             What is your return policy?
                         </Accordion.Title>
                         <Accordion.Content>
-                            <p className="px-5 text-gray-500">
+                            <p className="ps-10 text-gray-500">
                             If you are not satisfied with your box, please contact our customer service within 30 days of receiving it for a refund or replacement.
                             </p>
                         </Accordion.Content>
@@ -208,7 +255,7 @@ export default function Home() {
                             How can I contact customer service?
                         </Accordion.Title>
                         <Accordion.Content>
-                            <p className="px-5 text-gray-500">
+                            <p className="ps-10 text-gray-500">
                             Our customer service team is available via email at or by phone.
                             </p>
                         </Accordion.Content>
