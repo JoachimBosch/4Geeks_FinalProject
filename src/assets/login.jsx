@@ -1,9 +1,23 @@
 import { Link } from "react-router-dom";
 import MyContext from "../Context/context";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
-    const { login, setLogin } = useContext(MyContext)
+    const { login, setLogin } = useContext(MyContext);
+    const [type, setType] = useState("password");
+    const [icon, setIcon] = useState(faEyeSlash);
+
+    const handleToggle = () => {
+        if (type==='password'){
+           setIcon(faEye);
+           setType('text')
+        } else {
+           setIcon(faEyeSlash)
+           setType('password')
+        }
+     }
+
     return (
     <>
         <div className="flex min-h-full flex-col justify-center px-6 py-40 lg:px-8">
@@ -33,6 +47,9 @@ const Login = () => {
                     <input id="password" name="password" type="password" autocomplete="current-password" value={login.password} onChange={(e) => setLogin({
                              ...login,
                              password: e.target.value})} required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                    {/* <span class="flex justify-around items-center" onClick={handleToggle}>
+                        <p class="absolute mr-10" style={{ size: "25px" }}>{icon}</p>
+                    </span> */}
                     </div>
                 </div>
 

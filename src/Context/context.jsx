@@ -84,12 +84,28 @@ export const MyProvider = ({ children }) => {
     const [subscribe, setSubscribe] = useState({email: "", password: ""})
     const [personInfo, setPersonInfo] = useState({
         id: "",
+        password: "",
         email: "",
         first_name: "",
         last_name: "",
         phone: "",
-    })
-
+    });
+    const [addressInfo, setAddressInfo] = useState({
+        id: "",
+        user_id: "",
+        relation_to_user: "",
+        street: "",
+        street_number: "",
+        postal_code: "",
+        city: "",
+        country: "",
+    });
+    const [subscriptionInfo, setSubscriptionInfo] = useState({
+      label: "",
+      billingAddress: "",
+      shippingAddress: "",
+      term: ""
+  });
     boxes;
 
 
@@ -97,7 +113,7 @@ export const MyProvider = ({ children }) => {
 
     
     /* Add variable names within appContext */
-    let appContext = {login, setLogin, boxes, subscribe, setSubscribe, personInfo, setPersonInfo}
+    let appContext = {login, setLogin, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo}
 
     return (
         <MyContext.Provider value={appContext}>

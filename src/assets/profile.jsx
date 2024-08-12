@@ -1,14 +1,18 @@
-import MyContext from "../Context/context";
+import React, { useContext, useState } from 'react';
+import MyContext from '../Context/context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencil, faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
-import { Button, Modal } from "flowbite-react";
-
+import { faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
+import UpdatePersonalInfoModal from './personalInfoModal';
+import AddressModal from './manageAddressModal';
+import ManageSubscriptionModal from './manageSubscriptionModal';
 
 const Profile = () => {
-    const { personInfo, setPersonInfo } = useContext(MyContext)
-    const [openModal, setOpenModal] = useState(false);
+    const { personInfo, setPersonInfo, addressInfo, setAddressInfo } = useContext(MyContext);
+    const [openPersonalModal, setOpenPersonalModal] = useState(false);
+    const [openAddressModal, setOpenAddressModal] = useState(false);
+    const [openManageSubscriptionModal, setOpenManageSubscriptionModal] = useState(false);
+    const [isEditAddress, setIsEditAddress] = useState(false);
 
     return (
         <>
@@ -30,10 +34,12 @@ const Profile = () => {
                     </div>
                     <div className="mt-2 mb-6 flex justify-center">
                         <Link to="">
-                            <button className="profile-button mx-3 px-2 py-1 border rounded bg-inherit" >Change password</button>
+                            <button className="profile-button mx-3 px-2 py-1 border rounded bg-inherit">Change password</button>
                         </Link>
                         
-                            <button onClick={() => setOpenModal(true)} className="profile-button mx-3 px-2 py-1 border rounded bg-inherit">Update profile information</button>
+                        <button onClick={() => setOpenPersonalModal(true)} className="profile-button mx-3 px-2 py-1 border rounded bg-inherit">
+                        Update profile information
+                        </button>
                         
                     </div>
                 </div>
@@ -49,10 +55,10 @@ const Profile = () => {
                                         Label
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Address information
+                                        Street and number
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Type
+                                        City and Country
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Manage
@@ -62,17 +68,20 @@ const Profile = () => {
                             <tbody>
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        Personal
+                                        {addressInfo.relation_to_user}
                                     </td>
                                     <td class="px-6 py-4">
-                                        Street Name 101, 00000 City, Country
+                                        {addressInfo.street} {addressInfo.street_number} 
                                     </td>
                                     <td class="px-6 py-4">
-                                        Billing and shipping
+                                        {addressInfo.postal_code} {addressInfo.city} {addressInfo.country}
                                     </td>
                                     <td class="px-6 pr-0">
                                         <Link to="">
-                                            <button className="px-2 py-1 bg-inherit">
+                                            <button className="px-2 py-1 bg-inherit" onClick={() => {
+                                                setIsEditAddress(true);
+                                                setOpenAddressModal(true);
+                                                }}>
                                                 <FontAwesomeIcon icon={faPencil} />
                                             </button>
                                         </Link>
@@ -88,8 +97,13 @@ const Profile = () => {
                         </table>
                             <div className="my-6 mx-auto flex justify-center">
                                 <Link to="">
-                                    <button className="profile-button px-2 py-1 border rounded bg-inherit">
-                                        Add another address
+                                <button
+                                    onClick={() => {
+                                        setIsEditAddress(false);
+                                        setOpenAddressModal(true);
+                                    }}
+                                    className="profile-button px-2 py-1 border rounded bg-inherit">
+                                        Add an address
                                     </button>
                                 </Link> 
                             </div>
@@ -135,36 +149,35 @@ const Profile = () => {
                             </tbody>
                         </table>
                             <div className="my-6 mx-auto flex justify-center">
-                                    <Link to="/manage">
-                                        <button className="profile-button px-2 py-1 border rounded bg-inherit">
+                                <button
+                                    onClick={() => setOpenManageSubscriptionModal(true)}
+                                    className="profile-button mx-3 px-2 py-1 border rounded bg-inherit">
                                         Manage subscriptions
-                                        </button>
-                                    </Link>
+                                </button>
                             </div>
                     </div>
                 </div>
             </div>
-            <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
-                <Modal.Header>Edit personal information</Modal.Header>
-                <Modal.Body>
-                <div className="space-y-6 modal-text">
-                        <p>Name:</p>
-                        <input className="indent-1 border" style={{ width: "100%" }} value={personInfo.first_name ? personInfo.first_name : "Add your first name"} />
-                        <p>Last name:</p >
-                        <input className="indent-1 border" style={{ width: "100%" }} value={personInfo.first_name ? personInfo.first_name : "Add your last name"} />
-                        <p>Email address:</p>
-                        <input className="indent-1 border" style={{ width: "100%" }} value={personInfo.first_name ? personInfo.first_name : "Add your email address"} />
-                        <p>Phone number:</p>
-                        <input className="indent-1 border" style={{ width: "100%" }} value={personInfo.first_name ? personInfo.first_name : "Add your phone number"} />
-                </div>
-                </Modal.Body>
-                <Modal.Footer>
-                <Button onClick={() => setOpenModal(false)}>Confirm</Button>
-                <Button color="gray" onClick={() => setOpenModal(false)}>
-                    Cancel
-                </Button>
-                </Modal.Footer>
-            </Modal>
+
+            {/* Modals */}
+            <UpdatePersonalInfoModal
+                show={openPersonalModal}
+                onClose={() => setOpenPersonalModal(false)}
+                personInfo={personInfo}
+                setPersonInfo={setPersonInfo}
+            />
+
+            <AddressModal
+                show={openAddressModal}
+                onClose={() => setOpenAddressModal(false)}
+                addressInfo={isEditAddress ? addressInfo : null}
+                setAddressInfo={setAddressInfo}
+                isEdit={isEditAddress}
+            />
+            <ManageSubscriptionModal
+                show={openManageSubscriptionModal}
+                onClose={() => setOpenManageSubscriptionModal(false)}
+            />
         </>
         )
 }
