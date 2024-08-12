@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import MyContext from "../Context/context";
+import { useContext } from "react";
 
 const Subscribe = () => {
+    const { subscribe, setSubscribe } = useContext(MyContext)
     return (
         <>
             <div className="flex min-h-full flex-col justify-center px-6 py-40 lg:px-8">
@@ -14,7 +16,9 @@ const Subscribe = () => {
                 <div>
                     <label for="email"><p>Email address</p></label>
                     <div className="mt-2">
-                    <input id="email" name="email" type="email" autocomplete="email" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                    <input id="email" name="email" type="email" value={subscribe.email} onChange={(e) => setSubscribe({
+                             ...subscribe,
+                             email: e.target.value})} autocomplete="email" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     </div>
                 </div>
 
@@ -23,12 +27,19 @@ const Subscribe = () => {
                     <label for="password"><p>Password</p></label>
                     </div>
                     <div className="mt-2">
-                    <input id="password" name="password" type="password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                    <input id="password" name="password" value={subscribe.password} onChange={(e) => setSubscribe({
+                             ...subscribe,
+                             password: e.target.value})} type="password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     </div>
                 </div>
 
                 <div>
-                    <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Register</button>
+                    <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" 
+                    onClick={(e) => {
+                    e.preventDefault();
+                    console.log(subscribe);
+                    setSubscribe({email: "", password: ""}) /* This button is storing the value correctly */
+                    }}>Register</button>
                 </div>
                 </form>
 

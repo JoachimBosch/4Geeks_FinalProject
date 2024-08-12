@@ -2,8 +2,14 @@ import MyContext from "../Context/context";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Button, Modal } from "flowbite-react";
+
 
 const Profile = () => {
+    const { personInfo, setPersonInfo } = useContext(MyContext)
+    const [openModal, setOpenModal] = useState(false);
+
     return (
         <>
             <div className="md:mx-60 mt-20 flex flex-col">
@@ -14,21 +20,21 @@ const Profile = () => {
                     
                     <div className="mt-3">
                         <h3>Name:</h3>
-                        <p className="indent-8 pb-2 profile-text border-b">Joachim</p>
+                        <p className="indent-8 pb-2 profile-text border-b">{personInfo.first_name ? personInfo.first_name : "Add your first name"}</p>
                         <h3>Last name:</h3>
-                        <p className="indent-8 pb-2 profile-text border-b">Bosch</p>
+                        <p className="indent-8 pb-2 profile-text border-b">{personInfo.last_name ? personInfo.last_name : "Add your last name"}</p>
                         <h3>Email address:</h3>
-                        <p className="indent-8 pb-2 profile-text border-b">bosch.joachim@outlook.com</p>
+                        <p className="indent-8 pb-2 profile-text border-b">{personInfo.email ? personInfo.email : "Add your email address"}</p>
                         <h3>Phone number:</h3>
-                        <p className="indent-8 pb-2 profile-text">0626838554</p>
+                        <p className="indent-8 pb-2 profile-text">{personInfo.phone ? personInfo.phone : "Add your phone number"}</p>
                     </div>
                     <div className="mt-2 mb-6 flex justify-center">
                         <Link to="">
                             <button className="profile-button mx-3 px-2 py-1 border rounded bg-inherit" >Change password</button>
                         </Link>
-                        <Link to="">
-                            <button className="profile-button mx-3 px-2 py-1 border rounded bg-inherit" >Update profile information</button>
-                        </Link>
+                        
+                            <button onClick={() => setOpenModal(true)} className="profile-button mx-3 px-2 py-1 border rounded bg-inherit">Update profile information</button>
+                        
                     </div>
                 </div>
                 <div className="mt-10 mb-6 ml-2">
@@ -138,6 +144,27 @@ const Profile = () => {
                     </div>
                 </div>
             </div>
+            <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
+                <Modal.Header>Edit personal information</Modal.Header>
+                <Modal.Body>
+                <div className="space-y-6 modal-text">
+                        <p>Name:</p>
+                        <input className="indent-1 border" style={{ width: "100%" }} value={personInfo.first_name ? personInfo.first_name : "Add your first name"} />
+                        <p>Last name:</p >
+                        <input className="indent-1 border" style={{ width: "100%" }} value={personInfo.first_name ? personInfo.first_name : "Add your last name"} />
+                        <p>Email address:</p>
+                        <input className="indent-1 border" style={{ width: "100%" }} value={personInfo.first_name ? personInfo.first_name : "Add your email address"} />
+                        <p>Phone number:</p>
+                        <input className="indent-1 border" style={{ width: "100%" }} value={personInfo.first_name ? personInfo.first_name : "Add your phone number"} />
+                </div>
+                </Modal.Body>
+                <Modal.Footer>
+                <Button onClick={() => setOpenModal(false)}>Confirm</Button>
+                <Button color="gray" onClick={() => setOpenModal(false)}>
+                    Cancel
+                </Button>
+                </Modal.Footer>
+            </Modal>
         </>
         )
 }

@@ -50,6 +50,12 @@ p {
         font-size: 18px
 }
 
+.modal-text {
+  font-family: "omnes-pro", sans-serif;
+  font-style: normal;
+  font-size: 18px
+}
+
 .background-video{
     position: fixed;
 }
