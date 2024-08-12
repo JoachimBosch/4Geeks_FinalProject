@@ -2,15 +2,18 @@ import image1 from '../images/Wellbeing1.jpg'
 import image2 from '../images/ChoosingProducts.jpg';
 import image3 from '../images/OurClients.jpg';
 import videoSrc from '../video/AdobeStock_471309002.mp4';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import Carousel from './carousel';
+import Carousel_content from './carousel';
 import { Link } from 'react-router-dom';
-
+import { Accordion } from "flowbite-react";
+import { Carousel } from "flowbite-react";
+import { useContext } from 'react'
+import MyContext from "../Context/context";
 
 
 export default function Home() {
-    console.log('Video source path:', videoSrc);
+    
+    const { boxes } = useContext(MyContext)
+
   return (
     <div>
 
@@ -67,8 +70,53 @@ export default function Home() {
         {/*Section 3 */}
         
         
-        <Carousel />
+        
+        <div className="h-view text-center pt-24" style={{backgroundColor: "#FAEAE0"}}>
+                <h2>Choose Your Experience</h2>
+                <div className = "w-full mt-16">
+                    <ul className="pb-5 relative flex flex-wrap p-1 list-none text-base md:text-lg lg:text-xl" data-tabs="tabs" role="list">
+                        <li className="z-30 flex-auto text-center hover:underline">
+                            <Link to="">RELAX</Link>
+                        </li>
+                        <li className="z-30 flex-auto text-center hover:underline">
+                            <Link to="">REVIVE</Link>
+                        </li>
+                        <li className="z-30 flex-auto text-center hover:underline">
+                            <Link to="">RECONNECT</Link>
+                        </li>
+                        <li className="z-30 flex-auto text-center hover:underline">
+                            <Link to="">RECHARGE</Link>
+                        </li>
+                        <li className="z-30 flex-auto text-center hover:underline">
+                            <Link to="">REFRESH</Link>
+                        </li>
+                        <li className="z-30 flex-auto text-center hover:underline">
+                            <Link to="">REFOCUS</Link>
+                        </li>
+                        <li className="z-30 flex-auto text-center hover:underline">
+                            <Link to="">REBALANCE</Link>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        
+            <Carousel>
+                {boxes.map((box) => <Carousel_content 
+                                        key={box.id}
+                                        id={box.id}
+                                        name={box.name}
+                                        callout={box.callout}
+                                        button_color={box.button_color}
+                                        text_color={box.text_color}
+                                        background={box.background}
+                                        box_out={box.box_out}
+                                        />)}
+                
+            </Carousel>
 
+        <div className="bg-black text-white p-4 opacity-70">
+                <p className="text-center text-sm md:text-xl lg:text-2xl">* Buy yourself a one-time experience, or treat yourself every month by taking a subscription. *</p>
+        </div>
 
 
         {/*Section 4 */}
@@ -128,50 +176,100 @@ export default function Home() {
 
         {/*Section 6 */}
         
-        
-        <div className="h-screen py-24">
+
+        <div className="h-screen pt-24 mb-96">
             <h2 className="text-center mb-16">Frequently Asked Questions</h2>
-            <div style={{backgroundColor: "#FAEAE0"}} className="max-w-[70%] mx-auto my-10 leading-loose py-9 shadow-[4px_4px_8px_rgba(0,0,0,0.2)] ">
-                <p className="px-9">
-                    <span className="me-3"><FontAwesomeIcon icon = {faPlus} /></span>
-                     What's included in each box?</p>
-                <hr></hr>
-                <p className="px-9">
-                    <span className="me-3"><FontAwesomeIcon icon = {faPlus} /></span>
-                    How often will I receive my box?</p>
-                <hr></hr>
-                <p className="px-9">
-                    <span className="me-3"><FontAwesomeIcon icon = {faPlus} /></span>
-                    Can I customize my box?</p>
-                <hr></hr>
-                <p className="px-9">
-                    <span className="me-3"><FontAwesomeIcon icon = {faPlus} /></span>
-                    Can I gift a subscription to someone else?</p>
-                <hr></hr>
-                <p className="px-9">
-                    <span className="me-3"><FontAwesomeIcon icon = {faPlus} /></span>
-                    What if I have allergies or specific preferences?</p>
-                <hr></hr>
-                <p className="px-9">
-                    <span className="me-3"><FontAwesomeIcon icon = {faPlus} /></span>
-                    How do I cancel or pause my subscription?</p>
-                <hr></hr>
-                <p className="px-9">
-                    <span className="me-3"><FontAwesomeIcon icon = {faPlus} /></span>
-                    Do you ship internationally?</p>
-                <hr></hr>
-                <p className="px-9">
-                    <span className="me-3"><FontAwesomeIcon icon = {faPlus} /></span>
-                    What is your return policy</p>
-                <hr></hr>
-                <p className="px-9">
-                    <span className="me-3"><FontAwesomeIcon icon = {faPlus} /></span>
-                    How can I contact customer service?</p>
+            <div style={{backgroundColor: "#FAEAE0"}} className="max-w-[70%] mx-auto my-10 leading-loose py-2 shadow-[4px_4px_8px_rgba(0,0,0,0.2)] ">
+                <Accordion collapseAll>
+                    <Accordion.Panel>
+                        <Accordion.Title className="accordion-title">
+                            What's included in each box?
+                        </Accordion.Title>
+                        <Accordion.Content>
+                            <p className="ps-10 text-gray-500">
+                            Each box contains a curated selection of self-care products tailored to help you reset and rejuvenate, including skincare, wellness items, and relaxation tools.
+                            </p>
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                    <Accordion.Panel>
+                        <Accordion.Title className="accordion-title">
+                            How often will I receive my box?
+                        </Accordion.Title>
+                        <Accordion.Content>
+                            <p className="ps-10 text-gray-500">
+                            Our subscription boxes are delivered monthly to ensure you have a consistent supply of self-care essentials.
+                            </p>
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                    <Accordion.Panel>
+                        <Accordion.Title className="accordion-title">
+                            Can I customize my box?
+                        </Accordion.Title>
+                        <Accordion.Content>
+                            <p className="ps-10 text-gray-500">
+                            While each box is curated with a specific theme in mind, we offer options to customize certain products based on your preferences.
+                            </p>
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                    <Accordion.Panel>
+                        <Accordion.Title className="accordion-title">
+                            Can I gift a subscription to someone else?
+                        </Accordion.Title>
+                        <Accordion.Content>
+                            <p className="ps-10 text-gray-500">
+                            Yes, our self-care boxes make perfect gifts! You can purchase a gift subscription and include a personalized message.
+                            </p>
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                    <Accordion.Panel>
+                        <Accordion.Title className="accordion-title">
+                            How do I cancel or pause my subscription?
+                        </Accordion.Title>
+                        <Accordion.Content>
+                            <p className="ps-10 text-gray-500">
+                            You can easily manage your subscription through your account settings on our website. There are options to pause or cancel at any time.
+                            </p>
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                    <Accordion.Panel>
+                        <Accordion.Title className="accordion-title">
+                            Do you ship internationally?
+                        </Accordion.Title>
+                        <Accordion.Content>
+                            <p className="ps-10 text-gray-500">
+                            Currently, we ship within Europe. We are working on expanding our shipping options to include international destinations.
+                            </p>
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                    <Accordion.Panel>
+                        <Accordion.Title className="accordion-title">
+                            What is your return policy?
+                        </Accordion.Title>
+                        <Accordion.Content>
+                            <p className="ps-10 text-gray-500">
+                            If you are not satisfied with your box, please contact our customer service within 30 days of receiving it for a refund or replacement.
+                            </p>
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                    <Accordion.Panel>
+                        <Accordion.Title className="accordion-title">
+                            How can I contact customer service?
+                        </Accordion.Title>
+                        <Accordion.Content>
+                            <p className="ps-10 text-gray-500">
+                            Our customer service team is available via email at or by phone.
+                            </p>
+                        </Accordion.Content>
+                    </Accordion.Panel>
+                </Accordion>
             </div>
             <div className="flex justify-center">
-                <button className="px-10 py-5 bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)] text-xl md:text-1xl">Choose your experience</button>
+                <button className="px-10 py-5 bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)] text-xl md:text-xl">Choose your experience</button>
             </div>
         </div>
+
+
+
     </div>
   )
 }

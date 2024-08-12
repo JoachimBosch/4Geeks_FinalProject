@@ -29,7 +29,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="profile" element={<Profile />} />
           <Route path="manage" element={<Manage />} />
           <Route path="marketplace" element={<Marketplace />} />
-          <Route path="details" element={<Details />} />
+          <Route path="details/:id" element={<Details />} />
           <Route path="cart" element={<ShoppingCart />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="about" element={<About />} />

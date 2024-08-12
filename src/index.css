@@ -62,12 +62,6 @@ border: 0;
 background: #cdaa94a8;
 }
 
-.clients-love {
-    background-image: url(./images/OurClients.jpg);
-    background-repeat: no-repeat;
-    width: 100%;
-    height: 600px;
-}
 
 .sub::after{
     content: "Cannot change subscription during term";
@@ -94,4 +88,13 @@ background: #cdaa94a8;
     background-color: #A28D7A;
     border-color: #A28D7A;
     color: white;
+}
+
+
+button h2 {
+  font-family: "omnes-pro", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-size: 22px;
+  color: black;
 }
