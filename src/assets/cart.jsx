@@ -2,8 +2,8 @@ import MyContext from "../Context/context";
 
 const ShoppingCart = () => {
     return (
-        <div >
-        <div className="max-w-[1100px] mx-auto pt-20">
+        <div style={{backgroundColor: "#FAEAE0"}}>
+        <div className="max-w-[1100px] mx-auto py-20 bg-orange-50">
             <h2 className="text-center py-24 pb-16">Shopping Cart</h2>
             
             <div className="grid grid-cols-12 max-md:hidden py-6 border-t border-b border-gray-800 mx-16">
@@ -31,7 +31,7 @@ const ShoppingCart = () => {
                     <div className="md:col-span-2">
                         <div className="flex flex-col max-[500px]:items-center gap-3">
                             <p className="font-semibold leading-7 text-black">Name of the Box</p>
-                            <p className="font-medium leading-7 text-gray-600 transition-all duration-300 hover:text-orange-700">Box price</p>
+                            <p className="font-medium leading-7 text-gray-600 transition-all duration-300 group-hover:text-orange-700">Box price</p>
                         </div>
                     </div>
                     
