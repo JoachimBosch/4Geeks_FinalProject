@@ -9,10 +9,12 @@ const Details = () => {
 
     const { id } = useParams();
 
-    const { boxes } = useContext(MyContext);
+    const { boxes, onAddToCart } = useContext(MyContext);
 
     const thisBox = boxes.filter((box) => {
             return box.id == id })[0];
+
+
 
     return (
         
@@ -37,7 +39,10 @@ const Details = () => {
                             <br></br>
                             {thisBox.description_2}
                         </p>
-                        <button type="button" className={`px-10 py-1 text-white ${thisBox.button_color} hover:bg-stone-900 shadow-[6px_6px_12px_rgba(0,0,0,0.4)] text-xl md:text-2xl mt-5`} style={{fontWeight: "500"}}>Add to cart</button>
+                        <button type="button" 
+                                className={`px-10 py-1 text-white ${thisBox.button_color} hover:bg-stone-900 shadow-[6px_6px_12px_rgba(0,0,0,0.4)] text-xl md:text-2xl mt-5`} 
+                                style={{fontWeight: "500"}}
+                                onClick={() => onAddToCart(thisBox)}>Add to cart</button>
                     </div>
                 </div>
 
