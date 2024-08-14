@@ -136,19 +136,34 @@ export const MyProvider = ({ children }) => {
 
     /*UseReducer*/
 
+    const initialState = (JSON.parse(localStorage.getItem("myCart")) || []);
+
+
     /* FUNCTIONS */
 
 
 
     function onAddToCart(box) {
-        setCart(prevCart => [...prevCart, box]);
-    };
+      cart.find(item => item.id == box.id) ? increaseQuantity(box.id) : setCart(prevCart => [...prevCart, box]);
+      };
 
     function onDeleteFromCart(id) {
         setCart(prevCart => prevCart.filter(product => product.id !== id));
     };
 
-    
+    function increaseQuantity(id) {
+      setCart(prevCart => 
+          prevCart.map(box =>
+              box.id === id ? {...box, quantity: box.quantity +1 } : box
+      ));
+  };
+
+    function decreaseQuantity(id) {
+        setCart(prevCart => 
+            prevCart.map(box =>
+                box.id === id ? {...box, quantity: box.quantity -1 } : box
+        ));
+    };    
 
 
 
@@ -161,7 +176,7 @@ export const MyProvider = ({ children }) => {
 
     
     /* Add variable names within appContext */
-    let appContext = {login, setLogin, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart}
+    let appContext = {login, setLogin, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity}
 
     return (
         <MyContext.Provider value={appContext}>
