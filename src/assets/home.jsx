@@ -12,7 +12,7 @@ import MyContext from "../Context/context";
 
 export default function Home() {
     
-    const { boxes } = useContext(MyContext)
+    const { boxes } = useContext(MyContext);
 
   return (
     <div>
@@ -105,11 +105,13 @@ export default function Home() {
                                         key={box.id}
                                         id={box.id}
                                         name={box.name}
+                                        price={box.price}
                                         callout={box.callout}
                                         button_color={box.button_color}
                                         text_color={box.text_color}
                                         background={box.background}
                                         box_out={box.box_out}
+                                        quantity={box.quantity}
                                         />)}
                 
             </Carousel>
