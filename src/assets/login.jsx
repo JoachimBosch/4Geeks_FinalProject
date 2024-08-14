@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import MyContext from "../Context/context";
 import { useContext, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
@@ -16,6 +17,7 @@ const Login = () => {
            setIcon(faEyeSlash)
            setType('password')
         }
+        console.log("Current type:", type);
      }
 
     return (
@@ -43,13 +45,17 @@ const Login = () => {
                         <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
                     </div>
                     </div>
-                    <div className="mt-2">
+                    <div className="mt-2 flex">
                     <input id="password" name="password" type="password" autocomplete="current-password" value={login.password} onChange={(e) => setLogin({
                              ...login,
-                             password: e.target.value})} required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                    {/* <span class="flex justify-around items-center" onClick={handleToggle}>
-                        <p class="absolute mr-10" style={{ size: "25px" }}>{icon}</p>
-                    </span> */}
+                             password: e.target.value})} required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mr-2" />
+                                <button
+                                type="button"
+                                className="inset-y-0 right-0 pr-3 flex items-center"
+                                onClick={handleToggle}
+                            >
+                                <FontAwesomeIcon icon={icon} style={{ fontSize: "20px" }} />
+                            </button>
                     </div>
                 </div>
 

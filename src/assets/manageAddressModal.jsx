@@ -35,6 +35,7 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
                         style={{ width: '100%' }}
                         value={formData.relation_to_user || ''}
                         onChange={handleChange}
+                        required
                     />
                     <p>Street:</p>
                     <input
@@ -43,6 +44,7 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
                         style={{ width: '100%' }}
                         value={formData.street || ''}
                         onChange={handleChange}
+                        required
                     />
                     <p>Street Number:</p>
                     <input
@@ -51,6 +53,7 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
                         style={{ width: '100%' }}
                         value={formData.street_number || ''}
                         onChange={handleChange}
+                        required
                     />
                     <p>Postal Code:</p>
                     <input
@@ -59,6 +62,7 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
                         style={{ width: '100%' }}
                         value={formData.postal_code || ''}
                         onChange={handleChange}
+                        required
                     />
                     <p>City:</p>
                     <input
@@ -67,6 +71,7 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
                         style={{ width: '100%' }}
                         value={formData.city || ''}
                         onChange={handleChange}
+                        required
                     />
                     <p>Country:</p>
                     <input
@@ -75,6 +80,7 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
                         style={{ width: '100%' }}
                         value={formData.country || ''}
                         onChange={handleChange}
+                        required
                     />
                 </div>
             </Modal.Body>

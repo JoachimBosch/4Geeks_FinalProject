@@ -8,7 +8,7 @@ import AddressModal from './manageAddressModal';
 import ManageSubscriptionModal from './manageSubscriptionModal';
 
 const Profile = () => {
-    const { personInfo, setPersonInfo, addressInfo, setAddressInfo } = useContext(MyContext);
+    const { personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo } = useContext(MyContext);
     const [openPersonalModal, setOpenPersonalModal] = useState(false);
     const [openAddressModal, setOpenAddressModal] = useState(false);
     const [openManageSubscriptionModal, setOpenManageSubscriptionModal] = useState(false);
@@ -17,6 +17,7 @@ const Profile = () => {
     return (
         <>
             <div className="md:mx-60 mt-20 flex flex-col">
+            {/* Profile section */}
                 <div className="mt-4 mb-6 ml-2">
                     <h2 className="indent-4">Personal information</h2>
                 </div>
@@ -43,6 +44,8 @@ const Profile = () => {
                         
                     </div>
                 </div>
+            {/* Address section */}
+            
                 <div className="mt-10 mb-6 ml-2">
                     <h2 className="indent-4">Address information</h2>
                 </div>
@@ -92,7 +95,6 @@ const Profile = () => {
                                         </Link>
                                     </td>
                                 </tr>
-
                             </tbody>
                         </table>
                             <div className="my-6 mx-auto flex justify-center">
@@ -109,6 +111,7 @@ const Profile = () => {
                             </div>
                     </div>
                 </div>
+                {/* Subscription section */}
                 <div className="mt-10 mb-6 ml-2">
                     <h2 className="indent-4">Active subscriptions</h2>
                 </div>
@@ -134,7 +137,7 @@ const Profile = () => {
                             <tbody>
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        Personal
+                                        {subscriptionInfo.label}
                                     </td>
                                     <td class="px-6 py-4">
                                         Recharge
