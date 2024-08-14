@@ -28,6 +28,7 @@ const UpdatePersonalInfoModal = ({ show, onClose, personInfo, setPersonInfo }) =
                         style={{ width: '100%' }}
                         value={formData.first_name || ''}
                         onChange={handleChange}
+                        required
                     />
                     <p>Last name:</p>
                     <input
@@ -36,6 +37,7 @@ const UpdatePersonalInfoModal = ({ show, onClose, personInfo, setPersonInfo }) =
                         style={{ width: '100%' }}
                         value={formData.last_name || ''}
                         onChange={handleChange}
+                        required
                     />
                     <p>Email address:</p>
                     <input
@@ -44,6 +46,7 @@ const UpdatePersonalInfoModal = ({ show, onClose, personInfo, setPersonInfo }) =
                         style={{ width: '100%' }}
                         value={formData.email || ''}
                         onChange={handleChange}
+                        required
                     />
                     <p>Phone number:</p>
                     <input
