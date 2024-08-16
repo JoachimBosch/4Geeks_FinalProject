@@ -34,7 +34,7 @@ const Profile = () => {
                         <p className="indent-8 pb-2 profile-text">{personInfo.phone ? personInfo.phone : "Add your phone number"}</p>
                     </div>
                     <div className="mt-2 mb-6 flex justify-center">
-                        <Link to="">
+                        <Link to="/change-password">
                             <button className="profile-button mx-3 px-2 py-1 border rounded bg-inherit">Change password</button>
                         </Link>
                         
