@@ -47,7 +47,10 @@ const Details = () => {
                                                             name: thisBox.name,
                                                             box_out: thisBox.box_out,
                                                             price: thisBox.price,
-                                                            quantity: thisBox.quantity})
+                                                            quantity: thisBox.quantity,
+                                                            price_3: thisBox.price_3,
+                                                            price_6: thisBox.price_6,
+                                                            price_12: thisBox.price_12})
                                                             }
                                                             >Add to cart
                         </button>
