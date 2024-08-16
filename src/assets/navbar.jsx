@@ -8,9 +8,10 @@ import { Link } from "react-router-dom";
 
 
 const navigation = [
+  { name: 'Home', href: './' },
   { name: 'Marketplace', href: './marketplace' },
-  { name: 'Subscribe', href: './subscribe' },
   { name: 'About', href: './about' },
+  { name: 'Shopping Cart', href: './cart' }
 ]
 
 export default function Navbar() {
@@ -55,11 +56,11 @@ export default function Navbar() {
               </button>
             </Link>
             &nbsp;
-            or 
+            | 
             &nbsp;
             <Link to="/login">
               <button className="text-sm font-semibold leading-6 text-gray-900 bg-inherit">
-                Log in <span aria-hidden="true">&rarr;</span>
+                Log in <span aria-hidden="true"></span>
               </button>
             </Link>
             

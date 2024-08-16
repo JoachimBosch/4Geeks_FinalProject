@@ -1,13 +1,21 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from models import db, User, Addresses, Subscription, Order, Product
+from flask_cors import CORS
+from flask_jwt_extended import JWTManager, create_access_token
+from argon2 import PasswordHasher
 from config import *
 
 app = Flask(__name__)
+CORS(app)
+
+# app.config["JWT_SECRET_KEY"] = Secret_Key
+# jwt = JWTManager(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{DB_UserName}:{DB_Password}@finalproject-4geeks-finalproject-4geeks.l.aivencloud.com:22468/defaultdb?sslmode=require'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
+ph = PasswordHasher()
 
 with app.app_context():
     db.create_all()
@@ -16,6 +24,21 @@ with app.app_context():
 def hello():
     return "<p>Hello World</p>"
 
+""" @app.route("/token", methods=["POST"])
+def create_token():
+    username = request.json.get("username", None)
+    password = request.json.get("password", None)
+
+    user = User.query.filter_by(username=username, password=password).first()
+
+    if user is None:
+        return jsonify({"msg": "Bad username or password"}), 401
+    
+    # Create a new token with the user id inside
+    access_token = create_access_token(identity=user.id)
+    return jsonify({ "token": access_token, "user_id": user.id }) """
+
+
 @app.route("/register", methods=['POST'])
 def subscribe():
     data = request.get_json()
@@ -23,8 +46,12 @@ def subscribe():
         return 'Bad Request: Email and password are required', 400
 
     try:
-        person = User(email=data['email'], password=data['password'])
-        db.session.add(person)
+        email = data['email']
+        secure_password = ph.hash(data['password'])
+        new_user = User()
+        new_user.email = email
+        new_user.password = secure_password
+        db.session.add(new_user)
         db.session.commit()
         return 'Success', 200
     except Exception as e:
@@ -37,13 +64,17 @@ def login():
     if not data or 'email' not in data or 'password' not in data:
         return 'Bad Request: Email and password are required', 400
 
-    user = User.query.filter_by(email=data['email'], password=data['password']).first()
+    user = User.query.filter_by(email=data['email']).first()
 
     if user:
-        # ADD additional 
-        return 'Login successful', 200
+        if ph.verify(user.password, data['password']):
+            return 'Login successful', 200
+        else:
+            return 'Invalid email or password', 401
+   
     else:
-        return 'Unauthorized: Invalid email or password', 401
+        return 'Invalid email or password', 401
+
 
 @app.route("/user/<int:user_id>", methods=['PUT'])
 def modify_user(user_id):

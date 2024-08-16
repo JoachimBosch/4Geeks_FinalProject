@@ -97,7 +97,7 @@ export const MyProvider = ({ children }) => {
     
   /*UseState*/
 
-  const [login, setLogin] = useState(false)
+    const [loggingIn, setLoggingIn] = useState(false)
     const [subscribe, setSubscribe] = useState({email: "", password: ""})
     const [personInfo, setPersonInfo] = useState({
         id: "",
@@ -167,16 +167,56 @@ export const MyProvider = ({ children }) => {
 
 
 
+    
+
     boxes;
 
+    const register = async () => {
+      try {
+        let body = JSON.stringify({
+          email: subscribe.email, 
+          password: subscribe.password, 
+        })
+        console.log(body)
+        const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/register`, {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: body});
+          await response.json();
+          console.log(response);
+      } catch (error) {
+        console.error('Error while registering:', error);
+      };
+    }
 
-
-
+    const login = async () => {
+      try {
+        let body = JSON.stringify({
+          email: loggingIn.email, 
+          password: loggingIn.password, 
+        });
+        console.log(body);
+        const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: body,
+        });
+        const data = await response.json();
+    
+        if (response.ok) {
+          console.log('Login successful:', data);
+        } else {
+          console.error('Login failed:', data);
+        }
+      } catch (error) {
+        console.error('Error while logging in:', error);
+      }
+    }
 
 
     
     /* Add variable names within appContext */
-    let appContext = {login, setLogin, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity}
+    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login}
 
     return (
         <MyContext.Provider value={appContext}>
