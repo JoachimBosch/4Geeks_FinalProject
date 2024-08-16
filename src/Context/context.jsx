@@ -154,7 +154,6 @@ export const MyProvider = ({ children }) => {
 
   }, [cart]);
 
-
     /*UseReducer*/
 
     const initialState = (JSON.parse(localStorage.getItem("myCart")) || []);
