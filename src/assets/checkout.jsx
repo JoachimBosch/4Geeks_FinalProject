@@ -6,12 +6,8 @@ const Checkout = () => {
     const { cart } = useContext(MyContext);
 
 
-    cart.map(box => {
-        for(let i = 0; i < box.quantity; i++) {
-            checkoutCart.push(box)
-        }
-    });
-
+    setCheckoutCart(currentCart => [...currentCart, ...Array.from({length: box.quantity}).map(() => box)])
+    
 
 
     function handlePrice(box, term) {
