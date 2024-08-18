@@ -25,7 +25,7 @@ export default function Home() {
             <div className="relative z-30 text-right mx-20 w-full max-w-[720px]">
                 <h1 className="md:my-2 [text-shadow:_5px_5px_8px_rgb(0_0_0_/_20%)] text-black-500 leading-tight text-5xl md:text-6xl">Reset your life, one box at a time</h1>
                 <p className="text-black-500 [text-shadow:_3px_3px_3px_rgb(0_0_0_/_20%)] text-1xl md:text-3xl">Find your gateway to a more mindful, peaceful life through curated  experiences delivered to your doorstep.</p>
-                <button className="mt-10 mb-16 px-10 py-5 bg-black text-white shadow-[6px_6px_12px_rgba(0,0,0,0.4)] text-xl md:text-1xl">Choose your experience</button>
+                <button className="mt-10 mb-16 px-10 py-5 bg-black text-white shadow-[6px_6px_12px_rgba(0,0,0,0.4)] text-xl md:text-1xl"><a href="#section_3">Choose your experience</a></button>
             </div>
             <video
                 autoPlay
@@ -44,7 +44,7 @@ export default function Home() {
         {/* Section 2 */}
 
 
-        <div className="bg-orange-50 h-screen flex items-center">
+        <div className="bg-orange-50 h-screen flex items-center" id="section_2">
             <div style={{backgroundColor: "#FAEAE0"}} className="box-border w-[30rem] mx-auto md:w-[38rem] md:ms-[10%] leading-loose z-20 py-9 relative shadow-[6px_6px_12px_rgba(0,0,0,0.4)] text-center">
                 <hr></hr>
                 <p className="px-9 md:text-2xl md:my-2">We've crafted unique boxes to create</p>
@@ -71,7 +71,7 @@ export default function Home() {
         
         
         
-        <div className="h-view text-center pt-24" style={{backgroundColor: "#FAEAE0"}}>
+        <div className="h-view text-center pt-24" style={{backgroundColor: "#FAEAE0"}} id="section_3">
                 <h2>Choose Your Experience</h2>
                 <div className = "w-full mt-16">
                     <ul className="pb-5 relative flex flex-wrap p-1 list-none text-base md:text-lg lg:text-xl" data-tabs="tabs" role="list">
@@ -127,7 +127,7 @@ export default function Home() {
         {/*Section 4 */}
 
 
-        <div className="bg-orange-50 py-24">
+        <div className="bg-orange-50 py-24" id="section_4">
             <h2 className="text-center">Our boxes</h2>
             <div className="my-16 md:flex">
                 <img src={image2} alt="lady choosing products"></img>
@@ -156,7 +156,7 @@ export default function Home() {
         {/*Section 5 */}
 
 
-        <div className="z-10 relative pt-24 overflow-hidden h-[650px]" style={{ backgroundImage: `url(${image3})`}}>
+        <div className="z-10 relative pt-24 overflow-hidden h-[650px]" id="section_5" style={{ backgroundImage: `url(${image3})`}}>
             <h2 className="text-center [text-shadow:_3px_3px_5px_rgb(0_0_0_/_50%)] mb-10" style={{color: 'white'}}>Our Clients Love Us</h2>
             <div className="flex :justify-center overflow-scroll">
                 <div className="bg-white opacity-70 w-1/3 p-5 ms-5 my-10 rounded-sm min-w-80 max-w-96">
@@ -182,7 +182,7 @@ export default function Home() {
         {/*Section 6 */}
         
 
-        <div className="h-screen pt-24 mb-96">
+        <div className="h-screen pt-24 mb-96" id="section_6">
             <h2 className="text-center mb-16">Frequently Asked Questions</h2>
             <div style={{backgroundColor: "#FAEAE0"}} className="max-w-[70%] mx-auto my-10 leading-loose py-2 shadow-[4px_4px_8px_rgba(0,0,0,0.2)] ">
                 <Accordion collapseAll>
@@ -269,7 +269,7 @@ export default function Home() {
                 </Accordion>
             </div>
             <div className="flex justify-center">
-                <button className="px-10 py-5 bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)] text-xl md:text-xl">Choose your experience</button>
+                <button className="px-10 py-5 bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)] text-xl md:text-xl"><a href="#section_3">Choose your experience</a></button>
             </div>
         </div>
 
