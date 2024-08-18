@@ -118,8 +118,9 @@ export const MyProvider = ({ children }) => {
     
   /*UseState*/
 
-    const [loggingIn, setLoggingIn] = useState(false)
-    const [subscribe, setSubscribe] = useState({email: "", password: ""})
+    const [loggingIn, setLoggingIn] = useState({email: "", password: ""});
+    const [subscribe, setSubscribe] = useState({email: "", password: ""});
+    const [changePassword, setChangePassword] = useState({email: "", old_password: "", new_password: ""});
     const [personInfo, setPersonInfo] = useState({
         id: "",
         password: "",
@@ -197,7 +198,6 @@ export const MyProvider = ({ children }) => {
           email: subscribe.email, 
           password: subscribe.password, 
         })
-        console.log(body)
         const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/register`, {
           method: "POST",
           headers: { "Content-type": "application/json" },
@@ -215,7 +215,6 @@ export const MyProvider = ({ children }) => {
           email: loggingIn.email, 
           password: loggingIn.password, 
         });
-        console.log(body);
         const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -233,10 +232,34 @@ export const MyProvider = ({ children }) => {
       }
     }
 
+    const change_Password = async () => {
+      try {
+        let body = JSON.stringify({
+          email: personInfo.email, 
+          old_password: changePassword.old_password,
+          new_password: changePassword.new_password,
+        })
+        console.log(body)
+        const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/change-password`, {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: body});
+          await response.json();
+          console.log(response);
 
+          if (response.ok) {
+            console.log('Changed password successfully');
+          } else {
+            console.error('Something went wrong:', error);
+          }
+      } 
+      catch (error) {
+        console.error('Something went wrong:', error);
+      };
+    }
     
     /* Add variable names within appContext */
-    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login}
+    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password}
 
     return (
         <MyContext.Provider value={appContext}>

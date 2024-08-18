@@ -105,3 +105,18 @@ button h2 {
   font-size: 22px;
   color: black;
 }
+
+.cancel {
+  margin-top: 10px;
+  font-family: "omnes-pro", sans-serif;
+  color: red;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.error {
+  font-family: "omnes-pro", sans-serif;
+  color: red;
+  font-size: 20px;
+  font-weight: bold;
+}

@@ -76,6 +76,25 @@ def login():
         return 'Invalid email or password', 401
 
 
+@app.route("/change-password", methods=['POST'])
+def change_password():
+    data = request.get_json()
+
+    if not data:
+        return 'error: Missing required fields', 400
+
+    user = User.query.filter_by(email=data['email']).first()
+    if not user:
+        return 'Error: user not found', 404
+
+    if not ph.verify(user.password, data['old_password']):
+        return 'Error: passwords do not match', 401
+    
+    new_password = ph.hash(data['new_password'])
+    user.password = new_password
+    db.session.commit()
+    return 'Successfully updated password', 200
+
 @app.route("/user/<int:user_id>", methods=['PUT'])
 def modify_user(user_id):
     data = request.get_json()
