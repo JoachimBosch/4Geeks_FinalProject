@@ -4,7 +4,7 @@ import { useContext, useState } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from "react-router-dom";
-
+import Logo from "../images/Logo.png"
 
 
 const navigation = [
@@ -26,9 +26,9 @@ export default function Navbar() {
             <a href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
               <img
-                alt=""
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                className="h-8 w-auto"
+                src={Logo}
+                alt="RE logo"
+                className="h-12 w-auto"
               />
             </a>
           </div>

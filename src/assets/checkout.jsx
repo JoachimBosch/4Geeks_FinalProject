@@ -1,30 +1,36 @@
-import MyContext from "../Context/context";
-import { Label, Select } from 'flowbite-react' 
-import { useContext } from "react";
+import MyContext from "../Context/context"; 
+import { useContext, useState } from "react";
 
 const Checkout = () => {
-    
-    const { boxes, cart } = useContext(MyContext);
+    const [checkoutCart, setCheckoutCart] = useState([]);
+    const { cart } = useContext(MyContext);
 
-    const checkoutCart = []
-    cart.map(box => {
-        for(let i = 0; i < box.quantity; i++) {
-            checkoutCart.push(box)
-        }
-    });
+
+    setCheckoutCart(currentCart => [...currentCart, ...Array.from({length: box.quantity}).map(() => box)])
+    
+
 
     function handlePrice(box, term) {
-        if(term === "price") {
-            return box.price
-        } else if ( term === "price_3") {
-            return box.price_3
-        } else if ( term === "price_6") {
-            return box.price_6
-        } else {
-            return box.price_12
+        switch(term) {
+            case "price_3":
+                return box.price_3;
+            case "price_6":
+                return box.price_6;
+            case "price_12":
+                return box.price_12;
+            default:
+                return box.price
         }
-    }
+    };
     
+    function handleSubscriptionChange(event, index) {
+        const selectedTerm = event.target.value;
+        setCheckoutCart(prevCart =>
+            prevCart.map((box, i) =>
+                index === i ? {...box, final_price: handlePrice(box, selectedTerm)} : box
+            )
+        );
+    }
     
     return (
         <div style={{backgroundColor: "#FAEAE0"}}>
@@ -90,17 +96,17 @@ const Checkout = () => {
                                             <option value="other_address">Choose other</option>
                                         </select>
                                         <label htmlFor="subscription" className="text-lg mt-4 text-gray-600 ">Select Subscription Term:</label>
-                                        <select name="subscription" id="subscription">
-                                            <option value="3_months">3 months subscription - get a box every month</option>
-                                            <option value="6_months">6 months subscription - get a box every month</option>
-                                            <option value="12_months">12 months subscription - get a box every month</option>
+                                        <select name="subscription" id="subscription" onChange={(event) => handleSubscriptionChange(event, index)}>
+                                            <option value="price_3">3 months subscription - get a box every month</option>
+                                            <option value="price_6">6 months subscription - get a box every month</option>
+                                            <option value="price_12">12 months subscription - get a box every month</option>
                                             <option value="once">One box, one time only</option>
                                         </select>
                                     </div>
                                 </div>
 
                                 <div className="flex justify-end max-md:mt-3 h-full">
-                                    <p className="font-bold leading-8 text-gray-600 text-center transition-all duration-300">price</p>
+                                    <p className="font-bold leading-8 text-gray-600 text-center transition-all duration-300">{parseFloat(box.final_price).toFixed(2) + "€"}</p>
                                 </div>
                             </div>
                         </div>
