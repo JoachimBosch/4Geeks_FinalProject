@@ -13,7 +13,7 @@ const Marketplace = () => {
         <>
             <div className="bg-[#FAEAE0] py-16">
                 <h2 className="text-center pt-24">Our Experiences</h2>
-                <p className="text-center border-b border-black py-8 text-xl">FIND THE ONE THAT SUITS YOUR NEEDS</p>
+                <p className="text-center py-8 text-xl">FIND THE ONE THAT SUITS YOUR NEEDS</p>
             
 
 
