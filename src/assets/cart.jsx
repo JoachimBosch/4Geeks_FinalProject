@@ -24,15 +24,15 @@ const ShoppingCart = () => {
             
             <div className="grid grid-cols-12 max-md:hidden py-6 border-t border-b border-gray-800 mx-16">
                 <div className="col-span-12 md:col-span-7">
-                    <p className="font-normal text-lg leading-8 text-gray-400">Product Details</p>
+                    <p className="text-xl leading-8 text-gray-500">Product Details</p>
                 </div>
                 <div className="col-span-12 md:col-span-5">
                     <div className="grid grid-cols-5">
                         <div className="col-span-3">
-                            <p className="font-normal text-lg leading-8 text-gray-400 text-center">Quantity</p>
+                            <p className="text-xl leading-8 text-gray-500 text-center">Quantity</p>
                         </div>
                         <div className="col-span-2">
-                            <p className="font-normal text-lg leading-8 text-gray-400 text-center">Total</p>
+                            <p className="text-xl leading-8 text-gray-500 text-center">Total</p>
                         </div>
                     </div>
                 </div>
@@ -108,12 +108,14 @@ const ShoppingCart = () => {
                     <p className="text-2xl font-semibold">Subtotal</p>
                     <p className="text-2xl font-semibold">{parseFloat(totalPrice).toFixed(2) + "€"}</p>
                 </div>
-                <p className="text-center text-base">Shipping taxes and discounts calculated at checkout</p>
+                <p className="text-center text-base">Shipping taxes calculated at checkout</p>
                 <div className="flex gap-3 justify-center my-5">
                     <Link to="/">
                         <button type="button" className="border border-stone-800 px-6 py-2 md:px-12 md:py-2 text-stone-900 shadow-[4px_4px_8px_rgba(0,0,0,0.2)]">Continue shopping</button>
                     </Link>
-                    <button type="button" className="px-24 py-2 bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)]">Checkout</button>
+                    <Link to="/checkout">
+                        <button type="button" className="px-24 py-2 bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)]">Checkout</button>
+                    </Link>
                 </div>
             </div>
             

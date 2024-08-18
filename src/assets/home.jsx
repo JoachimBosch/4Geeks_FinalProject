@@ -106,6 +106,9 @@ export default function Home() {
                                         id={box.id}
                                         name={box.name}
                                         price={box.price}
+                                        price_3={box.price_3}
+                                        price_6={box.price_6}
+                                        price_12={box.price_12}
                                         callout={box.callout}
                                         button_color={box.button_color}
                                         text_color={box.text_color}

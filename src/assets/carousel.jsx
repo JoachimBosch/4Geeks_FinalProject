@@ -4,7 +4,7 @@ import MyContext from '../Context/context'
 
 
 
-export default function Carousel_content({id, name, background, callout, box_out, text_color, button_color, price, quantity}) {
+export default function Carousel_content({id, name, background, callout, box_out, text_color, button_color, price, quantity, price_3, price_6, price_12}) {
     
     const { onAddToCart, cart } = useContext(MyContext)
     
@@ -25,7 +25,7 @@ export default function Carousel_content({id, name, background, callout, box_out
                             <button type="button" 
                                     className={`px-10 py-1 md:px-16 md:py-2 text-white ${button_color} hover:bg-stone-900 shadow-[6px_6px_12px_rgba(0,0,0,0.4)] text-xl md:text-2xl`} 
                                     style={{fontWeight: "500"}}
-                                    onClick={() => onAddToCart({ id, name, box_out, price, quantity })}>Buy now</button>
+                                    onClick={() => onAddToCart({ id, name, box_out, price, quantity, price_3, price_6, price_12 })}>Buy now</button>
                             <Link to={`details/${id}`}>
                                 <button type="button" className="border border-stone-800 px-6 py-1 md:px-12 md:py-2 text-stone-900 hover:bg-stone-100 shadow-[4px_4px_8px_rgba(0,0,0,0.2)] text-xl md:text-2xl">See details</button>
                             </Link>
