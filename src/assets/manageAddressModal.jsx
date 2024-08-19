@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import MyContext from "../Context/context";
 import { Button, Modal } from 'flowbite-react';
 
 const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) => {
+    const {storeAddress, personInfo} = useContext(MyContext)
     const [formData, setFormData] = useState(addressInfo || {
         relation_to_user: '',
         street: '',
@@ -19,7 +21,10 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
     };
 
     const handleSave = () => {
-        setAddressInfo(formData);
+        setAddressInfo({
+            ...formData,
+            user_id: personInfo.id});
+        storeAddress();
         onClose();
     };
 

@@ -59,7 +59,7 @@ const ChangePassword = () => {
                         <input
                             id="old_password"
                             name="old_password"
-                            type="password"
+                            type={type}
                             className=""
                             onChange={handleChange}
                             value={changePassword.old_password}

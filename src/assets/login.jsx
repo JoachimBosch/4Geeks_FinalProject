@@ -42,11 +42,13 @@ const Login = () => {
                     <div className="flex items-center justify-between">
                     <label for="password" className="block text-sm font-medium leading-6 text-gray-900">Password</label>
                     <div className="text-sm">
-                        <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
+                        <Link to="/change-password">
+                            <p className="cancel">Forgot password?</p>
+                        </Link>
                     </div>
                     </div>
-                    <div className="mt-2 flex">
-                    <input id="password" name="password" type="password" autocomplete="current-password" value={loggingIn.password} onChange={(e) => setLoggingIn({
+                    <div className="mt-2 flex border-1 rounded">
+                    <input id="password" name="password" type={type} autocomplete="current-password" value={loggingIn.password} onChange={(e) => setLoggingIn({
                              ...loggingIn,
                              password: e.target.value})} required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mr-2" />
                                 <button

@@ -139,6 +139,7 @@ export const MyProvider = ({ children }) => {
         city: "",
         country: "",
     });
+    
     const [subscriptionInfo, setSubscriptionInfo] = useState({
       label: "",
       billingAddress: "",
@@ -185,10 +186,6 @@ export const MyProvider = ({ children }) => {
                 box.id === id ? {...box, quantity: box.quantity -1 } : box
         ));
     };    
-
-
-
-    
 
     boxes;
 
@@ -257,9 +254,31 @@ export const MyProvider = ({ children }) => {
         console.error('Something went wrong:', error);
       };
     }
+
+    const storeAddress = async () => {
+      try {
+        let body = JSON.stringify({
+          user_id: personInfo.id,
+          relation_to_user: addressInfo.relation_to_user,
+          street: addressInfo.street,
+          street_number: addressInfo.street_number,
+          postal_code: addressInfo.postal_code,
+          city: addressInfo.city,
+          country: addressInfo.country,
+        })
+        const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/address`, {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: body});
+          await response.json();
+          console.log(response);
+      } catch (error) {
+        console.error('Error while registering:', error);
+      };
+    }
     
     /* Add variable names within appContext */
-    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password}
+    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress}
 
     return (
         <MyContext.Provider value={appContext}>
