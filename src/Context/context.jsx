@@ -146,6 +146,15 @@ export const MyProvider = ({ children }) => {
       shippingAddress: "",
       term: ""
     });
+    const [formData, setFormData] = useState(addressInfo || {
+      relation_to_user: '',
+      street: '',
+      street_number: '',
+      postal_code: '',
+      city: '',
+      country: '',
+    });
+    const [isEditAddress, setIsEditAddress] = useState(false);
     const [cart, setCart] = useState(JSON.parse(localStorage.getItem("myCart")) || []);
   
 
@@ -255,30 +264,57 @@ export const MyProvider = ({ children }) => {
       };
     }
 
-    const storeAddress = async () => {
+    const storeAddress = async (addressData) => {
       try {
-        let body = JSON.stringify({
-          user_id: personInfo.id,
-          relation_to_user: addressInfo.relation_to_user,
-          street: addressInfo.street,
-          street_number: addressInfo.street_number,
-          postal_code: addressInfo.postal_code,
-          city: addressInfo.city,
-          country: addressInfo.country,
-        })
+        let body = JSON.stringify(addressData)
+
         const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/address`, {
           method: "POST",
           headers: { "Content-type": "application/json" },
-          body: body});
-          await response.json();
-          console.log(response);
+          body: body,
+        });
+
+        if (!response.ok) {
+          console.error('Something went wrong:', error);
+          return null;
+        };
+
+        const data = await response.json();
+        console.log(data);
+        return data;
       } catch (error) {
         console.error('Error while registering:', error);
       };
     }
+
+    const updateAddress = async (addressId, updatedData) => {
+      try {
+          const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/address/${addressId}`, {
+              method: "PUT",
+              headers: { "Content-type": "application/json" },
+              body: JSON.stringify(updatedData),
+          });
+
+          if (!response.ok) {
+              console.error('Something went wrong:', error);
+              return null;
+          }
+
+          const data = await response.json();
+          console.log(data);
+          return data;
+      } catch (error) {
+          console.error('Error while updating address:', error);
+          return null;
+      }
+  };
+
+  
+
+
     
     /* Add variable names within appContext */
-    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress}
+    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData, isEditAddress, setIsEditAddress}
 
     return (
         <MyContext.Provider value={appContext}>

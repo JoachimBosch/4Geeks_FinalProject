@@ -145,20 +145,20 @@ def add_address():
         return 'Bad Request: All address fields are required', 400
 
     try:
-        address = Addresses(
-            user_id=data['user_id'],
-            relation_to_user=data['relation_to_user'],
-            street=data['street'],
-            street_number=data['street_number'],
-            postal_code=data['postal_code'],
-            city=data['city'],
-            country=data['country']
-        )
-        db.session.add(address)
+        new_address = Addresses()
+        new_address.user_id=data['user_id']
+        new_address.relation_to_user=data['relation_to_user']
+        new_address.street=data['street']
+        new_address.street_number=data['street_number']
+        new_address.postal_code=data['postal_code']
+        new_address.city=data['city']
+        new_address.country=data['country']
+        db.session.add(new_address)
         db.session.commit()
         return 'Address added successfully', 200
     except Exception as e:
         db.session.rollback()
+        print("Error:", str(e))
         return f'Internal Server Error: {str(e)}', 500
 
 @app.route("/address/<int:address_id>", methods=['PUT'])

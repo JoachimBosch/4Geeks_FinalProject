@@ -8,11 +8,10 @@ import AddressModal from './manageAddressModal';
 import ManageSubscriptionModal from './manageSubscriptionModal';
 
 const Profile = () => {
-    const { personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo } = useContext(MyContext);
+    const { personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, isEditAddress, setIsEditAddress } = useContext(MyContext);
     const [openPersonalModal, setOpenPersonalModal] = useState(false);
     const [openAddressModal, setOpenAddressModal] = useState(false);
     const [openManageSubscriptionModal, setOpenManageSubscriptionModal] = useState(false);
-    const [isEditAddress, setIsEditAddress] = useState(false);
 
     return (
         <>
