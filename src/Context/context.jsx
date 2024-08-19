@@ -1,4 +1,6 @@
 import React, { createContext, useState, useEffect, useReducer } from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 
 const MyContext = createContext();
@@ -156,6 +158,8 @@ export const MyProvider = ({ children }) => {
     });
     const [isEditAddress, setIsEditAddress] = useState(false);
     const [cart, setCart] = useState(JSON.parse(localStorage.getItem("myCart")) || []);
+    const [type, setType] = useState("password");
+    const [icon, setIcon] = useState(faEyeSlash);
   
 
     /*UseEffect*/
@@ -309,12 +313,21 @@ export const MyProvider = ({ children }) => {
       }
   };
 
-  
+  const handleToggle = () => {
+    if (type==='password'){
+       setIcon(faEye);
+       setType('text')
+    } else {
+       setIcon(faEyeSlash)
+       setType('password')
+    }
+    console.log("Current type:", type);
+ }
 
 
     
     /* Add variable names within appContext */
-    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData, isEditAddress, setIsEditAddress}
+    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData, isEditAddress, setIsEditAddress, type, setType, icon, setIcon, handleToggle}
 
     return (
         <MyContext.Provider value={appContext}>

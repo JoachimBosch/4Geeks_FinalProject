@@ -2,23 +2,10 @@ import { Link } from "react-router-dom";
 import MyContext from "../Context/context";
 import { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
-    const { loggingIn, setLoggingIn, login } = useContext(MyContext);
-    const [type, setType] = useState("password");
-    const [icon, setIcon] = useState(faEyeSlash);
+    const { loggingIn, setLoggingIn, login, type, icon, handleToggle } = useContext(MyContext);
 
-    const handleToggle = () => {
-        if (type==='password'){
-           setIcon(faEye);
-           setType('text')
-        } else {
-           setIcon(faEyeSlash)
-           setType('password')
-        }
-        console.log("Current type:", type);
-     }
 
     return (
     <>

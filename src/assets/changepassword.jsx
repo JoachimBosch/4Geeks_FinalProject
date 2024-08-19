@@ -1,9 +1,10 @@
 import { useContext, useState } from "react";
 import MyContext from "../Context/context";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ChangePassword = () => {
-    const { personInfo, changePassword, setChangePassword, change_Password } = useContext(MyContext);
+    const { personInfo, changePassword, setChangePassword, change_Password, type, icon, handleToggle } = useContext(MyContext);
     const [identicalCheck, setIdenticalCheck] = useState("");
     const [error, setError] = useState("");
 
@@ -24,6 +25,7 @@ const ChangePassword = () => {
     };
 
     const handleSubmit = () => {
+        handleToggle();
         if (changePassword.new_password.length <= 8) {
             setError("New password is not long enough");
         }
@@ -36,13 +38,13 @@ const ChangePassword = () => {
         else {
             change_Password(changePassword)
             .then(() => {
-                setChangePassword({ email: personInfo.email, old_password: "", new_password: "" });
+                setChangePassword({ email: "", old_password: "", new_password: "" });
                 setIdenticalCheck("");
                 setError("");
-                alert("Password changed successfully");
+                setError("Password changed successfully");
             })
             .catch(() => {
-                setError("Failed to change password. Please try again.");
+                setError("Password incorrect. Please try again.");
             });
         }
     };
@@ -56,33 +58,63 @@ const ChangePassword = () => {
                     </div>
                     <div className="profile mx-2 p-4 text-center flex flex-col">
                         <span>Enter your current password:</span>
-                        <input
-                            id="old_password"
-                            name="old_password"
-                            type={type}
-                            className=""
-                            onChange={handleChange}
-                            value={changePassword.old_password}
-                        />
+                        <div className="mt-2 flex border-1 rounded">
+                            <input
+                                id="old_password"
+                                name="old_password"
+                                type={type}
+                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mr-2"
+                                onChange={handleChange}
+                                value={changePassword.old_password}
+                            />
+                            <button
+                                type="button"
+                                className="inset-y-0 right-0 pr-3 flex items-center"
+                                onClick={handleToggle}
+                            >
+                                <FontAwesomeIcon icon={icon} style={{ fontSize: "20px" }} />
+                            </button>
+                        </div>
+                        
                         &nbsp;
                         <span>Enter your new password:</span>
-                        <input
-                            id="new_password"
-                            name="new_password"
-                            type="password"
-                            className=""
-                            onChange={handleChange}
-                            value={changePassword.new_password}
-                        />
+                        <div className="mt-2 flex border-1 rounded">
+                            <input
+                                id="new_password"
+                                name="new_password"
+                                type={type}
+                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mr-2"
+                                onChange={handleChange}
+                                value={changePassword.new_password}
+                            />
+                            <button
+                                type="button"
+                                className="inset-y-0 right-0 pr-3 flex items-center"
+                                onClick={handleToggle}
+                            >
+                                <FontAwesomeIcon icon={icon} style={{ fontSize: "20px" }} />
+                            </button>
+                        </div>
+                        
                         &nbsp;
                         <span>Repeat your new password:</span>
-                        <input
-                            id="identicalCheck"
-                            type="password"
-                            className=""
-                            onChange={handleIdenticalCheck}
-                            value={identicalCheck}
-                        />
+                        <div className="mt-2 flex border-1 rounded">
+                            <input
+                                id="identicalCheck"
+                                type={type}
+                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mr-2"
+                                onChange={handleIdenticalCheck}
+                                value={identicalCheck}
+                            />
+                            <button
+                                type="button"
+                                className="inset-y-0 right-0 pr-3 flex items-center"
+                                onClick={handleToggle}
+                            >
+                                <FontAwesomeIcon icon={icon} style={{ fontSize: "20px" }} />
+                            </button>
+                        </div>
+                        
                         &nbsp;
                         {error && <p className="error">{error}</p>}
                         <div className="my-6 mx-auto flex flex-col justify-center">

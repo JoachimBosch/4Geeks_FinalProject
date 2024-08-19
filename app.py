@@ -78,22 +78,26 @@ def login():
 
 @app.route("/change-password", methods=['POST'])
 def change_password():
-    data = request.get_json()
+    try:
+        data = request.get_json()
 
-    if not data:
-        return 'error: Missing required fields', 400
+        if not data:
+            return 'error: Missing required fields', 400
 
-    user = User.query.filter_by(email=data['email']).first()
-    if not user:
-        return 'Error: user not found', 404
+        user = User.query.filter_by(email=data['email']).first()
+        if not user:
+            return 'Error: user not found', 404
 
-    if not ph.verify(user.password, data['old_password']):
-        return 'Error: passwords do not match', 401
-    
-    new_password = ph.hash(data['new_password'])
-    user.password = new_password
-    db.session.commit()
-    return 'Successfully updated password', 200
+        if not ph.verify(user.password, data['old_password']):
+            return 'Error: passwords do not match', 401
+        
+        new_password = ph.hash(str(data['new_password']))
+        user.password = new_password
+        db.session.commit()
+        return 'Successfully updated password', 200
+    except Exception as e:
+        db.session.rollback()
+        return f'Internal Server Error: {str(e)}', 500
 
 @app.route("/user/<int:user_id>", methods=['PUT'])
 def modify_user(user_id):
@@ -115,25 +119,6 @@ def modify_user(user_id):
 
         db.session.commit()
         return 'User updated successfully', 200
-    except Exception as e:
-        db.session.rollback()
-        return f'Internal Server Error: {str(e)}', 500
-
-@app.route("/user/<int:user_id>/password", methods=['PUT'])
-def update_password(user_id):
-    data = request.get_json()
-    user = User.query.get(user_id)
-
-    if not user:
-        return 'User not found', 404
-
-    if 'password' not in data:
-        return 'Bad Request: Password is required', 400
-
-    try:
-        user.password = data['password']
-        db.session.commit()
-        return 'Password updated successfully', 200
     except Exception as e:
         db.session.rollback()
         return f'Internal Server Error: {str(e)}', 500

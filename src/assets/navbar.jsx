@@ -52,15 +52,6 @@ export default function Navbar() {
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <Link to="/subscribe">
-              <button className="text-xl font-semibold leading-6 text-gray-800 bg-inherit">
-              Sign up 
-              </button>
-            </Link>
-            &nbsp;
-            | 
-            &nbsp;
-            
             <Link to="/login">
               <button className="text-xl font-semibold leading-6 text-gray-800 bg-inherit">
                 Log in <span aria-hidden="true"></span>
@@ -120,7 +111,7 @@ export default function Navbar() {
                 </div>
                 <div className="py-4">
                   <a
-                    href="#"
+                    href="./login"
                     className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >
                     Log in
