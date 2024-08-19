@@ -1,12 +1,20 @@
 import MyContext from "../Context/context"; 
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 
 const Checkout = () => {
     const [checkoutCart, setCheckoutCart] = useState([]);
+    const [billing, setBilling] = useState({Name: "", VATS: "", Billing_address: "", Country: ""})
+
     const { cart } = useContext(MyContext);
 
 
-    setCheckoutCart(currentCart => [...currentCart, ...Array.from({length: box.quantity}).map(() => box)])
+    useEffect(() => {
+        setCheckoutCart(cart.map(item => ({
+          ...item,
+          final_price: handlePrice(item, "price_3") // Assuming a default price term; adjust as needed
+        })));
+      }, [cart]); // Dependency array ensures this runs whenever `cart` changes
     
 
 
@@ -31,13 +39,29 @@ const Checkout = () => {
             )
         );
     }
-    
+
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setBilling(prevState => ({
+          ...prevState,
+          [name]: value
+        }));
+      };
+
+
     return (
         <div style={{backgroundColor: "#FAEAE0"}}>
             <div className="max-w-[1100px] mx-auto py-20 bg-orange-50">
                 <div className="mx-auto py-20">
                     <h2 className="text-center pb-6">Checkout</h2>
-                    <p className="text-center text-lg ">Cart <span className="ps-4">&gt;</span> <span className="px-4 font-semibold">Shipping Information</span> <span className="pe-4">&gt;</span> Payment</p>
+                    <p className="text-center text-lg ">
+                        <span className="font-semibold hover:underline">
+                            <Link to="/cart">Cart </Link></span>
+                        <span className="ps-4">&gt;</span> 
+                        <span className="px-4 font-semibold">Shipping Information</span> 
+                        <span className="pe-4">&gt;</span> Payment
+                    </p>
                 </div>
 
 
@@ -128,22 +152,22 @@ const Checkout = () => {
                     </div>
                     <div className="grid md:grid-cols-2 gap-4 pt-8">
                         <div>
-                            <input type="text" value="Name"
+                            <input type="text" name="Name" value={billing.Name} onChange={handleInputChange} placeholder="Name"
                                     className="px-4 py-3 focus:bg-transparent text-gray-800 w-full focus:outline-blue-600" />
                         </div>
 
                         <div>
-                            <input type="text" value="VATS"
+                            <input type="text" name="VATS" value={billing.VATS} onChange={handleInputChange} placeholder="VATS"
                                 className="px-4 py-3 focus:bg-transparent text-gray-800 w-full focus:outline-blue-600" />
                         </div>
 
                         <div>
-                            <input type="text" value="Billing Address"
+                            <input type="text" name="Billing_address" value={billing.Billing_address} onChange={handleInputChange} placeholder="Address"
                                 className="px-4 py-3 focus:bg-transparent text-gray-800 w-full focus:outline-blue-600" />
                         </div>
 
                         <div>
-                            <input type="text" value="Country"
+                            <input type="text" name="Country" value={billing.Country} onChange={handleInputChange} placeholder="Country"
                                 className="px-4 py-3 focus:bg-transparent text-gray-800 w-full focus:outline-blue-600" />
                         </div>
               

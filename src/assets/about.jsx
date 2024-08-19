@@ -12,7 +12,7 @@ export default function About() {
             {/* Section 1 */}
 
 
-            <h2 className="pt-20 pb-10 border-t border-black text-center [text-shadow:_5px_5px_8px_rgb(0_0_0_/_20%)]">About Us</h2>
+            <h2 className="pt-20 pb-10 text-center [text-shadow:_5px_5px_8px_rgb(0_0_0_/_20%)]">About Us</h2>
             <p className="mx-auto px-16 max-w-[900px] md:text-2xl text-center [text-shadow:_2px_2px_2px_rgb(0_0_0_/_20%)]">Welcome to RE7, your ultimate destination for curated 
 self-care experiences. Our mission is simple: to help you 
 reset, rejuvenate, and recharge with thoughtfully  selected 
