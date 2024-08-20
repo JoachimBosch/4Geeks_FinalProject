@@ -14,6 +14,7 @@ const ChangePassword = () => {
             ...changePassword,
             [e.target.name]: e.target.value,
         });
+        console.log(changePassword)
     };
 
     const handleIdenticalCheck = (e) => {
@@ -25,7 +26,6 @@ const ChangePassword = () => {
     };
 
     const handleSubmit = () => {
-        handleToggle();
         if (changePassword.new_password.length <= 8) {
             setError("New password is not long enough");
         }

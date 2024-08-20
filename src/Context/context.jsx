@@ -131,16 +131,7 @@ export const MyProvider = ({ children }) => {
         last_name: "",
         phone: "",
     });
-    const [addressInfo, setAddressInfo] = useState({
-        id: "",
-        user_id: "",
-        relation_to_user: "",
-        street: "",
-        street_number: "",
-        postal_code: "",
-        city: "",
-        country: "",
-    });
+    const [addressInfo, setAddressInfo] = useState([]);
     
     const [subscriptionInfo, setSubscriptionInfo] = useState({
       label: "",
@@ -214,8 +205,7 @@ export const MyProvider = ({ children }) => {
         }
     
         const data = await response.json();
-        console.log('Addresses data:', data);
-        setAddressInfo(data);
+        setAddressInfo([data]);
         return data;
       } catch (error) {
         console.error('Error while fetching addresses:', error);
@@ -299,6 +289,7 @@ export const MyProvider = ({ children }) => {
     
         if (response.ok) {
           console.log('Login successful:', data);
+          setPersonInfo(data);
         } else {
           console.error('Login failed:', data);
         }
@@ -350,6 +341,10 @@ export const MyProvider = ({ children }) => {
 
         const data = await response.json();
         console.log(data);
+        setAddressInfo={
+          ...addressInfo,
+          data
+        };
         return data;
       } catch (error) {
         console.error('Error while registering:', error);
@@ -378,6 +373,25 @@ export const MyProvider = ({ children }) => {
       }
   };
 
+  const deleteAddress = async (addressId) => {
+    try {
+      const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/address/${addressId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+  
+      if (!response.ok) {
+        console.error('Error deleting address:', error);
+        return null;
+      }
+  
+      console.log(`Address with ID ${addressId} deleted successfully`);
+      setAddressInfo(prevAddresses => prevAddresses.filter(address => address.id !== addressId)); 
+    } catch (error) {
+      console.error('Error while deleting address:', error);
+    }
+  };
+
   const handleToggle = () => {
     if (type==='password'){
        setIcon(faEye);
@@ -392,7 +406,7 @@ export const MyProvider = ({ children }) => {
 
     
     /* Add variable names within appContext */
-    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData, isEditAddress, setIsEditAddress, type, setType, icon, setIcon, handleToggle}
+    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData, isEditAddress, setIsEditAddress, type, setType, icon, setIcon, handleToggle, deleteAddress}
 
     return (
         <MyContext.Provider value={appContext}>
