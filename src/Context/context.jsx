@@ -166,7 +166,11 @@ export const MyProvider = ({ children }) => {
 
     useEffect(() => {
       localStorage.setItem("myCart", JSON.stringify(cart));
-
+      if (personInfo.id) {
+        fetchUser(personInfo.id);
+        fetchAddresses(personInfo.id);
+        fetchSubscriptions(personInfo.id);
+      }
   }, [cart]);
 
     /*UseReducer*/
@@ -176,7 +180,68 @@ export const MyProvider = ({ children }) => {
 
     /* FUNCTIONS */
 
+    const fetchUser = async (userId) => {
+      try {
+        const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+    
+        if (!response.ok) {
+          console.error('Error while retrieving user information:', error);
+          return null;
+        }
+    
+        const data = await response.json();
+        console.log('User data:', data);
+        setPersonInfo(data);
+        return data;
+      } catch (error) {
+        console.error('Error while retrieving user information:', error);
+      }
+    };
+    
+    const fetchAddresses = async (userId) => {
+      try {
+        const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}/addresses`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+    
+        if (!response.ok) {
+          console.error('Error while fetching addresses:', error);
+          return null;
+        }
+    
+        const data = await response.json();
+        console.log('Addresses data:', data);
+        setAddressInfo(data);
+        return data;
+      } catch (error) {
+        console.error('Error while fetching addresses:', error);
+      }
+    };
 
+    const fetchSubscriptions = async (userId) => {
+      try {
+        const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}/subscriptions`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+    
+        if (!response.ok) {
+          console.error('Error while fetching subscriptions:', error);
+          return null;
+        }
+    
+        const data = await response.json();
+        console.log('Subscription data:', data);
+        setSubscriptionInfo(data);
+        return data;
+      } catch (error) {
+        console.error('Error while fetching subscriptions:', error);
+      }
+    };
 
     function onAddToCart(box) {
       cart.find(item => item.id == box.id) ? increaseQuantity(box.id) : setCart(prevCart => [...prevCart, box]);

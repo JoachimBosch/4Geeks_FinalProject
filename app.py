@@ -38,6 +38,7 @@ def create_token():
     access_token = create_access_token(identity=user.id)
     return jsonify({ "token": access_token, "user_id": user.id }) """
 
+# User related
 
 @app.route("/register", methods=['POST'])
 def subscribe():
@@ -75,6 +76,20 @@ def login():
     else:
         return 'Invalid email or password', 401
 
+@app.route("/user/<int:user_id>", methods=['GET'])
+def get_user(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return 'User not found', 404
+
+    user_data = {
+        'id': user.id,
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'phone': user.phone
+    }
+    return jsonify(user_data), 200
 
 @app.route("/change-password", methods=['POST'])
 def change_password():
@@ -122,6 +137,33 @@ def modify_user(user_id):
     except Exception as e:
         db.session.rollback()
         return f'Internal Server Error: {str(e)}', 500
+
+# Address related
+
+@app.route('/user/<int:user_id>/addresses', methods=['GET'])
+def get_user_addresses(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return 'User not found', 404
+
+    addresses = Addresses.query.filter_by(user_id=user_id).all()
+    if not addresses:
+        return 'No addresses found', 404
+
+    address_list = []
+    for address in addresses:
+        address_data = {
+            'id': address.id,
+            'relation_to_user': address.relation_to_user,
+            'street': address.street,
+            'street_number': address.street_number,
+            'postal_code': address.postal_code,
+            'city': address.city,
+            'country': address.country
+        }
+        address_list.append(address_data)
+
+    return jsonify(address_list), 200
 
 @app.route("/address", methods=['POST'])
 def add_address():
@@ -173,5 +215,32 @@ def update_address(address_id):
     except Exception as e:
         db.session.rollback()
         return f'Internal Server Error: {str(e)}', 500
+
+# Subscription related
+#  
+@app.route('/user/<int:user_id>/subscriptions', methods=['GET'])
+def get_user_subscriptions(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return 'User not found', 404
+
+    subscriptions = Subscription.query.filter_by(user_id=user_id).all()
+    if not subscriptions:
+        return 'No subscription found', 404
+
+    subscriptions_list = []
+    for sub in subscriptions:
+        subscription_data = {
+            'id': sub.id,
+            'user_id': sub.user_id,
+            'user_address': sub.user_address,
+            'order': sub.order,
+            'active': sub.active,
+            'start_date': sub.start_date,
+            'end_date': sub.end_date
+        }
+        subscriptions_list.append(subscription_data)
+
+    return jsonify(subscriptions_list), 200
 
 app.run(host='0.0.0.0', port=3000)
