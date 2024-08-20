@@ -222,16 +222,16 @@ def delete_address(address_id):
         address = Addresses.query.get(address_id)
 
         if address is None:
-            return jsonify({"error, address not found"}), 404
+            return 'Address not found', 404
 
         db.session.delete(address)
         db.session.commit()
 
-        return jsonify({"Address deleted successfully"}), 200
+        return 'Address deleted successfully', 200
 
     except Exception as e:
         db.session.rollback()
-        return jsonify({"error: something went wrong while deleting the address"}), 500
+        return 'Error while deleting address', 500
 
 # Subscription related
   
