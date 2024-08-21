@@ -1,15 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import MyContext from "../Context/context";
 import { Button, Modal } from 'flowbite-react';
 
 const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) => {
-    const [formData, setFormData] = useState(addressInfo || {
-        relation_to_user: '',
-        street: '',
-        street_number: '',
-        postal_code: '',
-        city: '',
-        country: '',
-    });
+    const {formData, setFormData, storeAddress, updateAddress, personInfo} = useContext(MyContext)
 
     const handleChange = (e) => {
         setFormData({
@@ -18,8 +12,18 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
         });
     };
 
-    const handleSave = () => {
-        setAddressInfo(formData);
+    const handleAddressSave = async () => {
+        const updatedAddressInfo = {
+            ...formData,
+            user_id: personInfo.id || 1,
+        };
+        setAddressInfo(updatedAddressInfo);
+    
+        if (isEdit) {
+            await updateAddress(addressInfo.id, updatedAddressInfo); /* If you change addressInfo.id to the actual ID number, the PUT request works */
+        } else {
+            await storeAddress(updatedAddressInfo);
+        }
         onClose();
     };
 
@@ -85,7 +89,7 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={handleSave}>{isEdit ? 'Update Address' : 'Add Address'}</Button>
+                <Button onClick={handleAddressSave}>{isEdit ? 'Update Address' : 'Add Address'}</Button>
                 <Button color="gray" onClick={onClose}>
                     Cancel
                 </Button>

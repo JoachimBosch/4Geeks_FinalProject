@@ -5,7 +5,7 @@ import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from "react-router-dom";
 import Logo from "../images/Logo.png"
-import {faCartShopping} from '@fortawesome/free-solid-svg-icons';
+import {faCartShopping, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
@@ -16,9 +16,8 @@ const navigation = [
 ]
 
 export default function Navbar() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const { login } = useContext(MyContext)
-  const { cart } = useContext(MyContext)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { cart, loggedIn, logout } = useContext(MyContext);
 
   return (
     <div>
@@ -52,27 +51,38 @@ export default function Navbar() {
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <Link to="/subscribe">
-              <button className="text-xl font-semibold leading-6 text-gray-800 bg-inherit">
-              Sign up 
-              </button>
-            </Link>
-            &nbsp;
-            | 
-            &nbsp;
+            {!loggedIn 
+            ? 
+              <Link to="/login">
+                <button className="text-xl font-semibold leading-6 text-gray-800 bg-inherit">
+                  Log in <span aria-hidden="true"></span>
+                </button>
+              </Link>
+            :
+              <Link to="/profile">
+                <button className="text-xl font-semibold leading-6 text-gray-800 bg-inherit underline">
+                  Go to profile <span aria-hidden="true"></span>
+                </button>
+              </Link>
+          }
             
-            <Link to="/login">
-              <button className="text-xl font-semibold leading-6 text-gray-800 bg-inherit">
-                Log in <span aria-hidden="true"></span>
-              </button>
-            </Link>
             
             <Link to='./cart'>
-              <div className="cart px-4 relative">
-                <FontAwesomeIcon className="text-3xl p-2 hover:cursor-pointer" icon={faCartShopping} />
-                <div className="badge bg-red-500 text-white text-center text-sm px-1 absolute -top-1 right-7 rounded">{cart.length}</div>
-              </div>
+                <div className="cart px-4 relative">
+                  <FontAwesomeIcon className="text-3xl p-2 hover:cursor-pointer" icon={faCartShopping} />
+                  <div className="badge bg-red-500 text-white text-center text-sm px-1 absolute -top-1 right-7 rounded">{cart.length}</div>
+                </div>
             </Link>
+            {!loggedIn ? "" : 
+            <Link to="/">
+              <button className="logout text-xl font-semibold leading-6 text-gray-800 bg-inherit" onClick={(e) => {
+                        e.preventDefault();
+                        logout()}}>
+                <FontAwesomeIcon className="text-3xl py-2 hover:cursor-pointer" icon={faRightFromBracket} />
+                <span aria-hidden="true"></span>
+              </button>
+            </Link>
+            }
             
           </div>
         </nav>
@@ -119,12 +129,32 @@ export default function Navbar() {
                       </a>
                 </div>
                 <div className="py-4">
-                  <a
-                    href="#"
+                  {!loggedIn ? 
+                    <a
+                    href="./login"
                     className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
+                    >
                     Log in
-                  </a>
+                    </a>
+                    :
+                    <div>
+                      <a
+                      href="./profile"
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      >
+                      Go to profile
+                      </a>
+                      <a
+                      href="./"
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        logout()
+                      }}>
+                      Logout
+                      </a>
+                    </div>
+                  }
                 </div>
               </div>
             </div>

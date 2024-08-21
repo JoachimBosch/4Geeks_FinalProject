@@ -38,6 +38,7 @@ def create_token():
     access_token = create_access_token(identity=user.id)
     return jsonify({ "token": access_token, "user_id": user.id }) """
 
+# User related
 
 @app.route("/register", methods=['POST'])
 def subscribe():
@@ -75,25 +76,43 @@ def login():
     else:
         return 'Invalid email or password', 401
 
+@app.route("/user/<int:user_id>", methods=['GET'])
+def get_user(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return 'User not found', 404
+
+    user_data = {
+        'id': user.id,
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'phone': user.phone
+    }
+    return jsonify(user_data), 200
 
 @app.route("/change-password", methods=['POST'])
 def change_password():
-    data = request.get_json()
+    try:
+        data = request.get_json()
 
-    if not data:
-        return 'error: Missing required fields', 400
+        if not data:
+            return 'error: Missing required fields', 400
 
-    user = User.query.filter_by(email=data['email']).first()
-    if not user:
-        return 'Error: user not found', 404
+        user = User.query.filter_by(email=data['email']).first()
+        if not user:
+            return 'Error: user not found', 404
 
-    if not ph.verify(user.password, data['old_password']):
-        return 'Error: passwords do not match', 401
-    
-    new_password = ph.hash(data['new_password'])
-    user.password = new_password
-    db.session.commit()
-    return 'Successfully updated password', 200
+        if not ph.verify(user.password, data['old_password']):
+            return 'Error: passwords do not match', 401
+        
+        new_password = ph.hash(str(data['new_password']))
+        user.password = new_password
+        db.session.commit()
+        return 'Successfully updated password', 200
+    except Exception as e:
+        db.session.rollback()
+        return f'Internal Server Error: {str(e)}', 500
 
 @app.route("/user/<int:user_id>", methods=['PUT'])
 def modify_user(user_id):
@@ -119,24 +138,32 @@ def modify_user(user_id):
         db.session.rollback()
         return f'Internal Server Error: {str(e)}', 500
 
-@app.route("/user/<int:user_id>/password", methods=['PUT'])
-def update_password(user_id):
-    data = request.get_json()
-    user = User.query.get(user_id)
+# Address related
 
+@app.route('/user/<int:user_id>/addresses', methods=['GET'])
+def get_user_addresses(user_id):
+    user = User.query.get(user_id)
     if not user:
         return 'User not found', 404
 
-    if 'password' not in data:
-        return 'Bad Request: Password is required', 400
+    addresses = Addresses.query.filter_by(user_id=user_id).all()
+    if not addresses:
+        return 'No addresses found', 404
 
-    try:
-        user.password = data['password']
-        db.session.commit()
-        return 'Password updated successfully', 200
-    except Exception as e:
-        db.session.rollback()
-        return f'Internal Server Error: {str(e)}', 500
+    address_list = []
+    for address in addresses:
+        address_data = {
+            'id': address.id,
+            'relation_to_user': address.relation_to_user,
+            'street': address.street,
+            'street_number': address.street_number,
+            'postal_code': address.postal_code,
+            'city': address.city,
+            'country': address.country
+        }
+        address_list.append(address_data)
+
+    return jsonify(address_list), 200
 
 @app.route("/address", methods=['POST'])
 def add_address():
@@ -145,20 +172,20 @@ def add_address():
         return 'Bad Request: All address fields are required', 400
 
     try:
-        address = Addresses(
-            user_id=data['user_id'],
-            relation_to_user=data['relation_to_user'],
-            street=data['street'],
-            street_number=data['street_number'],
-            postal_code=data['postal_code'],
-            city=data['city'],
-            country=data['country']
-        )
-        db.session.add(address)
+        new_address = Addresses()
+        new_address.user_id=data['user_id']
+        new_address.relation_to_user=data['relation_to_user']
+        new_address.street=data['street']
+        new_address.street_number=data['street_number']
+        new_address.postal_code=data['postal_code']
+        new_address.city=data['city']
+        new_address.country=data['country']
+        db.session.add(new_address)
         db.session.commit()
         return 'Address added successfully', 200
     except Exception as e:
         db.session.rollback()
+        print("Error:", str(e))
         return f'Internal Server Error: {str(e)}', 500
 
 @app.route("/address/<int:address_id>", methods=['PUT'])
@@ -187,6 +214,73 @@ def update_address(address_id):
         return 'Address updated successfully', 200
     except Exception as e:
         db.session.rollback()
+        return f'Internal Server Error: {str(e)}', 500
+
+@app.route('/address/<int:address_id>', methods=['DELETE'])
+def delete_address(address_id):
+    try:
+        address = Addresses.query.get(address_id)
+
+        if address is None:
+            return 'Address not found', 404
+
+        db.session.delete(address)
+        db.session.commit()
+
+        return 'Address deleted successfully', 200
+
+    except Exception as e:
+        db.session.rollback()
+        return 'Error while deleting address', 500
+
+# Subscription related
+  
+@app.route('/user/<int:user_id>/subscriptions', methods=['GET'])
+def get_user_subscriptions(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return 'User not found', 404
+
+    subscriptions = Subscription.query.filter_by(user_id=user_id).all()
+    if not subscriptions:
+        return 'No subscription found', 404
+
+    subscriptions_list = []
+    for sub in subscriptions:
+        subscription_data = {
+            'id': sub.id,
+            'user_id': sub.user_id,
+            'user_address': sub.user_address,
+            'order': sub.order,
+            'active': sub.active,
+            'start_date': sub.start_date,
+            'end_date': sub.end_date
+        }
+        subscriptions_list.append(subscription_data)
+
+    return jsonify(subscriptions_list), 200
+
+@app.route("/user/<int:user_id>/subscriptions", methods=['POST'])
+def add_subscription():
+    data = request.get_json()
+    if not data or 'user_id' not in data or 'user_address' not in data or 'order' not in data or 'start_date' not in data or 'end_date' not in data or 'payment_method' not in data:
+        return 'Bad Request: All fields are required', 400
+
+    try:
+        new_subscription = Subscription()
+        new_subscription.active=True
+        new_subscription.user_id=data['user_id']
+        new_subscription.user_address=data['user_address']
+        new_subscription.order=data['order']
+        new_subscription.start_date=data['start_date']
+        new_subscription.end_date=data['end_date']
+        new_subscription.payment_method=data['payment_method']
+        db.session.add(new_subscription)
+        db.session.commit()
+        return 'Subscription added successfully', 200
+    except Exception as e:
+        db.session.rollback()
+        print("Error:", str(e))
         return f'Internal Server Error: {str(e)}', 500
 
 app.run(host='0.0.0.0', port=3000)

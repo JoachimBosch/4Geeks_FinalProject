@@ -114,6 +114,14 @@ button h2 {
   font-weight: bold;
 }
 
+.cancel:hover {
+  margin-top: 10px;
+  font-family: "omnes-pro", sans-serif;
+  color: rgba(255, 0, 0, 0.5);
+  font-size: 15px;
+  font-weight: bold;
+}
+
 .error {
   font-family: "omnes-pro", sans-serif;
   color: red;

@@ -1,4 +1,6 @@
 import React, { createContext, useState, useEffect, useReducer } from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 
 const MyContext = createContext();
@@ -122,37 +124,45 @@ export const MyProvider = ({ children }) => {
     const [subscribe, setSubscribe] = useState({email: "", password: ""});
     const [changePassword, setChangePassword] = useState({email: "", old_password: "", new_password: ""});
     const [personInfo, setPersonInfo] = useState({
-        id: "",
+        id: "1",
         password: "",
         email: "",
         first_name: "",
         last_name: "",
         phone: "",
     });
-    const [addressInfo, setAddressInfo] = useState({
-        id: "",
-        user_id: "",
-        relation_to_user: "",
-        street: "",
-        street_number: "",
-        postal_code: "",
-        city: "",
-        country: "",
-    });
+    const [addressInfo, setAddressInfo] = useState([]);
+    
     const [subscriptionInfo, setSubscriptionInfo] = useState({
       label: "",
       billingAddress: "",
       shippingAddress: "",
       term: ""
     });
+    const [formData, setFormData] = useState(addressInfo || {
+      relation_to_user: '',
+      street: '',
+      street_number: '',
+      postal_code: '',
+      city: '',
+      country: '',
+    });
+    const [isEditAddress, setIsEditAddress] = useState(false);
     const [cart, setCart] = useState(JSON.parse(localStorage.getItem("myCart")) || []);
+    const [type, setType] = useState("password");
+    const [icon, setIcon] = useState(faEyeSlash);
+    const [loggedIn, setLoggedIn] = useState(true)
   
 
     /*UseEffect*/
 
     useEffect(() => {
       localStorage.setItem("myCart", JSON.stringify(cart));
-
+      if (personInfo.id) {
+        fetchUser(personInfo.id);
+        fetchAddresses(personInfo.id);
+        fetchSubscriptions(personInfo.id);
+      }
   }, [cart]);
 
     /*UseReducer*/
@@ -162,7 +172,67 @@ export const MyProvider = ({ children }) => {
 
     /* FUNCTIONS */
 
+    const fetchUser = async (userId) => {
+      try {
+        const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+    
+        if (!response.ok) {
+          console.error('Error while retrieving user information:', error);
+          return null;
+        }
+    
+        const data = await response.json();
+        console.log('User data:', data);
+        setPersonInfo(data);
+        return data;
+      } catch (error) {
+        console.error('Error while retrieving user information:', error);
+      }
+    };
+    
+    const fetchAddresses = async (userId) => {
+      try {
+        const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}/addresses`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+    
+        if (!response.ok) {
+          console.error('Error while fetching addresses:', error);
+          return null;
+        }
+    
+        const data = await response.json();
+        setAddressInfo([data]);
+        return data;
+      } catch (error) {
+        console.error('Error while fetching addresses:', error);
+      }
+    };
 
+    const fetchSubscriptions = async (userId) => {
+      try {
+        const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}/subscriptions`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+    
+        if (!response.ok) {
+          console.error('Error while fetching subscriptions:', error);
+          return null;
+        }
+    
+        const data = await response.json();
+        console.log('Subscription data:', data);
+        setSubscriptionInfo(data);
+        return data;
+      } catch (error) {
+        console.error('Error while fetching subscriptions:', error);
+      }
+    };
 
     function onAddToCart(box) {
       cart.find(item => item.id == box.id) ? increaseQuantity(box.id) : setCart(prevCart => [...prevCart, box]);
@@ -186,11 +256,9 @@ export const MyProvider = ({ children }) => {
         ));
     };    
 
-
-
-    
-
     boxes;
+
+    /* User functions */
 
     const register = async () => {
       try {
@@ -223,7 +291,7 @@ export const MyProvider = ({ children }) => {
         const data = await response.json();
     
         if (response.ok) {
-          console.log('Login successful:', data);
+          setLoggedIn(true);
         } else {
           console.error('Login failed:', data);
         }
@@ -257,9 +325,96 @@ export const MyProvider = ({ children }) => {
         console.error('Something went wrong:', error);
       };
     }
+
+    const logout = () => {
+      /* localStorage.removeItem("token-info"); */
+      setLoggedIn(false)
+  };
+
+    /* Address functions */
+
+    const storeAddress = async (addressData) => {
+      try {
+        let body = JSON.stringify(addressData)
+
+        const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/address`, {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: body,
+        });
+
+        if (!response.ok) {
+          console.error('Something went wrong:', error);
+          return null;
+        };
+
+        const data = await response.json();
+        console.log(data);
+        setAddressInfo={
+          ...addressInfo,
+          data
+        };
+        return data;
+      } catch (error) {
+        console.error('Error while registering:', error);
+      };
+    }
+
+    const updateAddress = async (addressId, updatedData) => {
+      try {
+          const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/address/${addressId}`, {
+              method: "PUT",
+              headers: { "Content-type": "application/json" },
+              body: JSON.stringify(updatedData),
+          });
+
+          if (!response.ok) {
+              console.error('Something went wrong:', error);
+              return null;
+          }
+
+          const data = await response.json();
+          console.log(data);
+          return data;
+      } catch (error) {
+          console.error('Error while updating address:', error);
+          return null;
+      }
+  };
+
+  const deleteAddress = async (addressId) => {
+    try {
+      const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/address/${addressId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+  
+      if (!response.ok) {
+        console.error('Error deleting address:', error);
+        return null;
+      }
+  
+      console.log(`Address with ID ${addressId} deleted successfully`);
+      setAddressInfo(prevAddresses => prevAddresses.filter(address => address.id !== addressId)); 
+    } catch (error) {
+      console.error('Error while deleting address:', error);
+    }
+  };
+
+  const handleToggle = () => {
+    if (type==='password'){
+       setIcon(faEye);
+       setType('text')
+    } else {
+       setIcon(faEyeSlash)
+       setType('password')
+    }
+ }
+
+
     
     /* Add variable names within appContext */
-    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password}
+    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData, isEditAddress, setIsEditAddress, type, setType, icon, setIcon, handleToggle, deleteAddress, loggedIn, setLoggedIn, logout}
 
     return (
         <MyContext.Provider value={appContext}>

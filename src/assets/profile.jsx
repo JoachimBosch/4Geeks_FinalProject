@@ -8,11 +8,16 @@ import AddressModal from './manageAddressModal';
 import ManageSubscriptionModal from './manageSubscriptionModal';
 
 const Profile = () => {
-    const { personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo } = useContext(MyContext);
+    const { personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, isEditAddress, setIsEditAddress, deleteAddress } = useContext(MyContext);
     const [openPersonalModal, setOpenPersonalModal] = useState(false);
     const [openAddressModal, setOpenAddressModal] = useState(false);
     const [openManageSubscriptionModal, setOpenManageSubscriptionModal] = useState(false);
-    const [isEditAddress, setIsEditAddress] = useState(false);
+
+    const handleDeleteClick = (addressId) => {
+        if (window.confirm("Are you sure you want to delete this address?")) {
+          deleteAddress(addressId);
+        }
+      };
 
     return (
         <>
@@ -69,7 +74,8 @@ const Profile = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            {/* {addressInfo.map((address, index) => ( */}
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={addressInfo.id}>
                                     <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {addressInfo.relation_to_user}
                                     </td>
@@ -89,12 +95,14 @@ const Profile = () => {
                                             </button>
                                         </Link>
                                         <Link to="">
-                                            <button className="ml-2 px-2 py-1 bg-inherit">
+                                            <button className="ml-2 px-2 py-1 bg-inherit" onClick={() => handleDeleteClick(address.id)}>
                                                 <FontAwesomeIcon icon={faTrashCan} />
                                             </button>
                                         </Link>
                                     </td>
                                 </tr>
+                            {/* ))} */}
+                                
                             </tbody>
                         </table>
                             <div className="my-6 mx-auto flex justify-center">
