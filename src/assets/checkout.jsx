@@ -10,11 +10,20 @@ const Checkout = () => {
 
 
     useEffect(() => {
-        setCheckoutCart(cart.map(item => ({
-          ...item,
-          final_price: handlePrice(item, "price_3") // Assuming a default price term; adjust as needed
-        })));
-      }, [cart]); // Dependency array ensures this runs whenever `cart` changes
+        const newCheckoutCart = [];
+        cart.map(item => {
+          // Cria uma nova versão do item com o preço final calculado
+          const updatedItem = {
+            ...item,
+            final_price: handlePrice(item, "price_3") // Ajuste "price_3" conforme necessário
+          };
+          // Adiciona o item ao checkoutCart a quantidade de vezes especificada
+          for (let i = 0; i < item.quantity; i++) {
+            newCheckoutCart.push(updatedItem);
+          }
+        });
+        setCheckoutCart(newCheckoutCart);
+      }, [cart]);
     
 
 
