@@ -74,16 +74,16 @@ const Profile = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                            {addressInfo.map((address, index) => (
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={index}>
+                            {/* {addressInfo.map((address, index) => ( */}
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={addressInfo.id}>
                                     <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {address.relation_to_user}
+                                        {addressInfo.relation_to_user}
                                     </td>
                                     <td class="px-6 py-4">
-                                        {address.street} {address.street_number} 
+                                        {addressInfo.street} {addressInfo.street_number} 
                                     </td>
                                     <td class="px-6 py-4">
-                                        {address.postal_code} {address.city} {address.country}
+                                        {addressInfo.postal_code} {addressInfo.city} {addressInfo.country}
                                     </td>
                                     <td class="px-6 pr-0">
                                         <Link to="">
@@ -101,7 +101,7 @@ const Profile = () => {
                                         </Link>
                                     </td>
                                 </tr>
-                            ))}
+                            {/* ))} */}
                                 
                             </tbody>
                         </table>

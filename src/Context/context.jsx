@@ -124,7 +124,7 @@ export const MyProvider = ({ children }) => {
     const [subscribe, setSubscribe] = useState({email: "", password: ""});
     const [changePassword, setChangePassword] = useState({email: "", old_password: "", new_password: ""});
     const [personInfo, setPersonInfo] = useState({
-        id: "",
+        id: "1",
         password: "",
         email: "",
         first_name: "",
@@ -151,6 +151,7 @@ export const MyProvider = ({ children }) => {
     const [cart, setCart] = useState(JSON.parse(localStorage.getItem("myCart")) || []);
     const [type, setType] = useState("password");
     const [icon, setIcon] = useState(faEyeSlash);
+    const [loggedIn, setLoggedIn] = useState(true)
   
 
     /*UseEffect*/
@@ -257,6 +258,8 @@ export const MyProvider = ({ children }) => {
 
     boxes;
 
+    /* User functions */
+
     const register = async () => {
       try {
         let body = JSON.stringify({
@@ -288,8 +291,7 @@ export const MyProvider = ({ children }) => {
         const data = await response.json();
     
         if (response.ok) {
-          console.log('Login successful:', data);
-          setPersonInfo(data);
+          setLoggedIn(true);
         } else {
           console.error('Login failed:', data);
         }
@@ -323,6 +325,13 @@ export const MyProvider = ({ children }) => {
         console.error('Something went wrong:', error);
       };
     }
+
+    const logout = () => {
+      /* localStorage.removeItem("token-info"); */
+      setLoggedIn(false)
+  };
+
+    /* Address functions */
 
     const storeAddress = async (addressData) => {
       try {
@@ -400,13 +409,12 @@ export const MyProvider = ({ children }) => {
        setIcon(faEyeSlash)
        setType('password')
     }
-    console.log("Current type:", type);
  }
 
 
     
     /* Add variable names within appContext */
-    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData, isEditAddress, setIsEditAddress, type, setType, icon, setIcon, handleToggle, deleteAddress}
+    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData, isEditAddress, setIsEditAddress, type, setType, icon, setIcon, handleToggle, deleteAddress, loggedIn, setLoggedIn, logout}
 
     return (
         <MyContext.Provider value={appContext}>

@@ -260,4 +260,27 @@ def get_user_subscriptions(user_id):
 
     return jsonify(subscriptions_list), 200
 
+@app.route("/user/<int:user_id>/subscriptions", methods=['POST'])
+def add_subscription():
+    data = request.get_json()
+    if not data or 'user_id' not in data or 'user_address' not in data or 'order' not in data or 'start_date' not in data or 'end_date' not in data or 'payment_method' not in data:
+        return 'Bad Request: All fields are required', 400
+
+    try:
+        new_subscription = Subscription()
+        new_subscription.active=True
+        new_subscription.user_id=data['user_id']
+        new_subscription.user_address=data['user_address']
+        new_subscription.order=data['order']
+        new_subscription.start_date=data['start_date']
+        new_subscription.end_date=data['end_date']
+        new_subscription.payment_method=data['payment_method']
+        db.session.add(new_subscription)
+        db.session.commit()
+        return 'Subscription added successfully', 200
+    except Exception as e:
+        db.session.rollback()
+        print("Error:", str(e))
+        return f'Internal Server Error: {str(e)}', 500
+
 app.run(host='0.0.0.0', port=3000)

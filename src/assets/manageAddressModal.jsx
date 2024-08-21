@@ -20,7 +20,7 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
         setAddressInfo(updatedAddressInfo);
     
         if (isEdit) {
-            await updateAddress(addressInfo.id, updatedAddressInfo);
+            await updateAddress(addressInfo.id, updatedAddressInfo); /* If you change addressInfo.id to the actual ID number, the PUT request works */
         } else {
             await storeAddress(updatedAddressInfo);
         }
