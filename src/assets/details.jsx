@@ -20,7 +20,7 @@ const Details = () => {
     return (
         
             <div className={`${thisBox.bg_color} py-20`}>
-                <div className="border-b border-t border-black flex">
+                <div className="border-b border-black flex">
                     <div className="max-w-[50%] lg:max-w-[40%] content-center">
                         <img src={thisBox.box_out} className="mx-auto p-8"></img>
                         <div className="flex gap-1 pb-5 px-8">

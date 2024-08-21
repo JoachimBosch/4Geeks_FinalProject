@@ -1,14 +1,17 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import MyContext from '../Context/context'
 
 
 
 export default function Carousel_content({id, name, background, callout, box_out, text_color, button_color, price, quantity, price_3, price_6, price_12}) {
-    
+    const [opened, setOpened] = useState(false);
     const { onAddToCart, cart } = useContext(MyContext)
     
-    console.log(cart)
+    function handleOpen() {
+        opened ? setOpened(false) : setOpened(true)
+    };
+
 
     return (
         <>
@@ -16,8 +19,11 @@ export default function Carousel_content({id, name, background, callout, box_out
             <div>
                 <div className="flex bg-cover pt-28 justify-center gap-3" style={{ backgroundImage: `url(${background})`}}>
                     <div className="flex flex-col items-center align-bottom">
-                        <img src={box_out} alt={`${name} box`}></img>
-                        <button type="button" className="border border-stone-800 my-10 px-10 md:px-16 py-1 md:py-2 text-stone-900 hover:bg-stone-100 shadow-[4px_4px_8px_rgba(0,0,0,0.2)] text-lg md:text-2xl">Open box</button>
+                        <img src={box_out} alt={`${name} box`} 
+                                className={`${opened ? "-translate-y-3/4" : "translate-y-0"}`}></img>
+                        <button type="button" 
+                                className="border border-stone-800 my-10 px-10 md:px-16 py-1 md:py-2 text-stone-900 hover:bg-stone-100 shadow-[4px_4px_8px_rgba(0,0,0,0.2)] text-lg md:text-2xl"
+                                onClick={() => handleOpen()}>Open box</button>
                     </div>
                     <div className="w-full max-w-lg ">
                         <h3 className={`text-4xl md:text-6xl lg:text-7xl ${text_color} [text-shadow:_5px_5px_8px_rgb(0_0_0_/_20%)] py-[5%]`}>{callout}</h3>
