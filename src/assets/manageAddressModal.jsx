@@ -17,10 +17,17 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
             ...formData,
             user_id: personInfo.id || 1,
         };
-        /* setAddressInfo(...addressInfo, newAddress); */
         await storeAddress(newAddress);
-        fetchAddresses;
         onClose();
+        setFormData({
+            relation_to_user: '',
+            street: '',
+            street_number: '',
+            postal_code: '',
+            city: '',
+            country: '',
+          });
+          fetchAddresses(personInfo.id);
     };
 
     

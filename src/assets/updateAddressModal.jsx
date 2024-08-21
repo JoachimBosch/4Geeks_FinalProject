@@ -1,9 +1,23 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import MyContext from "../Context/context";
 import { Button, Modal } from 'flowbite-react';
 
 const UpdateAddressModal = ({ show, onClose, addressInfo, setAddressInfo, id }) => {
-    const {formData, setFormData, storeAddress, updateAddress, personInfo} = useContext(MyContext)
+    const {formData, setFormData, storeAddress, updateAddress, personInfo, fetchAddresses} = useContext(MyContext)
+
+    useEffect(() => {
+        if (addressInfo) {
+            setFormData({
+                ...formData,
+                relation_to_user: addressInfo.relation_to_user || '',
+                street: addressInfo.street || '',
+                street_number: addressInfo.street_number || '',
+                postal_code: addressInfo.postal_code || '',
+                city: addressInfo.city || '',
+                country: addressInfo.country || '',
+            });
+        }
+    }, [addressInfo]);
     
     const handleChange = (e) => {
         setFormData({
@@ -17,10 +31,10 @@ const UpdateAddressModal = ({ show, onClose, addressInfo, setAddressInfo, id }) 
             ...formData,
             user_id: personInfo.id || 1,
         };
-        setAddressInfo(updatedAddressInfo);
 
-        await updateAddress(addressInfo.id, updatedAddressInfo); /* If you change addressInfo.id to the actual ID number, the PUT request works */
+        await updateAddress(addressInfo.id, updatedAddressInfo);
         onClose();
+        fetchAddresses(personInfo.id)
     };
     console.log(formData)
     

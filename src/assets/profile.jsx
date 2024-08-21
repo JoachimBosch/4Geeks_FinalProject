@@ -9,13 +9,13 @@ import ManageSubscriptionModal from './manageSubscriptionModal';
 import UpdateAddressModal from './updateAddressModal';
 
 const Profile = () => {
-    const { personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, deleteAddress } = useContext(MyContext);
+    const { personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, deleteAddress, setFormData } = useContext(MyContext);
     const [openPersonalModal, setOpenPersonalModal] = useState(false);
     const [openAddressModal, setOpenAddressModal] = useState(false);
     const [openUpdateAddressModal, setOpenUpdateAddressModal] = useState(false);
     const [openManageSubscriptionModal, setOpenManageSubscriptionModal] = useState(false);
-    const [index, setIndex] = useState("")
-    const [updateInfo, setUpdateInfo] = useState()
+    const [index, setIndex] = useState("");
+
 
     const handleDeleteClick = (addressId) => {
         if (window.confirm("Are you sure you want to delete this address?")) {
@@ -26,7 +26,7 @@ const Profile = () => {
       const handleUpdateAddress = (updatedAddress, index) => {
         const updatedAddresses = [...addressInfo];
         updatedAddresses[index] = updatedAddress;
-        setAddressInfo(updatedAddresses);
+        setFormData(updatedAddresses);
     };
 
     return (
@@ -198,7 +198,7 @@ const Profile = () => {
                 show={openUpdateAddressModal}
                 onClose={() => setOpenUpdateAddressModal(false)}
                 addressInfo={addressInfo[index]}
-                setAddressInfo={(updatedAddress) => handleUpdateAddress(updatedAddress, index)}
+                setAddressInfo={setAddressInfo}
                 id={index}
             />
 
