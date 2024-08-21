@@ -2,8 +2,8 @@ import React, { useState, useContext } from 'react';
 import MyContext from "../Context/context";
 import { Button, Modal } from 'flowbite-react';
 
-const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) => {
-    const {formData, setFormData, storeAddress, updateAddress, personInfo, fetchAddresses} = useContext(MyContext)
+const UpdateAddressModal = ({ show, onClose, addressInfo, setAddressInfo, id }) => {
+    const {formData, setFormData, storeAddress, updateAddress, personInfo} = useContext(MyContext)
     
     const handleChange = (e) => {
         setFormData({
@@ -13,21 +13,21 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
     };
 
     const handleAddressSave = async () => {
-        const newAddress = {
+        const updatedAddressInfo = {
             ...formData,
             user_id: personInfo.id || 1,
         };
-        /* setAddressInfo(...addressInfo, newAddress); */
-        await storeAddress(newAddress);
-        fetchAddresses;
+        setAddressInfo(updatedAddressInfo);
+
+        await updateAddress(addressInfo.id, updatedAddressInfo); /* If you change addressInfo.id to the actual ID number, the PUT request works */
         onClose();
     };
-
+    console.log(formData)
     
 
     return (
         <Modal dismissible show={show} onClose={onClose}>
-            <Modal.Header>Add New Address</Modal.Header>
+            <Modal.Header>Edit Address Information</Modal.Header>
             <Modal.Body>
                 <div className="space-y-2 modal-text">
                     <p>Label:</p>
@@ -87,7 +87,7 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={handleAddressSave}>Add Address</Button>
+                <Button onClick={handleAddressSave}>Update Address</Button>
                 <Button color="gray" onClick={onClose}>
                     Cancel
                 </Button>
@@ -96,4 +96,4 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
     );
 };
 
-export default AddressModal;
+export default UpdateAddressModal;
