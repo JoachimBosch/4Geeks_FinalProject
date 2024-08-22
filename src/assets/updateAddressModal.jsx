@@ -1,9 +1,23 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import MyContext from "../Context/context";
 import { Button, Modal } from 'flowbite-react';
 
-const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) => {
+const UpdateAddressModal = ({ show, onClose, addressInfo, setAddressInfo, id }) => {
     const {formData, setFormData, storeAddress, updateAddress, personInfo, fetchAddresses} = useContext(MyContext)
+
+    useEffect(() => {
+        if (addressInfo) {
+            setFormData({
+                ...formData,
+                relation_to_user: addressInfo.relation_to_user || '',
+                street: addressInfo.street || '',
+                street_number: addressInfo.street_number || '',
+                postal_code: addressInfo.postal_code || '',
+                city: addressInfo.city || '',
+                country: addressInfo.country || '',
+            });
+        }
+    }, [addressInfo]);
     
     const handleChange = (e) => {
         setFormData({
@@ -13,28 +27,21 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
     };
 
     const handleAddressSave = async () => {
-        const newAddress = {
+        const updatedAddressInfo = {
             ...formData,
             user_id: personInfo.id || 1,
         };
-        await storeAddress(newAddress);
-        onClose();
-        setFormData({
-            relation_to_user: '',
-            street: '',
-            street_number: '',
-            postal_code: '',
-            city: '',
-            country: '',
-          });
-          fetchAddresses(personInfo.id);
-    };
 
+        await updateAddress(addressInfo.id, updatedAddressInfo);
+        onClose();
+        fetchAddresses(personInfo.id)
+    };
+    console.log(formData)
     
 
     return (
         <Modal dismissible show={show} onClose={onClose}>
-            <Modal.Header>Add New Address</Modal.Header>
+            <Modal.Header>Edit Address Information</Modal.Header>
             <Modal.Body>
                 <div className="space-y-2 modal-text">
                     <p>Label:</p>
@@ -94,7 +101,7 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={handleAddressSave}>Add Address</Button>
+                <Button onClick={handleAddressSave}>Update Address</Button>
                 <Button color="gray" onClick={onClose}>
                     Cancel
                 </Button>
@@ -103,4 +110,4 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
     );
 };
 
-export default AddressModal;
+export default UpdateAddressModal;

@@ -6,18 +6,28 @@ import { Link } from 'react-router-dom';
 import UpdatePersonalInfoModal from './personalInfoModal';
 import AddressModal from './manageAddressModal';
 import ManageSubscriptionModal from './manageSubscriptionModal';
+import UpdateAddressModal from './updateAddressModal';
 
 const Profile = () => {
-    const { personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, isEditAddress, setIsEditAddress, deleteAddress } = useContext(MyContext);
+    const { personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, deleteAddress, setFormData } = useContext(MyContext);
     const [openPersonalModal, setOpenPersonalModal] = useState(false);
     const [openAddressModal, setOpenAddressModal] = useState(false);
+    const [openUpdateAddressModal, setOpenUpdateAddressModal] = useState(false);
     const [openManageSubscriptionModal, setOpenManageSubscriptionModal] = useState(false);
+    const [index, setIndex] = useState("");
+
 
     const handleDeleteClick = (addressId) => {
         if (window.confirm("Are you sure you want to delete this address?")) {
           deleteAddress(addressId);
         }
       };
+
+      const handleUpdateAddress = (updatedAddress, index) => {
+        const updatedAddresses = [...addressInfo];
+        updatedAddresses[index] = updatedAddress;
+        setFormData(updatedAddresses);
+    };
 
     return (
         <>
@@ -74,22 +84,22 @@ const Profile = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                            {/* {addressInfo.map((address, index) => ( */}
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={addressInfo.id}>
+                            {addressInfo.map((address, index) => (
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={index}>
                                     <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {addressInfo.relation_to_user}
+                                        {address.relation_to_user}
                                     </td>
                                     <td class="px-6 py-4">
-                                        {addressInfo.street} {addressInfo.street_number} 
+                                        {address.street} {address.street_number} 
                                     </td>
                                     <td class="px-6 py-4">
-                                        {addressInfo.postal_code} {addressInfo.city} {addressInfo.country}
+                                        {address.postal_code} {address.city} {address.country}
                                     </td>
                                     <td class="px-6 pr-0">
                                         <Link to="">
                                             <button className="px-2 py-1 bg-inherit" onClick={() => {
-                                                setIsEditAddress(true);
-                                                setOpenAddressModal(true);
+                                                setIndex(index);
+                                                setOpenUpdateAddressModal(true);
                                                 }}>
                                                 <FontAwesomeIcon icon={faPencil} />
                                             </button>
@@ -101,7 +111,7 @@ const Profile = () => {
                                         </Link>
                                     </td>
                                 </tr>
-                            {/* ))} */}
+                             ))}
                                 
                             </tbody>
                         </table>
@@ -109,7 +119,6 @@ const Profile = () => {
                                 <Link to="">
                                 <button
                                     onClick={() => {
-                                        setIsEditAddress(false);
                                         setOpenAddressModal(true);
                                     }}
                                     className="profile-button px-2 py-1 border rounded bg-inherit">
@@ -181,10 +190,18 @@ const Profile = () => {
             <AddressModal
                 show={openAddressModal}
                 onClose={() => setOpenAddressModal(false)}
-                addressInfo={isEditAddress ? addressInfo : null}
+                addressInfo={addressInfo}
                 setAddressInfo={setAddressInfo}
-                isEdit={isEditAddress}
             />
+
+            <UpdateAddressModal
+                show={openUpdateAddressModal}
+                onClose={() => setOpenUpdateAddressModal(false)}
+                addressInfo={addressInfo[index]}
+                setAddressInfo={setAddressInfo}
+                id={index}
+            />
+
             <ManageSubscriptionModal
                 show={openManageSubscriptionModal}
                 onClose={() => setOpenManageSubscriptionModal(false)}

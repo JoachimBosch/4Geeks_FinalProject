@@ -147,7 +147,6 @@ export const MyProvider = ({ children }) => {
       city: '',
       country: '',
     });
-    const [isEditAddress, setIsEditAddress] = useState(false);
     const [cart, setCart] = useState(JSON.parse(localStorage.getItem("myCart")) || []);
     const [type, setType] = useState("password");
     const [icon, setIcon] = useState(faEyeSlash);
@@ -158,6 +157,7 @@ export const MyProvider = ({ children }) => {
 
     useEffect(() => {
       localStorage.setItem("myCart", JSON.stringify(cart));
+      
       if (personInfo.id) {
         fetchUser(personInfo.id);
         fetchAddresses(personInfo.id);
@@ -206,7 +206,8 @@ export const MyProvider = ({ children }) => {
         }
     
         const data = await response.json();
-        setAddressInfo([data]);
+        console.log("addresses:", data)
+        setAddressInfo(data);
         return data;
       } catch (error) {
         console.error('Error while fetching addresses:', error);
@@ -414,7 +415,7 @@ export const MyProvider = ({ children }) => {
 
     
     /* Add variable names within appContext */
-    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData, isEditAddress, setIsEditAddress, type, setType, icon, setIcon, handleToggle, deleteAddress, loggedIn, setLoggedIn, logout}
+    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData,  type, setType, icon, setIcon, handleToggle, deleteAddress, loggedIn, setLoggedIn, logout, fetchAddresses}
 
     return (
         <MyContext.Provider value={appContext}>
