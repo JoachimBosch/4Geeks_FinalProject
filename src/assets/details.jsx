@@ -1,12 +1,15 @@
 import MyContext from "../Context/context";
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { Button, Modal } from "flowbite-react";
 
 
 const Details = () => {
 
+    const [openModal, setOpenModal] = useState(false);
+    
     const { id } = useParams();
 
     const { boxes, cart, onAddToCart } = useContext(MyContext);
@@ -43,7 +46,7 @@ const Details = () => {
                         <button type="button" 
                                 className={`px-10 py-1 text-white ${thisBox.button_color} hover:bg-stone-900 shadow-[6px_6px_12px_rgba(0,0,0,0.4)] text-xl md:text-2xl mt-5`} 
                                 style={{fontWeight: "500"}}
-                                onClick={() => onAddToCart({id: thisBox.id,
+                                onClick={() => {onAddToCart({id: thisBox.id,
                                                             name: thisBox.name,
                                                             box_out: thisBox.box_out,
                                                             price: thisBox.price,
@@ -51,12 +54,14 @@ const Details = () => {
                                                             price_3: thisBox.price_3,
                                                             price_6: thisBox.price_6,
                                                             price_12: thisBox.price_12})
-                                                            }
+                                                            , setOpenModal(true)}}
                                                             >Add to cart
                         </button>
                     </div>
                 </div>
 
+
+            {/* Products inside the box */}
 
 
                 <div>
@@ -95,6 +100,26 @@ ermentum sit amet, ultrices vitae mauris. Maecenas enim augue, pretium ut nibh q
                     </div>
                 </div>
                 
+
+            {/* Modal Add to Cart */}
+
+            <Modal show={openModal} size="md" onClose={() => setOpenModal(false)} popup>
+                <Modal.Header />
+                <Modal.Body>
+                    <div className="text-center">
+                        
+                        <h3 className="mb-5 text-2xl font-normal text-black">
+                        You just added {thisBox.name} Box to your cart. 
+                        </h3>
+                        <div className="flex justify-center gap-4">
+                        <Button color="dark" style={{padding: "8px 40px", borderRadius: "0"}} onClick={() => setOpenModal(false)}>
+                            <p className="xl">Dismiss</p>
+                        </Button>
+                        </div>
+                    </div>
+                </Modal.Body>
+            </Modal>
+
             </div>
         
         )

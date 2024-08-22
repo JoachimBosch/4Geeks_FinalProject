@@ -182,7 +182,7 @@ export default function Home() {
         {/*Section 6 */}
         
 
-        <div className="h-screen pt-24 mb-96" id="section_6">
+        <div className="h-screen pt-24 mb-72" id="section_6">
             <h2 className="text-center mb-16">Frequently Asked Questions</h2>
             <div style={{backgroundColor: "#FAEAE0"}} className="max-w-[70%] mx-auto my-10 leading-loose py-2 shadow-[4px_4px_8px_rgba(0,0,0,0.2)] ">
                 <Accordion collapseAll>
