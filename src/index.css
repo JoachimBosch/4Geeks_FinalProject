@@ -79,23 +79,7 @@ background: #cdaa94a8;
     font-size: 12px;
 }
 
-.profile{
-    border-color: #FAEAE0;
-    border-width: 1px;
-    border-radius: 1%;
-}
 
-.profile-button{
-    background-color: #FAEAE0;
-    border-color: #FAEAE0;
-    font-size: 20px;
-}
-
-.profile-button:hover{
-    background-color: #A28D7A;
-    border-color: #A28D7A;
-    color: white;
-}
 
 
 button h2 {

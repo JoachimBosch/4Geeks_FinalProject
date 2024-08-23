@@ -42,9 +42,9 @@ export default function Carousel_content({id, name, background, callout, box_out
                 </div>
             </div>
 
-            <Modal show={openModal} size="md" onClose={() => setOpenModal(false)} popup>
-                <Modal.Header />
-                <Modal.Body>
+            <Modal show={openModal}  size="md" onClose={() => setOpenModal(false)} popup>
+                <Modal.Header className="bg-orange-50"/>
+                <Modal.Body className="bg-orange-50">
                     <div className="text-center">
                         
                         <h3 className="mb-5 text-2xl font-normal text-black">

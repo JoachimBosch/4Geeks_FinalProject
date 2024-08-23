@@ -100,7 +100,7 @@ export default function Home() {
                 </div>
             </div>
         
-            <Carousel>
+            <Carousel slide={false}>
                 {boxes.map((box) => <Carousel_content 
                                         key={box.id}
                                         id={box.id}
