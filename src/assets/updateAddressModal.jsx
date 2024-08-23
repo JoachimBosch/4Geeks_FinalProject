@@ -3,7 +3,7 @@ import MyContext from "../Context/context";
 import { Button, Modal } from 'flowbite-react';
 
 const UpdateAddressModal = ({ show, onClose, addressInfo, setAddressInfo, id }) => {
-    const {formData, setFormData, storeAddress, updateAddress, personInfo, fetchAddresses} = useContext(MyContext)
+    const {formData, setFormData, updateAddress, personInfo, fetchAddresses} = useContext(MyContext)
 
     useEffect(() => {
         if (addressInfo) {

@@ -304,7 +304,7 @@ export const MyProvider = ({ children }) => {
     const change_Password = async () => {
       try {
         let body = JSON.stringify({
-          email: personInfo.email, 
+          email: "joachim@4geeks.com", 
           old_password: changePassword.old_password,
           new_password: changePassword.new_password,
         })
@@ -313,13 +313,12 @@ export const MyProvider = ({ children }) => {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: body});
-          await response.json();
-          console.log(response);
 
           if (response.ok) {
-            console.log('Changed password successfully');
+            return true;
           } else {
-            console.error('Something went wrong:', error);
+            console.error('Login failed:', data);
+            return false
           }
       } 
       catch (error) {
