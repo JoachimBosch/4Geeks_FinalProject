@@ -234,33 +234,8 @@ def delete_address(address_id):
         return 'Error while deleting address', 500
 
 # Subscription related
-  
-@app.route('/user/<int:user_id>/subscriptions', methods=['GET'])
-def get_user_subscriptions(user_id):
-    user = User.query.get(user_id)
-    if not user:
-        return 'User not found', 404
 
-    subscriptions = Subscription.query.filter_by(user_id=user_id).all()
-    if not subscriptions:
-        return 'No subscription found', 404
-
-    subscriptions_list = []
-    for sub in subscriptions:
-        subscription_data = {
-            'id': sub.id,
-            'user_id': sub.user_id,
-            'user_address': sub.user_address,
-            'order': sub.order,
-            'active': sub.active,
-            'start_date': sub.start_date,
-            'end_date': sub.end_date
-        }
-        subscriptions_list.append(subscription_data)
-
-    return jsonify(subscriptions_list), 200
-
-@app.route("/user/<int:user_id>/subscriptions", methods=['POST'])
+@app.route("/subscriptions", methods=['POST'])
 def add_subscription():
     data = request.get_json()
     if not data or 'user_id' not in data or 'user_address' not in data or 'order' not in data or 'start_date' not in data or 'end_date' not in data or 'payment_method' not in data:
@@ -281,6 +256,61 @@ def add_subscription():
     except Exception as e:
         db.session.rollback()
         print("Error:", str(e))
+        return f'Internal Server Error: {str(e)}', 500
+  
+@app.route('/user/<int:user_id>/subscriptions', methods=['GET'])
+def get_user_subscriptions(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return 'User not found', 404
+
+    subs_address = (
+        db.session.query(Subscription, Addresses)
+        .filter(Subscription.user_id == user_id)
+        .filter(Subscription.user_address == Addresses.id)  # Assuming `user_address` is the address ID
+        .all()
+    )
+
+    if not subs_address:
+        return 'No subscription found', 404
+    
+    subscriptions_list = []
+    for sub, address in subs_address:
+        subscription_data = {
+            'id': sub.id,
+            'user_id': sub.user_id,
+            'user_address': sub.user_address,
+            'address_label': address.relation_to_user,
+            'order': sub.order,
+            'active': sub.active,
+            'start_date': sub.start_date,
+            'end_date': sub.end_date,
+            'payment_method': sub.payment_method
+        }
+        subscriptions_list.append(subscription_data)
+
+    return jsonify(subscriptions_list), 200
+
+@app.route("/subscriptions/<int:subscription_id>", methods=['PUT'])
+def update_user_subscription(subscription_id):
+    data = request.get_json()
+    subscription = Subscription.query.get(subscription_id)
+
+    if not subscription:
+        return 'Subscription not found', 404
+
+    try:
+        if 'user_address' in data:
+            subscription.user_address = data['user_address']
+        if 'active' in data:
+            subscription.active = data['active']
+        if 'end_date' in data:
+            subscription.end_date = data['end_date']
+
+        db.session.commit()
+        return 'Subscription updated successfully', 200
+    except Exception as e:
+        db.session.rollback()
         return f'Internal Server Error: {str(e)}', 500
 
 app.run(host='0.0.0.0', port=3000)

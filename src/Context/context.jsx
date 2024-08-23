@@ -138,13 +138,7 @@ export const MyProvider = ({ children }) => {
         phone: "",
     });
     const [addressInfo, setAddressInfo] = useState([]);
-    
-    const [subscriptionInfo, setSubscriptionInfo] = useState({
-      label: "",
-      billingAddress: "",
-      shippingAddress: "",
-      term: ""
-    });
+    const [subscriptionInfo, setSubscriptionInfo] = useState([]);
     const [formData, setFormData] = useState(addressInfo || {
       relation_to_user: '',
       street: '',
@@ -156,7 +150,8 @@ export const MyProvider = ({ children }) => {
     const [cart, setCart] = useState(JSON.parse(localStorage.getItem("myCart")) || []);
     const [type, setType] = useState("password");
     const [icon, setIcon] = useState(faEyeSlash);
-    const [loggedIn, setLoggedIn] = useState(true)
+    const [subData, setSubData] = useState();
+    const [loggedIn, setLoggedIn] = useState(true);
   
 
     /*UseEffect*/
@@ -306,7 +301,7 @@ export const MyProvider = ({ children }) => {
     const change_Password = async () => {
       try {
         let body = JSON.stringify({
-          email: personInfo.email, 
+          email: "joachim@4geeks.com", 
           old_password: changePassword.old_password,
           new_password: changePassword.new_password,
         })
@@ -315,13 +310,12 @@ export const MyProvider = ({ children }) => {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: body});
-          await response.json();
-          console.log(response);
 
           if (response.ok) {
-            console.log('Changed password successfully');
+            return true;
           } else {
-            console.error('Something went wrong:', error);
+            console.error('Login failed:', data);
+            return false
           }
       } 
       catch (error) {
@@ -414,10 +408,59 @@ export const MyProvider = ({ children }) => {
     }
  }
 
+ /* Address related */
 
+ const storeSubscription = async (subscriptionData) => {
+  try {
+    let body = JSON.stringify(subscriptionData)
+
+    const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/subscriptions`, {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: body,
+    });
+
+    if (!response.ok) {
+      console.error('Something went wrong:', error);
+      return null;
+    };
+
+    const data = await response.json();
+    console.log(data);
+    setSubscriptionInfo={
+      ...subscriptionInfo,
+      data
+    };
+    return data;
+  } catch (error) {
+    console.error('Error while adding subscription:', error);
+  };
+}
+
+const updateSubscription = async (subscriptionID, updatedData) => {
+  try {
+      const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/subscriptions/${subscriptionID}`, {
+          method: "PUT",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify(updatedData),
+      });
+
+      if (!response.ok) {
+          console.error('Something went wrong:', error);
+          return null;
+      }
+
+      const data = await response.json();
+      console.log(data);
+      return data;
+  } catch (error) {
+      console.error('Error while updating subscription:', error);
+      return null;
+  }
+};
     
     /* Add variable names within appContext */
-    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData,  type, setType, icon, setIcon, handleToggle, deleteAddress, loggedIn, setLoggedIn, logout, fetchAddresses}
+    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData,  type, setType, icon, setIcon, handleToggle, deleteAddress, loggedIn, setLoggedIn, logout, fetchAddresses, fetchSubscriptions ,storeSubscription, updateSubscription, subData, setSubData}
 
     return (
         <MyContext.Provider value={appContext}>

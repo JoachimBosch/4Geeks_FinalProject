@@ -25,7 +25,7 @@ const ChangePassword = () => {
         return changePassword.new_password === identicalCheck;
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (changePassword.new_password.length <= 8) {
             setError("New password is not long enough");
         }
@@ -34,18 +34,21 @@ const ChangePassword = () => {
             setChangePassword({ email: personInfo.email, old_password: "", new_password: "" });
             setIdenticalCheck("");
         }
-
         else {
-            change_Password(changePassword)
-            .then(() => {
-                setChangePassword({ email: "", old_password: "", new_password: "" });
-                setIdenticalCheck("");
-                setError("");
-                setError("Password changed successfully");
-            })
-            .catch(() => {
-                setError("Password incorrect. Please try again.");
-            });
+            try {
+                const response = await change_Password(changePassword);
+    
+                if (response == true) {
+                    setChangePassword({ email: "", old_password: "", new_password: "" });
+                    setIdenticalCheck("");
+                    setError("Password changed successfully");
+                } else {
+                    setError("An error occurred. Please try again.");
+                }
+            } catch (error) {
+                setError("Unexpected error occurred. Please try again.");
+                console.error(error);
+            }
         }
     };
 
