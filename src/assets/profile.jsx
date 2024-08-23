@@ -9,7 +9,7 @@ import ManageSubscriptionModal from './manageSubscriptionModal';
 import UpdateAddressModal from './updateAddressModal';
 
 const Profile = () => {
-    const { personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, deleteAddress, setFormData } = useContext(MyContext);
+    const { personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, deleteAddress, setFormData, setSubData } = useContext(MyContext);
     const [openPersonalModal, setOpenPersonalModal] = useState(false);
     const [openAddressModal, setOpenAddressModal] = useState(false);
     const [openUpdateAddressModal, setOpenUpdateAddressModal] = useState(false);
@@ -27,6 +27,12 @@ const Profile = () => {
         const updatedAddresses = [...addressInfo];
         updatedAddresses[index] = updatedAddress;
         setFormData(updatedAddresses);
+    };
+
+    const handleUpdateSubscription = (updatedSubscription, index) => {
+        const updatedSub = [...subscriptionInfo];
+        updatedSub[index] = updatedSub;
+        setSubData(updatedSub);
     };
 
     return (
@@ -138,45 +144,56 @@ const Profile = () => {
                             <thead class="text-xs text-gray-700 uppercase" style={{backgroundColor: "#f7f1ed"}}>
                                 <tr>
                                     <th scope="col" class="px-6 py-3">
-                                        Label
+                                        Address label
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Subscription
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Months left
+                                        End date
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Next billing date
+                                        Manage
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            {subscriptionInfo.map((sub, index) => (
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={index}>
                                     <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {subscriptionInfo.label}
+                                        {sub.address_label}
                                     </td>
                                     <td class="px-6 py-4">
-                                        Recharge
+                                        {sub.order}
                                     </td>
                                     <td class="px-6 py-4">
-                                        5
+                                        {sub.end_date}
                                     </td>
                                     <td class="px-6 py-4">
-                                        August 27, 2024
+                                    <Link to="">
+                                            <button className="px-2 py-1 bg-inherit" onClick={() => {
+                                                /* setIndex(index); */
+                                                setOpenManageSubscriptionModal(true);
+                                                }}>
+                                                <FontAwesomeIcon icon={faPencil} />
+                                            </button>
+                                        </Link>
                                     </td>
                                 </tr>
+                                ))}
                             </tbody>
                         </table>
-                            <div className="my-6 mx-auto flex justify-center">
-                                <button
-                                    onClick={() => setOpenManageSubscriptionModal(true)}
-                                    className="profile-button mx-3 px-2 py-1 border rounded bg-inherit">
-                                        Manage subscriptions
-                                </button>
-                            </div>
                     </div>
+                    
                 </div>
+                <div className="my-6 mx-auto flex justify-center">
+                                <Link to="/marketplace">
+                                    <button
+                                        className="profile-button mx-3 px-2 py-1 border rounded bg-inherit">
+                                            Buy another subscription
+                                    </button>
+                                </Link>
+                            </div>
             </div>
 
             {/* Modals */}
@@ -205,6 +222,8 @@ const Profile = () => {
             <ManageSubscriptionModal
                 show={openManageSubscriptionModal}
                 onClose={() => setOpenManageSubscriptionModal(false)}
+                subscriptionInfo={subscriptionInfo[index]}
+                setSubscriptionInfo={setSubscriptionInfo}
             />
         </>
         )
