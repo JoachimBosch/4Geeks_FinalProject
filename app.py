@@ -17,26 +17,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 ph = PasswordHasher()
 
+
 with app.app_context():
     db.create_all()
 
 @app.route("/")
 def hello():
     return "<p>Hello World</p>"
-
-""" @app.route("/token", methods=["POST"])
-def create_token():
-    username = request.json.get("username", None)
-    password = request.json.get("password", None)
-
-    user = User.query.filter_by(username=username, password=password).first()
-
-    if user is None:
-        return jsonify({"msg": "Bad username or password"}), 401
-    
-    # Create a new token with the user id inside
-    access_token = create_access_token(identity=user.id)
-    return jsonify({ "token": access_token, "user_id": user.id }) """
 
 # User related
 
@@ -238,14 +225,15 @@ def delete_address(address_id):
 @app.route("/subscriptions", methods=['POST'])
 def add_subscription():
     data = request.get_json()
-    if not data or 'user_id' not in data or 'user_address' not in data or 'order' not in data or 'start_date' not in data or 'end_date' not in data or 'payment_method' not in data:
+    if not data or 'user_id' not in data or 'billing_address' not in data or 'shipping_address' not in data or 'order' not in data or 'start_date' not in data or 'end_date' not in data or 'payment_method' not in data:
         return 'Bad Request: All fields are required', 400
 
     try:
         new_subscription = Subscription()
         new_subscription.active=True
         new_subscription.user_id=data['user_id']
-        new_subscription.user_address=data['user_address']
+        new_subscription.billing_address=data['billing_address']
+        new_subscription.shipping_address=data['shipping_address']
         new_subscription.order=data['order']
         new_subscription.start_date=data['start_date']
         new_subscription.end_date=data['end_date']
@@ -266,9 +254,7 @@ def get_user_subscriptions(user_id):
 
     subs_address = (
         db.session.query(Subscription, Addresses)
-        .filter(Subscription.user_id == user_id)
-        .filter(Subscription.user_address == Addresses.id)  # Assuming `user_address` is the address ID
-        .all()
+        .filter(Subscription.user_id == user_id).all()
     )
 
     if not subs_address:
@@ -279,7 +265,8 @@ def get_user_subscriptions(user_id):
         subscription_data = {
             'id': sub.id,
             'user_id': sub.user_id,
-            'user_address': sub.user_address,
+            'shipping_address': sub.shipping_address,
+            'billing_address': sub.billing_address,
             'address_label': address.relation_to_user,
             'order': sub.order,
             'active': sub.active,
@@ -300,8 +287,10 @@ def update_user_subscription(subscription_id):
         return 'Subscription not found', 404
 
     try:
-        if 'user_address' in data:
-            subscription.user_address = data['user_address']
+        if 'billing_address' in data:
+            subscription.billing_address = data['billing_address']
+        if 'shipping_address' in data:
+            subscription.shipping_address = data['shipping_address']
         if 'active' in data:
             subscription.active = data['active']
         if 'end_date' in data:

@@ -9,12 +9,12 @@ import ManageSubscriptionModal from './manageSubscriptionModal';
 import UpdateAddressModal from './updateAddressModal';
 
 const Profile = () => {
-    const { personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, deleteAddress, setFormData, setSubData } = useContext(MyContext);
+    const { personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, deleteAddress, setFormData, setSubData, index, setIndex } = useContext(MyContext);
     const [openPersonalModal, setOpenPersonalModal] = useState(false);
     const [openAddressModal, setOpenAddressModal] = useState(false);
     const [openUpdateAddressModal, setOpenUpdateAddressModal] = useState(false);
     const [openManageSubscriptionModal, setOpenManageSubscriptionModal] = useState(false);
-    const [index, setIndex] = useState("");
+    
 
 
     const handleDeleteClick = (addressId) => {
@@ -172,7 +172,7 @@ const Profile = () => {
                                     <td class="px-6 py-4">
                                     <Link to="">
                                             <button className="px-2 py-1 bg-inherit" onClick={() => {
-                                                /* setIndex(index); */
+                                                setIndex(index);
                                                 setOpenManageSubscriptionModal(true);
                                                 }}>
                                                 <FontAwesomeIcon icon={faPencil} />

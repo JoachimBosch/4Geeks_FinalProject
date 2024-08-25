@@ -146,6 +146,7 @@ export const MyProvider = ({ children }) => {
     const [icon, setIcon] = useState(faEyeSlash);
     const [subData, setSubData] = useState();
     const [loggedIn, setLoggedIn] = useState(true);
+    const [index, setIndex] = useState("");
   
 
     /*UseEffect*/
@@ -163,7 +164,6 @@ export const MyProvider = ({ children }) => {
     /*UseReducer*/
 
     const initialState = (JSON.parse(localStorage.getItem("myCart")) || []);
-  console.log(addressInfo);
 
     /* FUNCTIONS */
 
@@ -406,7 +406,7 @@ export const MyProvider = ({ children }) => {
     }
  }
 
- /* Address related */
+ /* Subscription related */
 
  const storeSubscription = async (subscriptionData) => {
   try {
@@ -444,8 +444,7 @@ const updateSubscription = async (subscriptionID, updatedData) => {
       });
 
       if (!response.ok) {
-          console.error('Something went wrong:', error);
-          return null;
+          throw new Error('Failed to update subscription');
       }
 
       const data = await response.json();
@@ -458,7 +457,7 @@ const updateSubscription = async (subscriptionID, updatedData) => {
 };
     
     /* Add variable names within appContext */
-    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData,  type, setType, icon, setIcon, handleToggle, deleteAddress, loggedIn, setLoggedIn, logout, fetchAddresses, fetchSubscriptions ,storeSubscription, updateSubscription, subData, setSubData}
+    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData,  type, setType, icon, setIcon, handleToggle, deleteAddress, loggedIn, setLoggedIn, logout, fetchAddresses, fetchSubscriptions ,storeSubscription, updateSubscription, subData, setSubData, index, setIndex}
 
     return (
         <MyContext.Provider value={appContext}>
