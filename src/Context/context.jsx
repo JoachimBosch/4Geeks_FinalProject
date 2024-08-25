@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, useReducer } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-
+import axios from 'axios';
 
 const MyContext = createContext();
 
@@ -120,17 +120,16 @@ const boxes = [
   }
 ]
 
-
-
 export const MyProvider = ({ children }) => {
     
   /*UseState*/
 
+    const [token, setToken_] = useState(localStorage.getItem("token"));
     const [loggingIn, setLoggingIn] = useState({email: "", password: ""});
     const [subscribe, setSubscribe] = useState({email: "", password: ""});
     const [changePassword, setChangePassword] = useState({email: "", old_password: "", new_password: ""});
     const [personInfo, setPersonInfo] = useState({
-        id: "1",
+        id: "",
         password: "",
         email: "",
         first_name: "",
@@ -151,7 +150,7 @@ export const MyProvider = ({ children }) => {
     const [type, setType] = useState("password");
     const [icon, setIcon] = useState(faEyeSlash);
     const [subData, setSubData] = useState();
-    const [loggedIn, setLoggedIn] = useState(true);
+    const [index, setIndex] = useState("");
   
 
     /*UseEffect*/
@@ -164,50 +163,45 @@ export const MyProvider = ({ children }) => {
         fetchAddresses(personInfo.id);
         fetchSubscriptions(personInfo.id);
       }
-  }, [cart]);
+  }, [cart, personInfo]);
+
+    useEffect(() => {
+      if (token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        localStorage.setItem('token', token);
+      } else {
+        delete axios.defaults.headers.common["Authorization"];
+        localStorage.removeItem('token');
+      }
+    }, [token]);
 
 
     /* FUNCTIONS */
 
     const fetchUser = async (userId) => {
       try {
-        const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}`, {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        });
-    
-        if (!response.ok) {
-          console.error('Error while retrieving user information:', error);
-          return null;
-        }
-    
-        const data = await response.json();
-        console.log('User data:', data);
-        setPersonInfo(data);
-        return data;
+        const response = await axios.get(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}`);
+        setPersonInfo(response.data);
       } catch (error) {
-        console.error('Error while retrieving user information:', error);
+        console.error('Error fetching user:', error);
       }
     };
+
+    const saveToken = (userToken) => {
+      setToken_(userToken);
+    }
+
+    const removeToken = () => {
+      setToken_(null);
+      setPersonInfo({});
+    }
     
     const fetchAddresses = async (userId) => {
       try {
-        const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}/addresses`, {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        });
-    
-        if (!response.ok) {
-          console.error('Error while fetching addresses:', error);
-          return null;
-        }
-    
-        const data = await response.json();
-        console.log("addresses:", data)
+        const response = await axios.get(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}/addresses`);
         setAddressInfo(data);
-        return data;
       } catch (error) {
-        console.error('Error while fetching addresses:', error);
+        console.error('Error fetching addresses:', error);
       }
     };
 
@@ -260,44 +254,38 @@ export const MyProvider = ({ children }) => {
 
     const register = async () => {
       try {
-        let body = JSON.stringify({
+        const response = await axios.post(`https://39ngdl4z-3000.uks1.devtunnels.ms/register`, {
           email: subscribe.email, 
           password: subscribe.password, 
         })
-        const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/register`, {
-          method: "POST",
-          headers: { "Content-type": "application/json" },
-          body: body});
-          await response.json();
-          console.log(response);
+        alert('Successfully registered');
+        setSubscribe({email: "", password: ""});
       } catch (error) {
         console.error('Error while registering:', error);
       };
     }
 
     const login = async () => {
-      try {
-        let body = JSON.stringify({
-          email: loggingIn.email, 
-          password: loggingIn.password, 
-        });
-        const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: body,
-        });
-        const data = await response.json();
-    
-        if (response.ok) {
-          setLoggedIn(true);
-        } else {
-          console.error('Login failed:', data);
-        }
-      } catch (error) {
-        console.error('Error while logging in:', error);
-      }
-    }
+        try {
+          const response = await axios.post("https://39ngdl4z-3000.uks1.devtunnels.ms/login", {
+            email: loggingIn.email,
+            password: loggingIn.password
+          });
+          saveToken(response.data.access_token);
+          setLoggingIn({email: "", password: ""});
+        } catch (error) {
+          console.error('Login error:', error);
+        }};
 
+    const logout = async () => {
+      try {
+        await axios.post('https://39ngdl4z-3000.uks1.devtunnels.ms/logout');
+        removeToken();
+      } catch (error) {
+        console.error('Logout error:', error);
+      }
+    };
+    
     const change_Password = async () => {
       try {
         let body = JSON.stringify({
@@ -322,11 +310,6 @@ export const MyProvider = ({ children }) => {
         console.error('Something went wrong:', error);
       };
     }
-
-    const logout = () => {
-      /* localStorage.removeItem("token-info"); */
-      setLoggedIn(false)
-  };
 
     /* Address functions */
 
@@ -381,17 +364,8 @@ export const MyProvider = ({ children }) => {
 
   const deleteAddress = async (addressId) => {
     try {
-      const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/address/${addressId}`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-      });
-  
-      if (!response.ok) {
-        console.error('Error deleting address:', error);
-        return null;
-      }
-  
-      console.log(`Address with ID ${addressId} deleted successfully`);
+      await axios.delete(`https://39ngdl4z-3000.uks1.devtunnels.ms/address/${addressId}`);
+      console.log(`Address deleted successfully`);
       setAddressInfo(prevAddresses => prevAddresses.filter(address => address.id !== addressId)); 
     } catch (error) {
       console.error('Error while deleting address:', error);
@@ -408,7 +382,7 @@ export const MyProvider = ({ children }) => {
     }
  }
 
- /* Address related */
+ /* Subscription related */
 
  const storeSubscription = async (subscriptionData) => {
   try {
@@ -446,8 +420,7 @@ const updateSubscription = async (subscriptionID, updatedData) => {
       });
 
       if (!response.ok) {
-          console.error('Something went wrong:', error);
-          return null;
+          throw new Error('Failed to update subscription');
       }
 
       const data = await response.json();
@@ -460,7 +433,7 @@ const updateSubscription = async (subscriptionID, updatedData) => {
 };
     
     /* Add variable names within appContext */
-    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData,  type, setType, icon, setIcon, handleToggle, deleteAddress, loggedIn, setLoggedIn, logout, fetchAddresses, fetchSubscriptions ,storeSubscription, updateSubscription, subData, setSubData}
+    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData,  type, setType, icon, setIcon, handleToggle, deleteAddress, fetchAddresses, fetchSubscriptions ,storeSubscription, updateSubscription, subData, setSubData, index, setIndex, saveToken, removeToken, logout, token, setToken_ }
 
     return (
         <MyContext.Provider value={appContext}>

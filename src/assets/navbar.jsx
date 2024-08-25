@@ -17,7 +17,7 @@ const navigation = [
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { cart, loggedIn, logout } = useContext(MyContext);
+  const { cart, logout, token } = useContext(MyContext);
 
   return (
     <div>
@@ -51,7 +51,7 @@ export default function Navbar() {
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            {!loggedIn 
+            {!token
             ? 
               <Link to="/login">
                 <button className="text-xl font-semibold leading-6 text-gray-800 bg-inherit">
@@ -73,7 +73,7 @@ export default function Navbar() {
                   <div className="badge bg-red-500 text-white text-center text-sm px-1 absolute -top-1 right-7 rounded">{cart.length}</div>
                 </div>
             </Link>
-            {!loggedIn ? "" : 
+            {!token ? "" : 
             <Link to="/">
               <button className="logout text-xl font-semibold leading-6 text-gray-800 bg-inherit" onClick={(e) => {
                         e.preventDefault();
@@ -129,7 +129,7 @@ export default function Navbar() {
                       </a>
                 </div>
                 <div className="py-4">
-                  {!loggedIn ? 
+                  {!token ? 
                     <a
                     href="./login"
                     className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"

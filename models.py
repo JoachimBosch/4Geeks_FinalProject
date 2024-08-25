@@ -50,7 +50,8 @@ class Addresses(db.Model):
 class Subscription(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user_address = db.Column(db.Integer, db.ForeignKey('addresses.id'))
+    billing_address = db.Column(db.Integer, db.ForeignKey('addresses.id'))
+    shipping_address = db.Column(db.Integer, db.ForeignKey('addresses.id'))
     order = db.Column(db.String(80), unique=False, nullable=False)
     active = db.Column(db.Boolean, nullable=False)
     start_date = db.Column(db.String(80), unique=False, nullable=False)
@@ -61,12 +62,13 @@ class Subscription(db.Model):
         return {
             "id": self.id,
             "user_id": self.user_id,
-            "user_address": self.user_address,
             "order": self.order,
             "active": self.active,
             "start_date": self.start_date,
             "end_date": self.end_date,
             "payment_method": self.payment_method,
+            "billing_address": self.billing_address,
+            "shipping_address": self.shipping_address,
         }
 
 class Product(db.Model):

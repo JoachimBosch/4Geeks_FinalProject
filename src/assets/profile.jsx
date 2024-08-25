@@ -9,12 +9,12 @@ import ManageSubscriptionModal from './manageSubscriptionModal';
 import UpdateAddressModal from './updateAddressModal';
 
 const Profile = () => {
-    const { personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, deleteAddress, setFormData, setSubData } = useContext(MyContext);
+    const { personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, deleteAddress, setFormData, setSubData, index, setIndex } = useContext(MyContext);
     const [openPersonalModal, setOpenPersonalModal] = useState(false);
     const [openAddressModal, setOpenAddressModal] = useState(false);
     const [openUpdateAddressModal, setOpenUpdateAddressModal] = useState(false);
     const [openManageSubscriptionModal, setOpenManageSubscriptionModal] = useState(false);
-    const [index, setIndex] = useState("");
+    
 
 
     const handleDeleteClick = (addressId) => {
@@ -29,11 +29,11 @@ const Profile = () => {
         setFormData(updatedAddresses);
     };
 
-    const handleUpdateSubscription = (updatedSubscription, index) => {
+    /* const handleUpdateSubscription = (updatedSubscription, index) => {
         const updatedSub = [...subscriptionInfo];
         updatedSub[index] = updatedSub;
         setSubData(updatedSub);
-    };
+    }; */
 
     return (
         <>
@@ -214,13 +214,13 @@ const Profile = () => {
                                 </tbody>
                             </table>
 
-                                <div className="mt-12 mb-24 flex justify-center">
+                                {/* <div className="mt-12 mb-24 flex justify-center">
                                     <button
                                         onClick={() => setOpenManageSubscriptionModal(true)}
                                         className="text-xl px-8 py-2 items-center border border-black shadow-[4px_4px_8px_rgba(0,0,0,0.2)] hover:bg-white">
                                             Manage subscriptions
                                     </button>
-                                </div>
+                                </div> */}
                         </div>
                     </div>
                 
@@ -264,12 +264,12 @@ const Profile = () => {
                 id={index}
             />
 
-            <ManageSubscriptionModal
+            {/* <ManageSubscriptionModal
                 show={openManageSubscriptionModal}
                 onClose={() => setOpenManageSubscriptionModal(false)}
                 subscriptionInfo={subscriptionInfo[index]}
                 setSubscriptionInfo={setSubscriptionInfo}
-            />
+            /> */}
         </>
         )
 }

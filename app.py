@@ -1,21 +1,24 @@
 from flask import Flask, request, jsonify
 from models import db, User, Addresses, Subscription, Order, Product
 from flask_cors import CORS
-from flask_jwt_extended import JWTManager, create_access_token
+from flask_jwt_extended import JWTManager, create_access_token, unset_jwt_cookies, unset_jwt_cookies, jwt_required, get_jwt_identity, get_jwt
 from argon2 import PasswordHasher
 from config import *
+from datetime import datetime, timedelta, timezone
+import json
 
 app = Flask(__name__)
 CORS(app)
 
-# app.config["JWT_SECRET_KEY"] = Secret_Key
-# jwt = JWTManager(app)
-
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{DB_UserName}:{DB_Password}@finalproject-4geeks-finalproject-4geeks.l.aivencloud.com:22468/defaultdb?sslmode=require'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['JWT_SECRET_KEY'] = JWT_Secret_Key
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 
 db.init_app(app)
 ph = PasswordHasher()
+jwt = JWTManager(app)
+
 
 with app.app_context():
     db.create_all()
@@ -23,20 +26,6 @@ with app.app_context():
 @app.route("/")
 def hello():
     return "<p>Hello World</p>"
-
-""" @app.route("/token", methods=["POST"])
-def create_token():
-    username = request.json.get("username", None)
-    password = request.json.get("password", None)
-
-    user = User.query.filter_by(username=username, password=password).first()
-
-    if user is None:
-        return jsonify({"msg": "Bad username or password"}), 401
-    
-    # Create a new token with the user id inside
-    access_token = create_access_token(identity=user.id)
-    return jsonify({ "token": access_token, "user_id": user.id }) """
 
 # User related
 
@@ -58,6 +47,22 @@ def subscribe():
     except Exception as e:
         db.session.rollback()
         return f'Internal Server Error: {str(e)}', 500
+    
+@app.after_request
+def refresh_expiring_jwts(response):
+    try:
+        exp_timestamp = get_jwt()["exp"]
+        now = datetime.now(timezone.utc)
+        target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
+        if target_timestamp > exp_timestamp:
+            access_token = create_access_token(identity=get_jwt_identity())
+            data = response.get_json()
+            if type(data) is dict:
+                data["access_token"] = access_token
+                response.data = json.dumps(data)
+        return response
+    except (RuntimeError, KeyError):
+        return response
 
 @app.route("/login", methods=['POST'])
 def login():
@@ -67,16 +72,19 @@ def login():
 
     user = User.query.filter_by(email=data['email']).first()
 
-    if user:
-        if ph.verify(user.password, data['password']):
-            return 'Login successful', 200
-        else:
-            return 'Invalid email or password', 401
-   
-    else:
-        return 'Invalid email or password', 401
+    if user and ph.verify(user.password, data['password']):
+        access_token = create_access_token(identity=user.email)
+        return jsonify(access_token=access_token), 200
+    return jsonify({"message": "Invalid credentials"}), 401
+
+@app.route("/logout", methods=['POST'])
+def logout():
+    response = jsonify({"msg": "logout successful"})
+    unset_jwt_cookies(response)
+    return response
 
 @app.route("/user/<int:user_id>", methods=['GET'])
+@jwt_required()
 def get_user(user_id):
     user = User.query.get(user_id)
     if not user:
@@ -92,6 +100,7 @@ def get_user(user_id):
     return jsonify(user_data), 200
 
 @app.route("/change-password", methods=['POST'])
+@jwt_required()
 def change_password():
     try:
         data = request.get_json()
@@ -115,6 +124,7 @@ def change_password():
         return f'Internal Server Error: {str(e)}', 500
 
 @app.route("/user/<int:user_id>", methods=['PUT'])
+@jwt_required()
 def modify_user(user_id):
     data = request.get_json()
     user = User.query.get(user_id)
@@ -141,6 +151,7 @@ def modify_user(user_id):
 # Address related
 
 @app.route('/user/<int:user_id>/addresses', methods=['GET'])
+@jwt_required()
 def get_user_addresses(user_id):
     user = User.query.get(user_id)
     if not user:
@@ -166,6 +177,7 @@ def get_user_addresses(user_id):
     return jsonify(address_list), 200
 
 @app.route("/address", methods=['POST'])
+@jwt_required()
 def add_address():
     data = request.get_json()
     if not data or 'user_id' not in data or 'relation_to_user' not in data or 'street' not in data or 'street_number' not in data or 'postal_code' not in data or 'city' not in data or 'country' not in data:
@@ -189,6 +201,7 @@ def add_address():
         return f'Internal Server Error: {str(e)}', 500
 
 @app.route("/address/<int:address_id>", methods=['PUT'])
+@jwt_required()
 def update_address(address_id):
     data = request.get_json()
     address = Addresses.query.get(address_id)
@@ -217,6 +230,7 @@ def update_address(address_id):
         return f'Internal Server Error: {str(e)}', 500
 
 @app.route('/address/<int:address_id>', methods=['DELETE'])
+@jwt_required()
 def delete_address(address_id):
     try:
         address = Addresses.query.get(address_id)
@@ -236,16 +250,18 @@ def delete_address(address_id):
 # Subscription related
 
 @app.route("/subscriptions", methods=['POST'])
+@jwt_required()
 def add_subscription():
     data = request.get_json()
-    if not data or 'user_id' not in data or 'user_address' not in data or 'order' not in data or 'start_date' not in data or 'end_date' not in data or 'payment_method' not in data:
+    if not data or 'user_id' not in data or 'billing_address' not in data or 'shipping_address' not in data or 'order' not in data or 'start_date' not in data or 'end_date' not in data or 'payment_method' not in data:
         return 'Bad Request: All fields are required', 400
 
     try:
         new_subscription = Subscription()
         new_subscription.active=True
         new_subscription.user_id=data['user_id']
-        new_subscription.user_address=data['user_address']
+        new_subscription.billing_address=data['billing_address']
+        new_subscription.shipping_address=data['shipping_address']
         new_subscription.order=data['order']
         new_subscription.start_date=data['start_date']
         new_subscription.end_date=data['end_date']
@@ -259,6 +275,7 @@ def add_subscription():
         return f'Internal Server Error: {str(e)}', 500
   
 @app.route('/user/<int:user_id>/subscriptions', methods=['GET'])
+@jwt_required()
 def get_user_subscriptions(user_id):
     user = User.query.get(user_id)
     if not user:
@@ -266,9 +283,7 @@ def get_user_subscriptions(user_id):
 
     subs_address = (
         db.session.query(Subscription, Addresses)
-        .filter(Subscription.user_id == user_id)
-        .filter(Subscription.user_address == Addresses.id)  # Assuming `user_address` is the address ID
-        .all()
+        .filter(Subscription.user_id == user_id).all()
     )
 
     if not subs_address:
@@ -279,7 +294,8 @@ def get_user_subscriptions(user_id):
         subscription_data = {
             'id': sub.id,
             'user_id': sub.user_id,
-            'user_address': sub.user_address,
+            'shipping_address': sub.shipping_address,
+            'billing_address': sub.billing_address,
             'address_label': address.relation_to_user,
             'order': sub.order,
             'active': sub.active,
@@ -292,6 +308,7 @@ def get_user_subscriptions(user_id):
     return jsonify(subscriptions_list), 200
 
 @app.route("/subscriptions/<int:subscription_id>", methods=['PUT'])
+@jwt_required()
 def update_user_subscription(subscription_id):
     data = request.get_json()
     subscription = Subscription.query.get(subscription_id)
@@ -300,8 +317,10 @@ def update_user_subscription(subscription_id):
         return 'Subscription not found', 404
 
     try:
-        if 'user_address' in data:
-            subscription.user_address = data['user_address']
+        if 'billing_address' in data:
+            subscription.billing_address = data['billing_address']
+        if 'shipping_address' in data:
+            subscription.shipping_address = data['shipping_address']
         if 'active' in data:
             subscription.active = data['active']
         if 'end_date' in data:
