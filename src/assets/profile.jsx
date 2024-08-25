@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import MyContext from '../Context/context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencil, faTrashCan, faPerson, faAddressCard , faBox} from '@fortawesome/free-solid-svg-icons';
+import { faPencil, faTrashCan} from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import UpdatePersonalInfoModal from './personalInfoModal';
 import AddressModal from './manageAddressModal';
@@ -44,24 +44,36 @@ const Profile = () => {
 
                 {/* Profile section */}
 
-                    <div className="mx-16 py-6 border-t border-b border-gray-800 flex items-center gap-3">
-                        <FontAwesomeIcon icon={ faPerson }></FontAwesomeIcon>
+                    <div className="mx-16 py-6 border-t border-b border-gray-800">
                         <h4>
-                        Personal information
+                        1. Personal information
                         </h4>
                     </div>
 
                     <div className="">
                         
-                        <div className="mx-20 pt-8 ">
-                            <h3 className="text-lg font-semibold">Name:</h3>
-                            <p className="border-b border-gray-300 mb-6">{personInfo.first_name ? personInfo.first_name : "Add your first name"}</p>
-                            <h3 className="text-lg font-semibold">Last name:</h3>
-                            <p className="border-b border-gray-300 mb-6">{personInfo.last_name ? personInfo.last_name : "Add your last name"}</p>
-                            <h3 className="text-lg font-semibold">Email address:</h3>
-                            <p className="border-b border-gray-300 mb-6">{personInfo.email ? personInfo.email : "Add your email address"}</p>
-                            <h3 className="text-lg font-semibold">Phone number:</h3>
-                            <p className="border-b border-gray-300 mb-6">{personInfo.phone ? personInfo.phone : "Add your phone number"}</p>
+                        <div className="mx-20 pt-8 grid md:grid-cols-2 gap-4 pt-8">
+                            <div>
+                                <h3 className="text-lg font-semibold">Name:</h3>
+                                <input type="text" value={personInfo.first_name ? personInfo.first_name : "Add your first name"}
+                                readOnly className="text-xl px-4 py-3 focus:bg-transparent text-gray-800 w-full focus:outline-blue-600" />
+                        
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-semibold">Last name:</h3>
+                                <input type="text" value={personInfo.last_name ? personInfo.last_name : "Add your last name"}
+                                readOnly className="text-xl px-4 py-3 focus:bg-transparent text-gray-800 w-full focus:outline-blue-600" />
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-semibold">Email address:</h3>
+                                <input type="text" value={personInfo.email ? personInfo.email : "Add your email address"}
+                                readOnly className="text-xl px-4 py-3 focus:bg-transparent text-gray-800 w-full focus:outline-blue-600" />
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-semibold">Phone number:</h3>
+                                <input type="text" value={personInfo.phone ? personInfo.phone : "Add your phone number"}
+                                readOnly className="text-xl px-4 py-3 focus:bg-transparent text-gray-800 w-full focus:outline-blue-600" />
+                            </div>
                         </div>
                         <div className="mt-12 mb-24 gap-2 flex justify-center">
                             <Link to="/change-password">
@@ -78,43 +90,42 @@ const Profile = () => {
 
                 {/* Address section */}
                 
-                    <div className="mx-16 py-6 border-t border-b border-gray-800 flex items-center gap-3">
-                        <FontAwesomeIcon icon={ faAddressCard }></FontAwesomeIcon>
-                        <h4>Address information</h4>
+                    <div className="mx-16 py-6 border-t border-b border-gray-800">
+                        <h4>2. Address information</h4>
                     </div>
 
                     <div className="mx-20 pt-8">
-                        <div class="relative overflow-x-auto ">
-                            <table class="w-full text-lg text-left rtl:text-right text-gray-500">
-                                <thead class="bg-black text-sm text-white uppercase" >
+                        <div className="relative overflow-x-auto ">
+                            <table className="w-full text-lg text-left rtl:text-right text-gray-500">
+                                <thead className="bg-black text-sm text-white uppercase" >
                                     <tr>
-                                        <th scope="col" class="px-6 py-3">
+                                        <th scope="col" className="px-6 py-3">
                                             Label
                                         </th>
-                                        <th scope="col" class="px-6 py-3">
+                                        <th scope="col" className="px-6 py-3">
                                             Street and number
                                         </th>
-                                        <th scope="col" class="px-6 py-3">
+                                        <th scope="col" className="px-6 py-3">
                                             City and Country
                                         </th>
-                                        <th scope="col" class="px-6 py-3">
+                                        <th scope="col" className="px-6 py-3">
                                             Manage
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 {addressInfo.map((address, index) => (
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={index}>
+                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={index}>
                                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             {address.relation_to_user}
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td className="px-6 py-4">
                                             {address.street} {address.street_number} 
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td className="px-6 py-4">
                                             {address.postal_code} {address.city} {address.country}
                                         </td>
-                                        <td class="px-6 pr-0">
+                                        <td className="px-6 pr-0">
                                             <Link to="">
                                                 <button className="px-2 py-1 bg-inherit" onClick={() => {
                                                     setIndex(index);
@@ -152,9 +163,8 @@ const Profile = () => {
                     {/* Subscription section */}
 
                     
-                    <div className="mx-16 py-6 border-t border-b border-gray-800 flex items-center gap-3">
-                        <FontAwesomeIcon icon={ faBox }></FontAwesomeIcon>
-                        <h4>Active subscriptions</h4>
+                    <div className="mx-16 py-6 border-t border-b border-gray-800">
+                        <h4>3. Active subscriptions</h4>
                     </div>
 
                     <div className="profile mx-20 pt-8">
@@ -179,16 +189,16 @@ const Profile = () => {
                                 <tbody>
                                 {subscriptionInfo.map((sub, index) => (
                                     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             {sub.address_label}
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td className="px-6 py-4">
                                             {sub.order}
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td className="px-6 py-4">
                                             {sub.end_date}
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td className="px-6 py-4">
                                             <Link to="">
                                                 <button className="px-2 py-1 bg-inherit" onClick={() => {
                                                     /* setIndex(index); */
@@ -217,9 +227,11 @@ const Profile = () => {
 
                     <div className="my-6 mx-auto flex justify-center">
                                 <Link to="/marketplace">
-                                    <button className="text-xl px-8 py-2 items-center border border-black shadow-[4px_4px_8px_rgba(0,0,0,0.2)] hover:bg-white">
-                                            Buy another subscription
-                                    </button>
+                                    <p className="text-xl items-center underline underline-offset-2">
+                                            Buy another subscription 
+                                    </p>
+                                    
+                                    
                                 </Link>
                     </div>
 
