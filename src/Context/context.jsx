@@ -17,7 +17,7 @@ const boxes = [
     description_2: "Bring into your life feelings of tranquility and peace, enhanced ability to unwind and let go of daily tensions.",
     button_color: "bg-stone-700",
     text_color: "text-white",
-    bg_color: "bg-[#F2D2C6]",
+    bg_color: "bg-[#F2B7A6] bg-opacity-50",
     background: "/Relax1.jpg",
     box_out: "/Relax2.png",
     quantity: 1,
@@ -33,6 +33,7 @@ const boxes = [
     description_2: "Increase your vitality and alertness, renew your enthusiasm and zest for life.",
     button_color: "bg-[#CC7D8C]",
     text_color: "text-white",
+    bg_color: "bg-[#E8D3E3] bg-opacity-50",
     background: "/Revive1.jpg",
     box_out: "/Revive2.png",
     quantity: 1,
@@ -48,6 +49,7 @@ const boxes = [
     description_2: "Strengthen your relationships and understand better your personal needs and desires.",
     button_color: "bg-[#9C725B]",
     text_color: "text-white",
+    bg_color: "bg-[#E4A887] bg-opacity-60",
     background: "/Reconnect1.jpg",
     box_out: "/Reconnect2.png",
     quantity: 1,
@@ -63,6 +65,7 @@ const boxes = [
     description_2: "Enhance your energy levels and sense of renewal. Become ready to take on new challenges.",
     button_color: "bg-[#E08656]",
     text_color: "text-white",
+    bg_color: "bg-[#F5CBB3] bg-opacity-70",
     background: "/Recharge1.jpg",
     box_out: "/Recharge2.png",
     quantity: 1,
@@ -78,6 +81,7 @@ const boxes = [
     description_2: "Bring into your life a sense of clarity and invigoration, with a rejuvenated and revitalized outlook.",
     button_color: "bg-[#75827A]",
     text_color: "text-[#75827A]",
+    bg_color: "bg-[#FEFAEF]",
     background: "/Refresh1.jpg",
     box_out: "/Refresh2.png",
     quantity: 1,
@@ -93,6 +97,7 @@ const boxes = [
     description_2: "Enhance your focus and productivity, with a clear sense of direction and purpose.",
     button_color: "bg-[#636E67]",
     text_color: "text-[#636E67]",
+    bg_color: "bg-[#B3C7BA] bg-opacity-50",
     background: "/Refocus1.jpg",
     box_out: "/Refocus2.png",
     quantity: 1,
@@ -108,6 +113,7 @@ const boxes = [
     description_2: "Get into a profound sense of balance and harmony, with a stable and centered outlook on life.",
     button_color: "bg-[#CFB39E]",
     text_color: "text-[#785D55]",
+    bg_color: "bg-[#FAE6DE] bg-opacity-50",
     background: "/Rebalance1.jpg",
     box_out: "/Rebalance2.png",
     quantity: 1,
@@ -161,9 +167,6 @@ export const MyProvider = ({ children }) => {
       }
   }, [cart]);
 
-    /*UseReducer*/
-
-    const initialState = (JSON.parse(localStorage.getItem("myCart")) || []);
 
     /* FUNCTIONS */
 
