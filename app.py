@@ -6,6 +6,8 @@ from argon2 import PasswordHasher
 from config import *
 from datetime import datetime, timedelta, timezone
 import json
+import os
+import stripe
 
 app = Flask(__name__)
 CORS(app)
@@ -331,5 +333,19 @@ def update_user_subscription(subscription_id):
     except Exception as e:
         db.session.rollback()
         return f'Internal Server Error: {str(e)}', 500
+    
+
+
+# Stripe API integration
+
+stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
+
+@app.route('/public-keys')
+def public_keys():
+    return jsonify({ 'key': os.getenv('STRIPE_PUBLIC_KEY')})
+
+
+
+
 
 app.run(host='0.0.0.0', port=3000)
