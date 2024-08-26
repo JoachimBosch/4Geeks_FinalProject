@@ -74,7 +74,8 @@ def login():
 
     if user and ph.verify(user.password, data['password']):
         access_token = create_access_token(identity=user.email)
-        return jsonify(access_token=access_token), 200
+        return jsonify({"access_token": access_token, "user": user.serialize()}), 200
+        
     return jsonify({"message": "Invalid credentials"}), 401
 
 @app.route("/logout", methods=['POST'])
@@ -84,7 +85,6 @@ def logout():
     return response
 
 @app.route("/user/<int:user_id>", methods=['GET'])
-@jwt_required()
 def get_user(user_id):
     user = User.query.get(user_id)
     if not user:
@@ -100,7 +100,6 @@ def get_user(user_id):
     return jsonify(user_data), 200
 
 @app.route("/change-password", methods=['POST'])
-@jwt_required()
 def change_password():
     try:
         data = request.get_json()
@@ -124,7 +123,6 @@ def change_password():
         return f'Internal Server Error: {str(e)}', 500
 
 @app.route("/user/<int:user_id>", methods=['PUT'])
-@jwt_required()
 def modify_user(user_id):
     data = request.get_json()
     user = User.query.get(user_id)
@@ -151,7 +149,6 @@ def modify_user(user_id):
 # Address related
 
 @app.route('/user/<int:user_id>/addresses', methods=['GET'])
-@jwt_required()
 def get_user_addresses(user_id):
     user = User.query.get(user_id)
     if not user:
@@ -177,7 +174,6 @@ def get_user_addresses(user_id):
     return jsonify(address_list), 200
 
 @app.route("/address", methods=['POST'])
-@jwt_required()
 def add_address():
     data = request.get_json()
     if not data or 'user_id' not in data or 'relation_to_user' not in data or 'street' not in data or 'street_number' not in data or 'postal_code' not in data or 'city' not in data or 'country' not in data:
@@ -201,7 +197,6 @@ def add_address():
         return f'Internal Server Error: {str(e)}', 500
 
 @app.route("/address/<int:address_id>", methods=['PUT'])
-@jwt_required()
 def update_address(address_id):
     data = request.get_json()
     address = Addresses.query.get(address_id)
@@ -230,7 +225,6 @@ def update_address(address_id):
         return f'Internal Server Error: {str(e)}', 500
 
 @app.route('/address/<int:address_id>', methods=['DELETE'])
-@jwt_required()
 def delete_address(address_id):
     try:
         address = Addresses.query.get(address_id)
@@ -250,7 +244,6 @@ def delete_address(address_id):
 # Subscription related
 
 @app.route("/subscriptions", methods=['POST'])
-@jwt_required()
 def add_subscription():
     data = request.get_json()
     if not data or 'user_id' not in data or 'billing_address' not in data or 'shipping_address' not in data or 'order' not in data or 'start_date' not in data or 'end_date' not in data or 'payment_method' not in data:
@@ -275,7 +268,6 @@ def add_subscription():
         return f'Internal Server Error: {str(e)}', 500
   
 @app.route('/user/<int:user_id>/subscriptions', methods=['GET'])
-@jwt_required()
 def get_user_subscriptions(user_id):
     user = User.query.get(user_id)
     if not user:
@@ -308,7 +300,6 @@ def get_user_subscriptions(user_id):
     return jsonify(subscriptions_list), 200
 
 @app.route("/subscriptions/<int:subscription_id>", methods=['PUT'])
-@jwt_required()
 def update_user_subscription(subscription_id):
     data = request.get_json()
     subscription = Subscription.query.get(subscription_id)

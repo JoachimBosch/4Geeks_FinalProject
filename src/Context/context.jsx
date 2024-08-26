@@ -163,7 +163,7 @@ export const MyProvider = ({ children }) => {
         fetchAddresses(personInfo.id);
         fetchSubscriptions(personInfo.id);
       }
-  }, [cart, personInfo]);
+  }, [cart]);
 
     useEffect(() => {
       if (token) {
@@ -199,7 +199,7 @@ export const MyProvider = ({ children }) => {
     const fetchAddresses = async (userId) => {
       try {
         const response = await axios.get(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}/addresses`);
-        setAddressInfo(data);
+        setAddressInfo(response.data);
       } catch (error) {
         console.error('Error fetching addresses:', error);
       }
@@ -272,6 +272,7 @@ export const MyProvider = ({ children }) => {
             password: loggingIn.password
           });
           saveToken(response.data.access_token);
+          setPersonInfo(response.data.user);
           setLoggingIn({email: "", password: ""});
         } catch (error) {
           console.error('Login error:', error);
