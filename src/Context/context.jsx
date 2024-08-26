@@ -274,6 +274,7 @@ export const MyProvider = ({ children }) => {
           saveToken(response.data.access_token);
           setPersonInfo(response.data.user);
           setLoggingIn({email: "", password: ""});
+          window.location.href = "/profile";
         } catch (error) {
           console.error('Login error:', error);
         }};
@@ -282,6 +283,7 @@ export const MyProvider = ({ children }) => {
       try {
         await axios.post('https://39ngdl4z-3000.uks1.devtunnels.ms/logout');
         removeToken();
+        window.location.href = "/";
       } catch (error) {
         console.error('Logout error:', error);
       }
