@@ -64,8 +64,6 @@ const Checkout = () => {
         });
         console.warn(error.message);
       };
-    
-      let price = 0;
 
     function handlePrice(box, term) {
         switch(term) {
