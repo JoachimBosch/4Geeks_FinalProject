@@ -181,9 +181,9 @@ const Profile = () => {
                                         <th scope="col" classname="px-6 py-3">
                                             End date
                                         </th>
-                                        <th scope="col" className="px-6 py-3">
+                                        {/* <th scope="col" className="px-6 py-3">
                                            Manage
-                                        </th>
+                                        </th> */}
                                     </tr>
                                 </thead>
                                 <tbody>

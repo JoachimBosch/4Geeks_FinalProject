@@ -1,7 +1,8 @@
-import React, { createContext, useState, useEffect, useReducer, useContext } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
+
 
 const MyContext = createContext();
 
@@ -120,6 +121,7 @@ const boxes = [
   }
 ]
 
+
 export const MyProvider = ({ children }) => {
 
   /*UseState*/
@@ -172,8 +174,16 @@ export const MyProvider = ({ children }) => {
 
     const fetchUser = async (userId) => {
       try {
-        const response = await axios.get(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}`);
-        setPersonInfo(response.data);
+        const response = await axios.get(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}`, {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Accept": "application/json"
+          }
+        });
+        then(response => {
+          setPersonInfo(response.data);
+          console.log(response.data)
+        })
       } catch (error) {
         console.error('Error fetching user:', error);
       }
@@ -274,6 +284,7 @@ export const MyProvider = ({ children }) => {
     };
 
     const updatePersonInfo = async (userId, data) => {
+      console.log('Token:', token);
       try {
         await axios.put(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}`, data);
         if (response.status === 200) {
