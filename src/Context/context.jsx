@@ -165,7 +165,7 @@ export const MyProvider = ({ children }) => {
         fetchAddresses(personInfo.id);
         fetchSubscriptions(personInfo.id);
       }
-  }, [cart, personInfo]);
+  }, [cart]);
 
     /* FUNCTIONS */
 
@@ -249,19 +249,18 @@ export const MyProvider = ({ children }) => {
     }
 
     const login = async () => {
-      try {
-        const response = await axios.post("https://39ngdl4z-3000.uks1.devtunnels.ms/login", {
-          email: loggingIn.email,
-          password: loggingIn.password
-        });
-        saveToken(response.data.access_token);
-        setLoggingIn({email: "", password: ""});
-        window.location.href = "/profile"
-      } catch (error) {
-        console.error('Login error:', error);
-        alert('Invalid email or password');
-      }};
-
+        try {
+          const response = await axios.post("https://39ngdl4z-3000.uks1.devtunnels.ms/login", {
+            email: loggingIn.email,
+            password: loggingIn.password
+          });
+          saveToken(response.data.access_token);
+          setPersonInfo(response.data.user);
+          setLoggingIn({email: "", password: ""});
+          window.location.href = "/profile";
+        } catch (error) {
+          console.error('Login error:', error);
+        }};
 
     const logout = async () => {
       try {
@@ -269,8 +268,6 @@ export const MyProvider = ({ children }) => {
           token: localStorage.getItem('refreshToken'),
         });
         removeToken();
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
         window.location.href = "/";
       } catch (error) {
         console.error('Logout error:', error);

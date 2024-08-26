@@ -53,7 +53,6 @@ const Login = () => {
                     onClick={(e) => {
                         e.preventDefault();
                         login(loggingIn);
-                        setLoggingIn({email: "", password: ""})
                         }}>Sign in</button>
                 </div>
                 </form>
