@@ -126,7 +126,6 @@ export const MyProvider = ({ children }) => {
 
   /*UseState*/
 
-    const [token, setToken_] = useState(localStorage.getItem("token"));
     const [loggingIn, setLoggingIn] = useState({email: "", password: ""});
     const [subscribe, setSubscribe] = useState({email: "", password: ""});
     const [changePassword, setChangePassword] = useState({email: "", old_password: "", new_password: ""});
@@ -154,6 +153,7 @@ export const MyProvider = ({ children }) => {
     const [subData, setSubData] = useState();
     const [index, setIndex] = useState("");
   
+    const [token, setToken_] = useState(localStorage.getItem("token"));
 
     /*UseEffect*/
 
@@ -167,19 +167,12 @@ export const MyProvider = ({ children }) => {
       }
   }, [cart, personInfo]);
 
-  
-
-
     /* FUNCTIONS */
 
     const fetchUser = async (userId) => {
       try {
-        const response = await axios.get(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}`, {
-          headers: {
-            "Authorization": `Bearer ${token}`,
-            "Accept": "application/json"
-          }
-        });
+        const response = await axios.get(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}`
+        );
         then(response => {
           setPersonInfo(response.data);
           console.log(response.data)
@@ -256,18 +249,19 @@ export const MyProvider = ({ children }) => {
     }
 
     const login = async () => {
-        try {
-          const response = await axios.post("https://39ngdl4z-3000.uks1.devtunnels.ms/login", {
-            email: loggingIn.email,
-            password: loggingIn.password
-          });
-          saveToken(response.data.access_token);
-          setLoggingIn({email: "", password: ""});
-          window.location.href = "/profile"
-        } catch (error) {
-          console.error('Login error:', error);
-          alert('Invalid email or password');
-        }};
+      try {
+        const response = await axios.post("https://39ngdl4z-3000.uks1.devtunnels.ms/login", {
+          email: loggingIn.email,
+          password: loggingIn.password
+        });
+        saveToken(response.data.access_token);
+        setLoggingIn({email: "", password: ""});
+        window.location.href = "/profile"
+      } catch (error) {
+        console.error('Login error:', error);
+        alert('Invalid email or password');
+      }};
+
 
     const logout = async () => {
       try {

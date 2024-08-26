@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { useAuth } from "../Context/authcontext";
+import MyContext, { MyProvider } from "../Context/context";
 import { ProtectedRoute } from "./protectedroute";
 import Home from "../assets/home";
 import Login from "../assets/login";
@@ -11,6 +11,7 @@ import About from "../assets/about";
 import Profile from "../assets/profile";
 import ChangePassword from "../assets/changepassword";
 import Checkout from "../assets/checkout";
+import { useAuth } from "../Context/authcontext";
 
 const AuthRoutes = () => {
     const { token } = useAuth();
