@@ -6,6 +6,8 @@ import { loadStripe } from "@stripe/stripe-js";
 
 let stripePromise;
 
+{/* This getStripe won't work yet because we need to put the keys inside a secret file like .env */}
+
 const getStripe = () => {
     if(!stripePromise) {
         stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
@@ -18,7 +20,8 @@ const getStripe = () => {
 
 const Checkout = () => {
     const [checkoutCart, setCheckoutCart] = useState([]);
-    const [billing, setBilling] = useState({Name: "", VATS: "", Billing_address: "", Country: ""})
+    const [billing, setBilling] = useState({Name: "", VATS: "", Billing_address: "", Country: ""});
+    const [totalPrice, setTotalPrice] = useState(0);
 
     const { cart } = useContext(MyContext);
 
@@ -36,6 +39,11 @@ const Checkout = () => {
           }
         });
         setCheckoutCart(newCheckoutCart);
+        
+        setTotalPrice(newCheckoutCart.reduce(
+            (acc, curr) => acc + curr.final_price,
+            0,
+        ))
       }, [cart]);
 
       
@@ -45,7 +53,7 @@ const Checkout = () => {
         const { error } = await stripe.redirectToCheckout({
             lineItems: [
                 {
-                    price: 'price_1PrhFG05RBw7ebmuegIzyb5s',
+                    price: {totalPrice},
                     quantity: 1,
                 },
             ],
@@ -56,8 +64,6 @@ const Checkout = () => {
         });
         console.warn(error.message);
       };
-    
-
 
     function handlePrice(box, term) {
         switch(term) {
@@ -79,7 +85,12 @@ const Checkout = () => {
                 index === i ? {...box, final_price: handlePrice(box, selectedTerm)} : box
             )
         );
-    }
+    };
+
+    useEffect(() => {
+        const totalPrice = checkoutCart.reduce((acc, curr) => acc + curr.final_price, 0);
+        setTotalPrice(totalPrice);
+    }, [checkoutCart]);
 
 
     const handleInputChange = (e) => {
@@ -89,6 +100,7 @@ const Checkout = () => {
           [name]: value
         }));
       };
+
 
 
     return (
@@ -177,6 +189,12 @@ const Checkout = () => {
                         </div>
                     ))};
                 </div>
+
+                <div className="flex justify-between my-16">
+                    <p className="text-2xl font-semibold">Total</p>
+                    <p className="text-2xl font-bold">{parseFloat(totalPrice).toFixed(2) + "€"}</p>
+                </div>
+                
 
 
 

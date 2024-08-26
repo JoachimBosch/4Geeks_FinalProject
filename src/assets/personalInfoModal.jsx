@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Modal } from 'flowbite-react';
+import MyContext from '../Context/context';
 
 const UpdatePersonalInfoModal = ({ show, onClose, personInfo, setPersonInfo }) => {
+    const { updatePersonInfo } = useContext(MyContext)
     const [formData, setFormData] = useState(personInfo);
 
     const handleChange = (e) => {
@@ -9,10 +11,13 @@ const UpdatePersonalInfoModal = ({ show, onClose, personInfo, setPersonInfo }) =
             ...formData,
             [e.target.name]: e.target.value,
         });
+        console.log(formData)
     };
 
     const handleSave = () => {
+        updatePersonInfo(personInfo.id, formData);
         setPersonInfo(formData);
+        console.log(formData);
         onClose();
     };
 

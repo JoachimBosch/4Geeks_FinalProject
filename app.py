@@ -1,14 +1,16 @@
 from flask import Flask, request, jsonify
 from models import db, User, Addresses, Subscription, Order, Product
 from flask_cors import CORS
-from flask_jwt_extended import JWTManager, create_access_token, unset_jwt_cookies, unset_jwt_cookies, jwt_required, get_jwt_identity, get_jwt
+from flask_jwt_extended import JWTManager, create_access_token, unset_jwt_cookies, unset_jwt_cookies, jwt_required, get_jwt_identity, get_jwt, set_access_cookies, set_refresh_cookies
 from argon2 import PasswordHasher
 from config import *
 from datetime import datetime, timedelta, timezone
 import json
+import os
+import stripe
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*", "allow_headers": "Authorization"}})
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{DB_UserName}:{DB_Password}@finalproject-4geeks-finalproject-4geeks.l.aivencloud.com:22468/defaultdb?sslmode=require'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -47,22 +49,6 @@ def subscribe():
     except Exception as e:
         db.session.rollback()
         return f'Internal Server Error: {str(e)}', 500
-    
-@app.after_request
-def refresh_expiring_jwts(response):
-    try:
-        exp_timestamp = get_jwt()["exp"]
-        now = datetime.now(timezone.utc)
-        target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
-        if target_timestamp > exp_timestamp:
-            access_token = create_access_token(identity=get_jwt_identity())
-            data = response.get_json()
-            if type(data) is dict:
-                data["access_token"] = access_token
-                response.data = json.dumps(data)
-        return response
-    except (RuntimeError, KeyError):
-        return response
 
 @app.route("/login", methods=['POST'])
 def login():
@@ -77,6 +63,19 @@ def login():
         return jsonify({"access_token": access_token, "user": user.serialize()}), 200
         
     return jsonify({"message": "Invalid credentials"}), 401
+
+@app.after_request
+def refresh_expiring_jwts(response):
+    try:
+        exp_timestamp = get_jwt()["exp"]
+        now = datetime.now(timezone.utc)
+        target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
+        if target_timestamp > exp_timestamp:
+            access_token = create_access_token(identity=get_jwt_identity())
+            set_access_cookies(response, access_token)              
+        return response
+    except (RuntimeError, KeyError):
+        return response
 
 @app.route("/logout", methods=['POST'])
 def logout():
@@ -322,5 +321,19 @@ def update_user_subscription(subscription_id):
     except Exception as e:
         db.session.rollback()
         return f'Internal Server Error: {str(e)}', 500
+    
+
+
+# Stripe API integration
+
+stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
+
+@app.route('/public-keys')
+def public_keys():
+    return jsonify({ 'key': os.getenv('STRIPE_PUBLIC_KEY')})
+
+
+
+
 
 app.run(host='0.0.0.0', port=3000)

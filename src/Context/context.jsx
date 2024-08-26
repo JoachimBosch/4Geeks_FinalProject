@@ -1,7 +1,8 @@
-import React, { createContext, useState, useEffect, useReducer } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
+
 
 const MyContext = createContext();
 
@@ -120,11 +121,11 @@ const boxes = [
   }
 ]
 
+
 export const MyProvider = ({ children }) => {
-    
+
   /*UseState*/
 
-    const [token, setToken_] = useState(localStorage.getItem("token"));
     const [loggingIn, setLoggingIn] = useState({email: "", password: ""});
     const [subscribe, setSubscribe] = useState({email: "", password: ""});
     const [changePassword, setChangePassword] = useState({email: "", old_password: "", new_password: ""});
@@ -152,6 +153,7 @@ export const MyProvider = ({ children }) => {
     const [subData, setSubData] = useState();
     const [index, setIndex] = useState("");
   
+    const [token, setToken_] = useState(localStorage.getItem("token"));
 
     /*UseEffect*/
 
@@ -165,23 +167,16 @@ export const MyProvider = ({ children }) => {
       }
   }, [cart]);
 
-    useEffect(() => {
-      if (token) {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        localStorage.setItem('token', token);
-      } else {
-        delete axios.defaults.headers.common["Authorization"];
-        localStorage.removeItem('token');
-      }
-    }, [token]);
-
-
     /* FUNCTIONS */
 
     const fetchUser = async (userId) => {
       try {
-        const response = await axios.get(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}`);
-        setPersonInfo(response.data);
+        const response = await axios.get(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}`
+        );
+        then(response => {
+          setPersonInfo(response.data);
+          console.log(response.data)
+        })
       } catch (error) {
         console.error('Error fetching user:', error);
       }
@@ -207,20 +202,8 @@ export const MyProvider = ({ children }) => {
 
     const fetchSubscriptions = async (userId) => {
       try {
-        const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}/subscriptions`, {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        });
-    
-        if (!response.ok) {
-          console.error('Error while fetching subscriptions:', error);
-          return null;
-        }
-    
-        const data = await response.json();
-        console.log('Subscription data:', data);
-        setSubscriptionInfo(data);
-        return data;
+        const response = await axios.get(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}/subscriptions`);
+        setSubscriptionInfo(response.data);
       } catch (error) {
         console.error('Error while fetching subscriptions:', error);
       }
@@ -281,35 +264,37 @@ export const MyProvider = ({ children }) => {
 
     const logout = async () => {
       try {
-        await axios.post('https://39ngdl4z-3000.uks1.devtunnels.ms/logout');
+        await axios.post('https://39ngdl4z-3000.uks1.devtunnels.ms/logout', {
+          token: localStorage.getItem('refreshToken'),
+        });
         removeToken();
         window.location.href = "/";
       } catch (error) {
         console.error('Logout error:', error);
       }
     };
+
+    const updatePersonInfo = async (userId, data) => {
+      console.log('Token:', token);
+      try {
+        await axios.put(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}`, data);
+        if (response.status === 200) {
+          console.log('Address updated successfully');
+      }
+      } catch (error) {
+        console.error('Error updating data:', error);
+      }
+    };
     
     const change_Password = async () => {
       try {
-        let body = JSON.stringify({
-          email: "joachim@4geeks.com", 
+        const response = await axios.post(`https://39ngdl4z-3000.uks1.devtunnels.ms/change-password`, {
+          email: personInfo.email, 
           old_password: changePassword.old_password,
           new_password: changePassword.new_password,
-        })
-        console.log(body)
-        const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/change-password`, {
-          method: "POST",
-          headers: { "Content-type": "application/json" },
-          body: body});
-
-          if (response.ok) {
-            return true;
-          } else {
-            console.error('Login failed:', data);
-            return false
-          }
-      } 
-      catch (error) {
+        });
+        alert('Password updated successfully');
+      } catch (error) {
         console.error('Something went wrong:', error);
       };
     }
@@ -318,50 +303,25 @@ export const MyProvider = ({ children }) => {
 
     const storeAddress = async (addressData) => {
       try {
-        let body = JSON.stringify(addressData)
-
-        const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/address`, {
-          method: "POST",
-          headers: { "Content-type": "application/json" },
-          body: body,
+        const response = await axios.post(`https://39ngdl4z-3000.uks1.devtunnels.ms/address`, {
+          addressData
         });
-
-        if (!response.ok) {
-          console.error('Something went wrong:', error);
-          return null;
-        };
-
-        const data = await response.json();
-        console.log(data);
         setAddressInfo={
           ...addressInfo,
-          data
+          response
         };
-        return data;
       } catch (error) {
-        console.error('Error while registering:', error);
+        console.error('Error while saving address:', error);
       };
     }
 
     const updateAddress = async (addressId, updatedData) => {
       try {
-          const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/address/${addressId}`, {
-              method: "PUT",
-              headers: { "Content-type": "application/json" },
-              body: JSON.stringify(updatedData),
+          const response = await axios.put(`https://39ngdl4z-3000.uks1.devtunnels.ms/address/${addressId}`, {
+            updatedData
           });
-
-          if (!response.ok) {
-              console.error('Something went wrong:', error);
-              return null;
-          }
-
-          const data = await response.json();
-          console.log(data);
-          return data;
       } catch (error) {
           console.error('Error while updating address:', error);
-          return null;
       }
   };
 
@@ -389,26 +349,13 @@ export const MyProvider = ({ children }) => {
 
  const storeSubscription = async (subscriptionData) => {
   try {
-    let body = JSON.stringify(subscriptionData)
-
-    const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/subscriptions`, {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: body,
+    const response = await axios.post(`https://39ngdl4z-3000.uks1.devtunnels.ms/subscriptions`, {
+      subscriptionData
     });
-
-    if (!response.ok) {
-      console.error('Something went wrong:', error);
-      return null;
-    };
-
-    const data = await response.json();
-    console.log(data);
     setSubscriptionInfo={
       ...subscriptionInfo,
-      data
+      response
     };
-    return data;
   } catch (error) {
     console.error('Error while adding subscription:', error);
   };
@@ -416,27 +363,16 @@ export const MyProvider = ({ children }) => {
 
 const updateSubscription = async (subscriptionID, updatedData) => {
   try {
-      const response = await fetch(`https://39ngdl4z-3000.uks1.devtunnels.ms/subscriptions/${subscriptionID}`, {
-          method: "PUT",
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify(updatedData),
+      const response = await axios.put(`https://39ngdl4z-3000.uks1.devtunnels.ms/subscriptions/${subscriptionID}`, {
+        updatedData
       });
-
-      if (!response.ok) {
-          throw new Error('Failed to update subscription');
-      }
-
-      const data = await response.json();
-      console.log(data);
-      return data;
   } catch (error) {
       console.error('Error while updating subscription:', error);
-      return null;
   }
 };
     
     /* Add variable names within appContext */
-    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData,  type, setType, icon, setIcon, handleToggle, deleteAddress, fetchAddresses, fetchSubscriptions ,storeSubscription, updateSubscription, subData, setSubData, index, setIndex, saveToken, removeToken, logout, token, setToken_ }
+    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData,  type, setType, icon, setIcon, handleToggle, deleteAddress, fetchAddresses, fetchSubscriptions ,storeSubscription, updateSubscription, subData, setSubData, index, setIndex, saveToken, removeToken, logout, token, setToken_, updatePersonInfo }
 
     return (
         <MyContext.Provider value={appContext}>
