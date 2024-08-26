@@ -11,11 +11,13 @@ const UpdatePersonalInfoModal = ({ show, onClose, personInfo, setPersonInfo }) =
             ...formData,
             [e.target.name]: e.target.value,
         });
+        console.log(formData)
     };
 
     const handleSave = () => {
         updatePersonInfo(personInfo.id, formData);
         setPersonInfo(formData);
+        console.log(formData);
         onClose();
     };
 

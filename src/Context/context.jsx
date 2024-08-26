@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useReducer } from 'react';
+import React, { createContext, useState, useEffect, useReducer, useContext } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
@@ -121,7 +121,7 @@ const boxes = [
 ]
 
 export const MyProvider = ({ children }) => {
-    
+
   /*UseState*/
 
     const [token, setToken_] = useState(localStorage.getItem("token"));
@@ -191,7 +191,7 @@ export const MyProvider = ({ children }) => {
     const fetchAddresses = async (userId) => {
       try {
         const response = await axios.get(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}/addresses`);
-        setAddressInfo(data);
+        setAddressInfo(response.data);
       } catch (error) {
         console.error('Error fetching addresses:', error);
       }
@@ -200,7 +200,7 @@ export const MyProvider = ({ children }) => {
     const fetchSubscriptions = async (userId) => {
       try {
         const response = await axios.get(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}/subscriptions`);
-        setSubscriptionInfo(data);
+        setSubscriptionInfo(response.data);
       } catch (error) {
         console.error('Error while fetching subscriptions:', error);
       }
@@ -253,14 +253,21 @@ export const MyProvider = ({ children }) => {
           });
           saveToken(response.data.access_token);
           setLoggingIn({email: "", password: ""});
+          window.location.href = "/profile"
         } catch (error) {
           console.error('Login error:', error);
+          alert('Invalid email or password');
         }};
 
     const logout = async () => {
       try {
-        await axios.post('https://39ngdl4z-3000.uks1.devtunnels.ms/logout');
+        await axios.post('https://39ngdl4z-3000.uks1.devtunnels.ms/logout', {
+          token: localStorage.getItem('refreshToken'),
+        });
         removeToken();
+        localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
+        window.location.href = "/";
       } catch (error) {
         console.error('Logout error:', error);
       }
