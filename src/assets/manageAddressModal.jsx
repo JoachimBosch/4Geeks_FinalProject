@@ -15,7 +15,7 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
     const handleAddressSave = async () => {
         const newAddress = {
             ...formData,
-            user_id: personInfo.id || 1,
+            user_id: personInfo.id,
         };
         await storeAddress(newAddress);
         onClose();
