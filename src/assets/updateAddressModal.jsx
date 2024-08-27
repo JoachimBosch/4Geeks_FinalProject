@@ -36,7 +36,6 @@ const UpdateAddressModal = ({ show, onClose, addressInfo, setAddressInfo, id }) 
         onClose();
         fetchAddresses(personInfo.id)
     };
-    console.log(formData)
     
 
     return (

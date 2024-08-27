@@ -10,6 +10,7 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
             ...formData,
             [e.target.name]: e.target.value,
         });
+        console.log(formData)
     };
 
     const handleAddressSave = async () => {
