@@ -10,9 +10,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 const navigation = [
-  { name: 'Home', href: './' },
-  { name: 'Products', href: './marketplace' },
-  { name: 'About', href: './about' },
+  { name: 'Home', href: '/' },
+  { name: 'Products', href: '/marketplace' },
+  { name: 'About', href: '/about' },
 ]
 
 export default function Navbar() {
@@ -70,7 +70,7 @@ export default function Navbar() {
             <Link to='./cart'>
                 <div className="cart px-4 relative">
                   <FontAwesomeIcon className="text-3xl p-2 hover:cursor-pointer" icon={faCartShopping} />
-                  <div className="badge bg-red-500 text-white text-center text-sm px-1 absolute -top-1 right-7 rounded">{cart.length}</div>
+                  {cart.length > 0 ? <div className="badge bg-red-500 text-white text-center text-sm px-1 absolute bottom-2 right-6 rounded">{cart.length}</div> : ""}
                 </div>
             </Link>
             {!token ? "" : 
