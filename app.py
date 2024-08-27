@@ -17,6 +17,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = JWT_Secret_Key
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 
+
 db.init_app(app)
 ph = PasswordHasher()
 jwt = JWTManager(app)
@@ -326,13 +327,32 @@ def update_user_subscription(subscription_id):
 
 # Stripe API integration
 
-stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
-@app.route('/public-keys')
-def public_keys():
-    return jsonify({ 'key': os.getenv('STRIPE_PUBLIC_KEY')})
+@app.route('/config', methods=["GET"])
+def get_config():
+    return jsonify({ 
+        'publishableKey': os.getenv('STRIPE_PUBLISHABLE_KEY'),
+        })
 
 
+@app.route('/create_payment_intent', methods=['POST'])
+def create_payment_intent():
+    try:
+        data = request.get_json()
+        amount=data.get('amount')
+
+        payment_intent = stripe.PaymentIntent.create(
+        amount=amount,
+        currency="eur",
+        payment_method_types=[{
+            'enabled': True,
+            }]
+        )
+        return jsonify({ 'clientSecret': payment_intent.client_secret})
+    except stripe.error.StripeError as e:
+        return jsonify({'error': {'message': e.user_message}}), 400
+    except Exception as e:
+        return jsonify({'error': {'message': e.user_message}}), 500
 
 
 

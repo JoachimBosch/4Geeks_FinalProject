@@ -1,29 +1,17 @@
 import MyContext from "../Context/context"; 
 import { useContext, useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
-import { loadStripe } from "@stripe/stripe-js";
-
-
-let stripePromise;
-
-{/* This getStripe won't work yet because we need to put the keys inside a secret file like .env */}
-
-const getStripe = () => {
-    if(!stripePromise) {
-        stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
-    }
-    
-    return stripePromise;
-};
 
 
 
 const Checkout = () => {
+    
     const [checkoutCart, setCheckoutCart] = useState([]);
     const [billing, setBilling] = useState({Name: "", VATS: "", Billing_address: "", Country: ""});
     const [totalPrice, setTotalPrice] = useState(0);
 
     const { cart } = useContext(MyContext);
+
 
     useEffect(() => {
         const newCheckoutCart = [];
@@ -46,24 +34,7 @@ const Checkout = () => {
         ))
       }, [cart]);
 
-      let price = 10;
       
-      async function handleCheckout() {
-        const stripe = await getStripe();
-        const { error } = await stripe.redirectToCheckout({
-            lineItems: [
-                {
-                    price: {totalPrice},
-                    quantity: 1,
-                },
-            ],
-            mode: 'subscription',
-            successUrl: `${window.location.origin}/success`,
-            cancelUrl: `${window.location.origin}/cancel`,
-            customerEmail: 'customer@email.com',
-        });
-        console.warn(error.message);
-      };
 
     function handlePrice(box, term) {
         switch(term) {
@@ -233,9 +204,14 @@ const Checkout = () => {
                     </div>
                 </div>
                 <div className="flex gap-3 justify-center my-20">
-                    <button type="button" 
-                            className="px-24 py-2 items-center bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)]"
-                            onClick={() => handleCheckout()}>Proceed to Payment</button>
+                    <Link to={{
+                        pathname: "/payment",
+                        state: {totalPrice: totalPrice}
+                    }}>
+                        <button type="button" 
+                                className="px-24 py-2 items-center bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)]"
+                                >Proceed to Payment</button>
+                    </Link>
                 </div>
             </div>
         </div>

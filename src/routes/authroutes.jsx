@@ -11,6 +11,7 @@ import About from "../assets/about";
 import Profile from "../assets/profile";
 import ChangePassword from "../assets/changepassword";
 import Checkout from "../assets/checkout";
+import Payment from "../assets/payment"
 import { useAuth } from "../Context/authcontext";
 
 const AuthRoutes = () => {
@@ -36,6 +37,9 @@ const AuthRoutes = () => {
           </Route>
           <Route path="/checkout" element={<ProtectedRoute />}>
             <Route path="/checkout" element={<Checkout />} />
+          </Route>
+          <Route path="/payment" element={<ProtectedRoute />}>
+            <Route path="/payment" element={<Payment />} />
           </Route>
       </Routes>
   );
