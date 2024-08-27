@@ -336,10 +336,10 @@ export const MyProvider = ({ children }) => {
 
     const storeAddress = async (addressData) => {
       try {
-        const response = await axios.post(`https://39ngdl4z-3000.uks1.devtunnels.ms/address`, {
+        const response = await axios.post(`https://39ngdl4z-3000.uks1.devtunnels.ms/address`, 
           addressData
-        });
-        const updatedAddresses = [...addressInfo, response.data];
+        );
+        const updatedAddresses = [...addressInfo, addressData];
         setAddressInfo(updatedAddresses);
         localStorage.setItem('addressInfo', JSON.stringify(updatedAddresses));
       } catch (error) {
@@ -349,9 +349,9 @@ export const MyProvider = ({ children }) => {
 
     const updateAddress = async (addressId, updatedData) => {
       try {
-          const response = await axios.put(`https://39ngdl4z-3000.uks1.devtunnels.ms/address/${addressId}`, {
+          const response = await axios.put(`https://39ngdl4z-3000.uks1.devtunnels.ms/address/${addressId}`, 
             updatedData
-          });
+          );
           const updatedAddressList = addressInfo.map(address =>
             address.id === addressId ? { ...address, ...updatedData } : address
           );

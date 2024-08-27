@@ -29,7 +29,7 @@ const UpdateAddressModal = ({ show, onClose, addressInfo, setAddressInfo, id }) 
     const handleAddressSave = async () => {
         const updatedAddressInfo = {
             ...formData,
-            user_id: personInfo.id || 1,
+            user_id: personInfo.id,
         };
 
         await updateAddress(addressInfo.id, updatedAddressInfo);
