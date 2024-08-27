@@ -46,7 +46,7 @@ const Checkout = () => {
         ))
       }, [cart]);
 
-      
+      let price = 10;
       
       async function handleCheckout() {
         const stripe = await getStripe();
