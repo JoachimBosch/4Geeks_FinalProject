@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Login = () => {
     const { loggingIn, setLoggingIn, login, type, icon, handleToggle } = useContext(MyContext);
-
+    
 
     return (
     <>

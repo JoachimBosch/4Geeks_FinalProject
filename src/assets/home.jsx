@@ -158,7 +158,7 @@ export default function Home() {
 
         <div className="z-10 relative pt-24 overflow-hidden h-[650px]" id="section_5" style={{ backgroundImage: `url(${image3})`}}>
             <h2 className="text-center [text-shadow:_3px_3px_5px_rgb(0_0_0_/_50%)] mb-10" style={{color: 'white'}}>Our Clients Love Us</h2>
-            <div className="flex :justify-center overflow-scroll">
+            <div className="flex :justify-center">
                 <div className="bg-white opacity-70 w-1/3 p-5 ms-5 my-10 rounded-sm min-w-80 max-w-96">
                     <p>"Absolutely life-changing! The Relax box has become my nightly ritual. The soothing scents and calming teas help me unwind like never before. I feel so much more at peace. Thank you, RE7!"</p>
                     <h4 className="text-right">Sophie M.</h4>

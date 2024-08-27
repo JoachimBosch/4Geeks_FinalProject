@@ -33,7 +33,7 @@ const Details = () => {
                     </div>
                     <div className="border-l border-black p-8 content-center">
                         <h3 className={`text-6xl ${thisBox.text_color} [text-shadow:_5px_5px_8px_rgb(0_0_0_/_20%)]`}>{thisBox.name} box</h3>
-                        <p className="text-black-500 [text-shadow:_3px_3px_3px_rgb(0_0_0_/_20%)] text-xl md:text-3xl my-3">from 29€</p>
+                        <p className="text-black-500 [text-shadow:_3px_3px_3px_rgb(0_0_0_/_20%)] text-xl md:text-3xl my-3">from €{thisBox.price}</p>
                         <FontAwesomeIcon icon={faStar}></FontAwesomeIcon>
                         <FontAwesomeIcon icon={faStar}></FontAwesomeIcon>
                         <FontAwesomeIcon icon={faStar}></FontAwesomeIcon>
@@ -69,7 +69,7 @@ const Details = () => {
                     <div className = "flex mx-10 pb-8 border-b border-black col gap-5">
                         <img src="" className="size-48"></img>
                         <div className="content-center gap-5">
-                            <h4>Name</h4>
+                            <h4>{thisBox.item_1}</h4>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras leo lectus, facilisis non f
 ermentum sit amet, ultrices vitae mauris. Maecenas enim augue, pretium ut nibh quis</p>
                         </div>
@@ -77,7 +77,7 @@ ermentum sit amet, ultrices vitae mauris. Maecenas enim augue, pretium ut nibh q
                     <div className = "flex mx-10 py-8 border-b border-black col gap-5">
                         <img src="" className="size-48"></img>
                         <div className="content-center gap-5">
-                            <h4>Name</h4>
+                            <h4>{thisBox.item_2}</h4>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras leo lectus, facilisis non f
 ermentum sit amet, ultrices vitae mauris. Maecenas enim augue, pretium ut nibh quis</p>
                         </div>
@@ -85,7 +85,7 @@ ermentum sit amet, ultrices vitae mauris. Maecenas enim augue, pretium ut nibh q
                     <div className = "flex mx-10 py-8 border-b border-black col gap-5">
                         <img src="" className="size-48"></img>
                         <div className="content-center gap-5">
-                            <h4>Name</h4>
+                            <h4>{thisBox.item_3}</h4>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras leo lectus, facilisis non f
 ermentum sit amet, ultrices vitae mauris. Maecenas enim augue, pretium ut nibh quis</p>
                         </div>
@@ -93,7 +93,7 @@ ermentum sit amet, ultrices vitae mauris. Maecenas enim augue, pretium ut nibh q
                     <div className = "flex mx-10 py-8 border-b border-black col gap-5">
                         <img src="" className="size-48"></img>
                         <div className="content-center gap-5">
-                            <h4>Name</h4>
+                            <h4>{thisBox.item_4}</h4>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras leo lectus, facilisis non f
 ermentum sit amet, ultrices vitae mauris. Maecenas enim augue, pretium ut nibh quis</p>
                         </div>

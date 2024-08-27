@@ -65,7 +65,7 @@ const UpdatePersonalInfoModal = ({ show, onClose, personInfo, setPersonInfo }) =
                 <Button color="dark" style={{padding: "8px 40px", borderRadius: "0"}} onClick={handleSave}>
                     Confirm
                 </Button>
-                <Button outline style={{padding: "8px 40px", borderRadius: "0"}} onClick={onClose}>
+                <Button color="dark" style={{padding: "8px 40px", borderRadius: "0"}} onClick={onClose}>
                     Cancel
                 </Button>
             </Modal.Footer>

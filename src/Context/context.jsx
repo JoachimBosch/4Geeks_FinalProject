@@ -22,6 +22,14 @@ const boxes = [
     background: "/Relax1.jpg",
     box_out: "/Relax2.png",
     quantity: 1,
+    item_1: "Bath bomb",
+    item_2: "Scented Candle",
+    item_3: "Chamomile tea",
+    item_4: "Pillow spray",
+    item_1_text: "text",
+    item_2_text: "text",
+    item_3_text: "text",
+    item_4_text: "text",
   }, 
   {id: 2,
     name: "Revive",
@@ -38,6 +46,14 @@ const boxes = [
     background: "/Revive1.jpg",
     box_out: "/Revive2.png",
     quantity: 1,
+    item_1: "Face mask",
+    item_2: "Herbal tea",
+    item_3: "Essential oil roller",
+    item_4: "Refreshing spray",
+    item_1_text: "text",
+    item_2_text: "text",
+    item_3_text: "text",
+    item_4_text: "text",
   },
   {id: 3,
     name: "Reconnect",
@@ -54,6 +70,14 @@ const boxes = [
     background: "/Reconnect1.jpg",
     box_out: "/Reconnect2.png",
     quantity: 1,
+    item_1: "Conversation Starter Cards",
+    item_2: "Gratitude Journal",
+    item_3: "Calming essential oil roller",
+    item_4: "Item4",
+    item_1_text: "text",
+    item_2_text: "text",
+    item_3_text: "text",
+    item_4_text: "text",
   },
   {id: 4,
     name: "Recharge",
@@ -70,6 +94,14 @@ const boxes = [
     background: "/Recharge1.jpg",
     box_out: "/Recharge2.png",
     quantity: 1,
+    item_1: "Energy drink",
+    item_2: "Protein snack",
+    item_3: "Motivational book",
+    item_4: "Energy boosting supplements",
+    item_1_text: "text",
+    item_2_text: "text",
+    item_3_text: "text",
+    item_4_text: "text",
   },
   {id: 5,
     name: "Refresh",
@@ -86,6 +118,14 @@ const boxes = [
     background: "/Refresh1.jpg",
     box_out: "/Refresh2.png",
     quantity: 1,
+    item_1: "Cooling eye gel",
+    item_2: "Refreshing body wash",
+    item_3: "Exfoliating body scrub",
+    item_4: "Mint-scented facial mist",
+    item_1_text: "text",
+    item_2_text: "text",
+    item_3_text: "text",
+    item_4_text: "text",
   },
   {id: 6,
     name: "Refocus",
@@ -102,6 +142,14 @@ const boxes = [
     background: "/Refocus1.jpg",
     box_out: "/Refocus2.png",
     quantity: 1,
+    item_1: "Item1",
+    item_2: "Item2",
+    item_3: "Item3",
+    item_4: "Item4",
+    item_1_text: "text",
+    item_2_text: "text",
+    item_3_text: "text",
+    item_4_text: "text",
   },
   {id: 7,
     name: "Rebalance",
@@ -118,6 +166,14 @@ const boxes = [
     background: "/Rebalance1.jpg",
     box_out: "/Rebalance2.png",
     quantity: 1,
+    item_1: "Item1",
+    item_2: "Item2",
+    item_3: "Item3",
+    item_4: "Item4",
+    item_1_text: "text",
+    item_2_text: "text",
+    item_3_text: "text",
+    item_4_text: "text",
   }
 ]
 
@@ -129,17 +185,27 @@ export const MyProvider = ({ children }) => {
     const [loggingIn, setLoggingIn] = useState({email: "", password: ""});
     const [subscribe, setSubscribe] = useState({email: "", password: ""});
     const [changePassword, setChangePassword] = useState({email: "", old_password: "", new_password: ""});
-    const [personInfo, setPersonInfo] = useState({
+    const [personInfo, setPersonInfo] = useState(() => {
+      const savedPersonInfo = localStorage.getItem('personInfo');
+      return savedPersonInfo ? JSON.parse(savedPersonInfo) : {
         id: "",
         password: "",
         email: "",
         first_name: "",
         last_name: "",
         phone: "",
+      };
     });
-    const [addressInfo, setAddressInfo] = useState([]);
-    const [subscriptionInfo, setSubscriptionInfo] = useState([]);
+    const [addressInfo, setAddressInfo] = useState(() => {
+      const savedAddresses = localStorage.getItem('addressInfo');
+      return savedAddresses ? JSON.parse(savedAddresses) : [];
+    });
+    const [subscriptionInfo, setSubscriptionInfo] = useState(() => {
+      const savedSubscriptions = localStorage.getItem('subscriptionInfo');
+      return savedSubscriptions ? JSON.parse(savedSubscriptions) : [];
+    });;
     const [formData, setFormData] = useState(addressInfo || {
+      user_id: personInfo.id,
       relation_to_user: '',
       street: '',
       street_number: '',
@@ -160,11 +226,6 @@ export const MyProvider = ({ children }) => {
     useEffect(() => {
       localStorage.setItem("myCart", JSON.stringify(cart));
       
-      if (personInfo.id) {
-        fetchUser(personInfo.id);
-        fetchAddresses(personInfo.id);
-        fetchSubscriptions(personInfo.id);
-      }
   }, [cart]);
 
     /* FUNCTIONS */
@@ -173,11 +234,11 @@ export const MyProvider = ({ children }) => {
       try {
         const response = await axios.get(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}`
         );
-        then(response => {
-          setPersonInfo(response.data);
-          console.log(response.data)
-        })
-      } catch (error) {
+        setPersonInfo(response.data);
+        console.log(response.data);
+        localStorage.setItem('personInfo', JSON.stringify(response.data));
+        }
+        catch (error) {
         console.error('Error fetching user:', error);
       }
     };
@@ -186,15 +247,20 @@ export const MyProvider = ({ children }) => {
       setToken_(userToken);
     }
 
-    const removeToken = () => {
+    const clearAll = () => {
       setToken_(null);
       setPersonInfo({});
+      localStorage.removeItem('token');
+      localStorage.removeItem('personInfo');
+      localStorage.removeItem('addressInfo');
+      localStorage.removeItem('subscriptionInfo');
     }
     
     const fetchAddresses = async (userId) => {
       try {
         const response = await axios.get(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}/addresses`);
         setAddressInfo(response.data);
+        localStorage.setItem('addressInfo', JSON.stringify(response.data))
       } catch (error) {
         console.error('Error fetching addresses:', error);
       }
@@ -204,6 +270,8 @@ export const MyProvider = ({ children }) => {
       try {
         const response = await axios.get(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}/subscriptions`);
         setSubscriptionInfo(response.data);
+        localStorage.setItem('subscriptionInfo', JSON.stringify(response.data));
+        console.log(response.data)
       } catch (error) {
         console.error('Error while fetching subscriptions:', error);
       }
@@ -253,21 +321,45 @@ export const MyProvider = ({ children }) => {
           const response = await axios.post("https://39ngdl4z-3000.uks1.devtunnels.ms/login", {
             email: loggingIn.email,
             password: loggingIn.password
-          });
+          }, {
+            headers: {
+              'Content-Type': 'application/json'
+            }});
+          console.log(response.data);
+          const userId = response.data.user.id;
           saveToken(response.data.access_token);
           setPersonInfo(response.data.user);
+          const savedPersonInfo = JSON.parse(localStorage.getItem('personInfo'));
+          const savedAddress = JSON.parse(localStorage.getItem('addressInfo'));
+          const savedSub = JSON.parse(localStorage.getItem('subscriptionInfo'));
+          if (savedPersonInfo) {
+            setPersonInfo(savedPersonInfo);
+          } else {
+            await fetchUser(userId);
+          };
+          if (savedAddress) {
+            setAddressInfo(savedAddress);
+          } else {
+            await fetchAddresses(userId);
+          };
+          if (savedSub) {
+            setSubscriptionInfo(savedSub);
+          } else {
+            await fetchSubscriptions(userId);
+          };
+
           setLoggingIn({email: "", password: ""});
           window.location.href = "/profile";
         } catch (error) {
+          alert('Incorrect username or password');
+          setLoggingIn({email: "", password: ""});
           console.error('Login error:', error);
         }};
 
     const logout = async () => {
       try {
-        await axios.post('https://39ngdl4z-3000.uks1.devtunnels.ms/logout', {
-          token: localStorage.getItem('refreshToken'),
-        });
-        removeToken();
+        await axios.post('https://39ngdl4z-3000.uks1.devtunnels.ms/logout');
+        clearAll();
         window.location.href = "/";
       } catch (error) {
         console.error('Logout error:', error);
@@ -275,12 +367,12 @@ export const MyProvider = ({ children }) => {
     };
 
     const updatePersonInfo = async (userId, data) => {
-      console.log('Token:', token);
       try {
         await axios.put(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}`, data);
-        if (response.status === 200) {
-          console.log('Address updated successfully');
-      }
+        const updatedPersonInfo = { ...personInfo, ...data };
+        setPersonInfo(updatedPersonInfo);
+        localStorage.setItem('personInfo', JSON.stringify(updatedPersonInfo));
+        console.log('Personal information updated successfully');
       } catch (error) {
         console.error('Error updating data:', error);
       }
@@ -303,13 +395,12 @@ export const MyProvider = ({ children }) => {
 
     const storeAddress = async (addressData) => {
       try {
-        const response = await axios.post(`https://39ngdl4z-3000.uks1.devtunnels.ms/address`, {
+        const response = await axios.post(`https://39ngdl4z-3000.uks1.devtunnels.ms/address`, 
           addressData
-        });
-        setAddressInfo={
-          ...addressInfo,
-          response
-        };
+        );
+        const updatedAddresses = [...addressInfo, addressData];
+        setAddressInfo(updatedAddresses);
+        localStorage.setItem('addressInfo', JSON.stringify(updatedAddresses));
       } catch (error) {
         console.error('Error while saving address:', error);
       };
@@ -317,9 +408,14 @@ export const MyProvider = ({ children }) => {
 
     const updateAddress = async (addressId, updatedData) => {
       try {
-          const response = await axios.put(`https://39ngdl4z-3000.uks1.devtunnels.ms/address/${addressId}`, {
+          const response = await axios.put(`https://39ngdl4z-3000.uks1.devtunnels.ms/address/${addressId}`, 
             updatedData
-          });
+          );
+          const updatedAddressList = addressInfo.map(address =>
+            address.id === addressId ? { ...address, ...updatedData } : address
+          );
+          setAddressInfo(updatedAddressList);
+          localStorage.setItem('addressInfo', JSON.stringify(updatedAddressList));
       } catch (error) {
           console.error('Error while updating address:', error);
       }
@@ -329,7 +425,9 @@ export const MyProvider = ({ children }) => {
     try {
       await axios.delete(`https://39ngdl4z-3000.uks1.devtunnels.ms/address/${addressId}`);
       console.log(`Address deleted successfully`);
-      setAddressInfo(prevAddresses => prevAddresses.filter(address => address.id !== addressId)); 
+      const updatedAddressList = addressInfo.filter(address => address.id !== addressId);
+      setAddressInfo(updatedAddressList);
+      localStorage.setItem('addressInfo', JSON.stringify(updatedAddressList)); 
     } catch (error) {
       console.error('Error while deleting address:', error);
     }
@@ -352,10 +450,9 @@ export const MyProvider = ({ children }) => {
     const response = await axios.post(`https://39ngdl4z-3000.uks1.devtunnels.ms/subscriptions`, {
       subscriptionData
     });
-    setSubscriptionInfo={
-      ...subscriptionInfo,
-      response
-    };
+    const updatedSubscriptions = [...subscriptionInfo, response.data];
+    setSubscriptionInfo(updatedSubscriptions);
+    localStorage.setItem('subscriptionInfo', JSON.stringify(updatedSubscriptions));
   } catch (error) {
     console.error('Error while adding subscription:', error);
   };
@@ -366,13 +463,18 @@ const updateSubscription = async (subscriptionID, updatedData) => {
       const response = await axios.put(`https://39ngdl4z-3000.uks1.devtunnels.ms/subscriptions/${subscriptionID}`, {
         updatedData
       });
+      const updatedSubscriptions = subscriptionInfo.map(subscription => 
+        subscription.id === subscriptionID ? { ...subscription, ...updatedData } : subscription
+      );
+      setSubscriptionInfo(updatedSubscriptions);
+      localStorage.setItem('subscriptionInfo', JSON.stringify(updatedSubscriptions));
   } catch (error) {
       console.error('Error while updating subscription:', error);
   }
 };
     
     /* Add variable names within appContext */
-    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData,  type, setType, icon, setIcon, handleToggle, deleteAddress, fetchAddresses, fetchSubscriptions ,storeSubscription, updateSubscription, subData, setSubData, index, setIndex, saveToken, removeToken, logout, token, setToken_, updatePersonInfo }
+    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData,  type, setType, icon, setIcon, handleToggle, deleteAddress, fetchAddresses, fetchSubscriptions ,storeSubscription, updateSubscription, subData, setSubData, index, setIndex, saveToken, logout, token, setToken_, updatePersonInfo }
 
     return (
         <MyContext.Provider value={appContext}>

@@ -4,22 +4,28 @@ import { Button, Modal } from 'flowbite-react';
 
 const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) => {
     const {formData, setFormData, storeAddress, personInfo, fetchAddresses} = useContext(MyContext)
+    const [addAddress, setAddAddress] = useState({user_id: personInfo.id,
+        relation_to_user: '',
+        street: '',
+        street_number: '',
+        postal_code: '',
+        city: '',
+        country: '',});
     
     const handleChange = (e) => {
-        setFormData({
-            ...formData,
+        setAddAddress({
+            ...addAddress,
             [e.target.name]: e.target.value,
         });
+        console.log(addAddress)
     };
 
     const handleAddressSave = async () => {
-        const newAddress = {
-            ...formData,
-            user_id: personInfo.id,
-        };
-        await storeAddress(newAddress);
+        await storeAddress(addAddress);
+        console.log(addAddress);
         onClose();
-        setFormData({
+        setAddAddress({
+            user_id: personInfo.id,
             relation_to_user: '',
             street: '',
             street_number: '',
@@ -27,7 +33,6 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
             city: '',
             country: '',
           });
-          fetchAddresses(personInfo.id);
     };
 
     
@@ -42,7 +47,7 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
                         name="relation_to_user"
                         className="indent-1 border"
                         style={{ width: '100%' }}
-                        value={formData.relation_to_user || ''}
+                        value={addAddress.relation_to_user || ''}
                         onChange={handleChange}
                         required
                     />
@@ -51,7 +56,7 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
                         name="street"
                         className="indent-1 border"
                         style={{ width: '100%' }}
-                        value={formData.street || ''}
+                        value={addAddress.street || ''}
                         onChange={handleChange}
                         required
                     />
@@ -60,7 +65,7 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
                         name="street_number"
                         className="indent-1 border"
                         style={{ width: '100%' }}
-                        value={formData.street_number || ''}
+                        value={addAddress.street_number || ''}
                         onChange={handleChange}
                         required
                     />
@@ -69,7 +74,7 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
                         name="postal_code"
                         className="indent-1 border"
                         style={{ width: '100%' }}
-                        value={formData.postal_code || ''}
+                        value={addAddress.postal_code || ''}
                         onChange={handleChange}
                         required
                     />
@@ -78,7 +83,7 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
                         name="city"
                         className="indent-1 border"
                         style={{ width: '100%' }}
-                        value={formData.city || ''}
+                        value={addAddress.city || ''}
                         onChange={handleChange}
                         required
                     />
@@ -87,15 +92,15 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
                         name="country"
                         className="indent-1 border"
                         style={{ width: '100%' }}
-                        value={formData.country || ''}
+                        value={addAddress.country || ''}
                         onChange={handleChange}
                         required
                     />
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={handleAddressSave}>Add Address</Button>
-                <Button color="gray" onClick={onClose}>
+                <Button color="dark" style={{padding: "8px 40px", borderRadius: "0"}} onClick={handleAddressSave}>Add Address</Button>
+                <Button color="dark" style={{padding: "8px 40px", borderRadius: "0"}} onClick={onClose}>
                     Cancel
                 </Button>
             </Modal.Footer>
