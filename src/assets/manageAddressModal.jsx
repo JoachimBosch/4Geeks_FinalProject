@@ -99,8 +99,8 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={handleAddressSave}>Add Address</Button>
-                <Button color="gray" onClick={onClose}>
+                <Button color="dark" style={{padding: "8px 40px", borderRadius: "0"}} onClick={handleAddressSave}>Add Address</Button>
+                <Button color="dark" style={{padding: "8px 40px", borderRadius: "0"}} onClick={onClose}>
                     Cancel
                 </Button>
             </Modal.Footer>

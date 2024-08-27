@@ -17,7 +17,7 @@ const navigation = [
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { cart, logout, token } = useContext(MyContext);
+  const { cart, logout, token, personInfo } = useContext(MyContext);
 
   return (
     <div>
@@ -60,8 +60,8 @@ export default function Navbar() {
               </Link>
             :
               <Link to="/profile">
-                <button className="text-xl font-semibold leading-6 text-gray-800 bg-inherit underline">
-                  Go to profile <span aria-hidden="true"></span>
+                <button className="text-xl font-semibold leading-6 text-gray-800 bg-inherit hover:underline">
+                  Hi, {personInfo.first_name != "" ? personInfo.first_name : "stranger"}! <span aria-hidden="true"></span>
                 </button>
               </Link>
           }

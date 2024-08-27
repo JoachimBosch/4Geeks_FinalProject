@@ -1,4 +1,3 @@
-
 import React, { useContext, useState } from 'react';
 import MyContext from '../Context/context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -174,41 +173,30 @@ const Profile = () => {
                                 <thead className="bg-black text-sm text-white uppercase">
                                     <tr>
                                         <th scope="col" className="px-6 py-3">
-                                            Address label
+                                            Subscription
                                         </th>
                                         <th scope="col" className="px-6 py-3">
-                                            Subscription
+                                            Start date
                                         </th>
                                         <th scope="col" classname="px-6 py-3">
                                             End date
                                         </th>
-                                        {/* <th scope="col" className="px-6 py-3">
-                                           Manage
-                                        </th> */}
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
                                 {subscriptionInfo.map((sub, index) => (
                                     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                         <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {sub.address_label}
+                                            {sub.order}
                                         </td>
                                         <td className="px-6 py-4">
-                                            {sub.order}
+                                            {sub.start_date}
                                         </td>
                                         <td className="px-6 py-4">
                                             {sub.end_date}
                                         </td>
-                                        <td className="px-6 py-4">
-                                            <Link to="">
-                                                <button className="px-2 py-1 bg-inherit" onClick={() => {
-                                                    /* setIndex(index); */
-                                                    setOpenManageSubscriptionModal(true);
-                                                    }}>
-                                                    <FontAwesomeIcon icon={faPencil} />
-                                                </button>
-                                            </Link>
-                                        </td>
+                                        
                                     </tr>
                                 ))}
 

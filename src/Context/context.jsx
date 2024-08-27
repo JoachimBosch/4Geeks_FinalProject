@@ -215,6 +215,7 @@ export const MyProvider = ({ children }) => {
         const response = await axios.get(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}/subscriptions`);
         setSubscriptionInfo(response.data);
         localStorage.setItem('subscriptionInfo', JSON.stringify(response.data));
+        console.log(response.data)
       } catch (error) {
         console.error('Error while fetching subscriptions:', error);
       }
@@ -294,6 +295,8 @@ export const MyProvider = ({ children }) => {
           setLoggingIn({email: "", password: ""});
           window.location.href = "/profile";
         } catch (error) {
+          alert('Incorrect username or password');
+          setLoggingIn({email: "", password: ""});
           console.error('Login error:', error);
         }};
 

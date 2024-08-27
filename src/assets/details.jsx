@@ -33,7 +33,7 @@ const Details = () => {
                     </div>
                     <div className="border-l border-black p-8 content-center">
                         <h3 className={`text-6xl ${thisBox.text_color} [text-shadow:_5px_5px_8px_rgb(0_0_0_/_20%)]`}>{thisBox.name} box</h3>
-                        <p className="text-black-500 [text-shadow:_3px_3px_3px_rgb(0_0_0_/_20%)] text-xl md:text-3xl my-3">from 29€</p>
+                        <p className="text-black-500 [text-shadow:_3px_3px_3px_rgb(0_0_0_/_20%)] text-xl md:text-3xl my-3">from €{thisBox.price}</p>
                         <FontAwesomeIcon icon={faStar}></FontAwesomeIcon>
                         <FontAwesomeIcon icon={faStar}></FontAwesomeIcon>
                         <FontAwesomeIcon icon={faStar}></FontAwesomeIcon>

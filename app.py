@@ -272,27 +272,18 @@ def get_user_subscriptions(user_id):
     if not user:
         return 'User not found', 404
 
-    subs_address = (
-        db.session.query(Subscription, Addresses)
-        .filter(Subscription.user_id == user_id).all()
-    )
-
-    if not subs_address:
-        return 'No subscription found', 404
+    subscriptions = Subscription.query.filter_by(user_id=user_id).all()
+    if not subscriptions:
+        return 'No subscriptions found', 404
     
     subscriptions_list = []
-    for sub, address in subs_address:
+    for sub in subscriptions:
         subscription_data = {
             'id': sub.id,
             'user_id': sub.user_id,
-            'shipping_address': sub.shipping_address,
-            'billing_address': sub.billing_address,
-            'address_label': address.relation_to_user,
             'order': sub.order,
-            'active': sub.active,
             'start_date': sub.start_date,
             'end_date': sub.end_date,
-            'payment_method': sub.payment_method
         }
         subscriptions_list.append(subscription_data)
 
