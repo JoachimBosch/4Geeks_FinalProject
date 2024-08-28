@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 
 const Checkout = () => {
-    
+    const { personInfo, addressInfo } = useContext(MyContext);
     const [checkoutCart, setCheckoutCart] = useState([]);
     const [billing, setBilling] = useState({Name: "", VATS: "", Billing_address: "", Country: ""});
     const [totalPrice, setTotalPrice] = useState(0);
@@ -99,17 +99,17 @@ const Checkout = () => {
                     
                     <div className="grid md:grid-cols-2 gap-4 pt-8">
                         <div>
-                            <input type="text" value="Name"
+                            <input type="text" value={personInfo.first_name ? personInfo.first_name + " " + personInfo.last_name : "Name"}
                                 readOnly className="px-4 py-3 focus:bg-transparent text-gray-800 w-full focus:outline-blue-600" />
                         </div>
 
                         <div>
-                            <input type="email" value="Email"
+                            <input type="email" value={personInfo.email ? personInfo.email : "Email"}
                                 readOnly className="px-4 py-3 focus:bg-transparent text-gray-800 w-full focus:outline-blue-600" />
                         </div>
 
                         <div>
-                            <input type="text" value="Phone No."
+                            <input type="text" value={personInfo.phone ? personInfo.phone : "Phone No."}
                                 readOnly className="px-4 py-3 focus:bg-transparent text-gray-800 w-full focus:outline-blue-600" />
                         </div>
               
@@ -140,8 +140,9 @@ const Checkout = () => {
                                         <p className=" text-black font-semibold">{box.name}</p>
                                         <label htmlFor="address" className="text-lg text-gray-600">Select Address:</label>
                                         <select name="address" id="address">
-                                            <option value="address1">Person's address</option>
-                                            <option value="other_address">Choose other</option>
+                                            {addressInfo.map((address, index) => (
+                                            <option key={address.id} value={address.id}>{address.street_number} {address.street}, {address.postal_code} {address.city}, {address.country}</option>
+                                            ))};
                                         </select>
                                         <label htmlFor="subscription" className="text-lg mt-4 text-gray-600 ">Select Subscription Term:</label>
                                         <select name="subscription" id="subscription" onChange={(event) => handleSubscriptionChange(event, index)}>
@@ -192,8 +193,12 @@ const Checkout = () => {
                         </div>
 
                         <div>
-                            <input type="text" name="Billing_address" value={billing.Billing_address} onChange={handleInputChange} placeholder="Address"
-                                className="px-4 py-3 focus:bg-transparent text-gray-800 w-full focus:outline-blue-600" />
+                            <select name="Billing_address" value={billing.Billing_address} onChange={handleInputChange}
+                                className="px-4 py-3 focus:bg-transparent text-gray-800 w-full focus:outline-blue-600">
+                                {addressInfo.map((address, index) => (
+                                            <option key={address.id} value={address.id}>{address.street_number} {address.street}, {address.postal_code} {address.city}, {address.country}</option>
+                                            ))};
+                            </select>
                         </div>
 
                         <div>

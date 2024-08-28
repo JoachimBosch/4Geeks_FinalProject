@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, timezone
 import json
 import os
 import stripe
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*", "allow_headers": ["Authorization", "Content-Type"]}})
