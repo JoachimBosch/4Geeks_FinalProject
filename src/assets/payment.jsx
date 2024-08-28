@@ -5,6 +5,8 @@ import { useLocation } from "react-router-dom";
 import CheckoutForm from "./checkoutForm";
 import MyContext from "../Context/context";
 
+
+
 const Payment = () => {
     const { _APILINK_ } = useContext(MyContext)
     const [stripePromise, setStripePromise] = useState(null)
@@ -38,10 +40,10 @@ const Payment = () => {
                 amount: amount * 100
             }),
         }).then( async (r) => {
-            const { clientSecret } = await r.json();
-            console.log(clientSecret);
+            const { client_secret } = await r.json();
+            console.log(r.json());
 
-            setClientSecret(clientSecret);
+            setClientSecret(client_secret);
         })
         .catch((error) => {
             console.error("Failed to create payment intent:", error);

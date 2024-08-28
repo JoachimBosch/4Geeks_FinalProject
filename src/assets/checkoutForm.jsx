@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { PaymentElement } from '@stripe/react-stripe-js';
 
@@ -6,7 +6,7 @@ const CheckoutForm = () => {
     const stripe = useStripe();
     const elements = useElements();
 
-    const [message, setMessage] = useState(null);
+    const [message, setMessage] = useState("");
     const [isProcessing, setIsProcessing] = useState(false);
 
 
@@ -30,7 +30,7 @@ const CheckoutForm = () => {
         if(error.type === "card_error" || error.type === "validation_error") {
             setMessage(error.message)
         } else {
-            setMessage("Payment status " + paymentIntent)
+            setMessage("Payment complete")
         }
 
         setIsProcessing(false);
@@ -38,7 +38,7 @@ const CheckoutForm = () => {
 
     return(
         <>
-            <form id="payment-form" onSubmit={handleSubmit}>
+            <form id="payment-form" className="mb-10">
                 <PaymentElement />
                 <button disabled={isProcessing || !stripe || !elements} id="submit">
                     <span id="button-text">
