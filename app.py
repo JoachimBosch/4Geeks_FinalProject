@@ -8,6 +8,7 @@ from datetime import datetime, timedelta, timezone
 import json
 import os
 import stripe
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*", "allow_headers": ["Authorization", "Content-Type"]}})
@@ -319,31 +320,25 @@ def update_user_subscription(subscription_id):
 # Stripe API integration
 
 
-@app.route('/config', methods=["GET"])
+@app.route('/config', methods=['GET'])
 def get_config():
-    return jsonify({ 
-        'publishableKey': os.getenv('STRIPE_PUBLISHABLE_KEY'),
-        })
+    return jsonify({"publishableKey": STRIPE_PUBLISHABLE_KEY})
 
 
-@app.route('/create_payment_intent', methods=['POST'])
+@app.route("/payment", methods=['POST'])
 def create_payment_intent():
-    try:
         data = request.get_json()
-        amount=data.get('amount')
-
+        #amount = data.get('amount')
+        amount = 10
         payment_intent = stripe.PaymentIntent.create(
-        amount=amount,
-        currency="eur",
-        payment_method_types=[{
-            'enabled': True,
-            }]
+            amount=amount,
+            currency='eur',
+            automatic_payment_methods={
+                'enabled': True
+            }
         )
-        return jsonify({ 'clientSecret': payment_intent.client_secret})
-    except stripe.error.StripeError as e:
-        return jsonify({'error': {'message': e.user_message}}), 400
-    except Exception as e:
-        return jsonify({'error': {'message': e.user_message}}), 500
+        return jsonify({"client_secret": payment_intent.client_secret})
+
 
 
 
