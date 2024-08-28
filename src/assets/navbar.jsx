@@ -60,7 +60,7 @@ export default function Navbar() {
               </Link>
             :
               <Link to="/profile">
-                <button className="text-xl font-semibold leading-6 text-gray-800 bg-inherit hover:underline">
+                <button className="profilename text-xl font-semibold leading-6 text-gray-800 bg-inherit hover:underline">
                   Hi, {personInfo.first_name != "" ? personInfo.first_name : "stranger"}! <span aria-hidden="true"></span>
                 </button>
               </Link>

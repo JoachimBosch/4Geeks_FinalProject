@@ -6,7 +6,6 @@ from argon2 import PasswordHasher
 from config import *
 from datetime import datetime, timedelta, timezone
 import json
-import os
 import stripe
 
 app = Flask(__name__)
@@ -21,7 +20,6 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 db.init_app(app)
 ph = PasswordHasher()
 jwt = JWTManager(app)
-
 
 with app.app_context():
     db.create_all()
@@ -317,7 +315,8 @@ def update_user_subscription(subscription_id):
 
 
 # Stripe API integration
-
+STRIPE_PUBLISHABLE_KEY = STR_PUBLISHABLE_KEY
+stripe.api_key = STR_SECRET_KEY
 
 @app.route('/config', methods=['GET'])
 def get_config():
@@ -332,7 +331,7 @@ def create_payment_intent():
         #currency = data['currency']
         
         payment_intent = stripe.PaymentIntent.create(
-            amount=2000,
+            amount="2000",
             currency="eur",
             #payment_method_types = [payment_method_type]
             automatic_payment_methods={
