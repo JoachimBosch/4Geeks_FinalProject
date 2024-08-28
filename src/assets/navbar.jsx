@@ -1,6 +1,6 @@
 'use client'
 import MyContext from "../Context/context";
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from "react-router-dom";
@@ -17,7 +17,23 @@ const navigation = [
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [badge, setBadge] = useState(null)
   const { cart, logout, token, personInfo } = useContext(MyContext);
+
+  useEffect(() => {
+    const newCheckoutCart = [];
+    cart.map(item => {
+      
+      for (let i = 0; i < item.quantity; i++) {
+        newCheckoutCart.push(item);
+      }
+    });
+    setBadge(newCheckoutCart.length)
+    
+  }, [cart]);
+
+console.log(badge);
+
 
   return (
     <div>
@@ -70,7 +86,7 @@ export default function Navbar() {
             <Link to='./cart'>
                 <div className="cart px-4 relative">
                   <FontAwesomeIcon className="text-3xl p-2 hover:cursor-pointer" icon={faCartShopping} />
-                  {cart.length > 0 ? <div className="badge bg-red-500 text-white text-center text-sm px-1 absolute bottom-2 right-6 rounded">{cart.length}</div> : ""}
+                  {cart.length > 0 ? <div className="badge bg-red-500 text-white text-center text-base px-1 absolute bottom-9 right-8 rounded">{badge}</div> : ""}
                 </div>
             </Link>
             {!token ? "" : 
