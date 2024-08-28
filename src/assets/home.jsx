@@ -99,25 +99,27 @@ export default function Home() {
                     </ul>
                 </div>
             </div>
-        
-            <Carousel slide={false}>
-                {boxes.map((box) => <Carousel_content 
-                                        key={box.id}
-                                        id={box.id}
-                                        name={box.name}
-                                        price={box.price}
-                                        price_3={box.price_3}
-                                        price_6={box.price_6}
-                                        price_12={box.price_12}
-                                        callout={box.callout}
-                                        button_color={box.button_color}
-                                        text_color={box.text_color}
-                                        background={box.background}
-                                        box_out={box.box_out}
-                                        quantity={box.quantity}
-                                        />)}
-                
-            </Carousel>
+            <div className="h-[585px]">
+                <Carousel slide={false}>
+                    {boxes.map((box) => <Carousel_content 
+                                            key={box.id}
+                                            id={box.id}
+                                            name={box.name}
+                                            price={box.price}
+                                            price_3={box.price_3}
+                                            price_6={box.price_6}
+                                            price_12={box.price_12}
+                                            callout={box.callout}
+                                            button_color={box.button_color}
+                                            text_color={box.text_color}
+                                            background={box.background}
+                                            box_out={box.box_out}
+                                            quantity={box.quantity}
+                                            />)}
+                    
+                </Carousel>
+            </div>
+
 
         <div className="bg-black text-white p-4 opacity-70">
                 <p className="text-center text-sm md:text-xl lg:text-2xl">* Buy yourself a one-time experience, or treat yourself every month by taking a subscription. *</p>
