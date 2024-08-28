@@ -1,9 +1,8 @@
 import { loadStripe } from "@stripe/stripe-js";
 import { useState, useEffect } from 'react';
-/* import CheckoutForm from './checkoutForm' */
 import { Elements } from "@stripe/react-stripe-js";
 import { useLocation } from "react-router-dom";
-import Checkout from "./checkout";
+import CheckoutForm from "./checkoutForm";
 
 const Payment = () => {
     const [stripePromise, setStripePromise] = useState(null)
@@ -40,6 +39,7 @@ const Payment = () => {
 
     return (
         <>
+        <h2 className="py-36 text-center">Payment</h2>
             { stripePromise && clientSecret && (
                 <Elements stripe={stripePromise} options={{clientSecret}}>
                     <Checkout />
