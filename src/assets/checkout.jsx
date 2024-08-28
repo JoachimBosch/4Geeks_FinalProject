@@ -159,7 +159,7 @@ const Checkout = () => {
                                 </div>
                             </div>
                         </div>
-                    ))};
+                    ))}
                 </div>
 
                 <div className="flex justify-between my-16">

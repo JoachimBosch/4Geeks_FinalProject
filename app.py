@@ -333,7 +333,6 @@ def create_payment_intent():
         payment_intent = stripe.PaymentIntent.create(
             amount="2000",
             currency="eur",
-            #payment_method_types = [payment_method_type]
             automatic_payment_methods={
                 'enabled': True
             },

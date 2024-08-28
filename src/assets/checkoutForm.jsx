@@ -30,7 +30,7 @@ const CheckoutForm = () => {
         if(error.type === "card_error" || error.type === "validation_error") {
             setMessage(error.message)
         } else {
-            setMessage("Payment complete")
+            setMessage("Payment complete");
         }
 
         setIsProcessing(false);
