@@ -21,14 +21,15 @@ const Payment = () => {
     }, [])
 
     useEffect(() => {
-        fetch('/create_payment_intent', {
-            method: 'POST', 
-            headers: {
-                "Content-Type": "application/json",
-              },
+        fetch('/payment', {
+            method: 'POST',
             body: JSON.stringify({
-                amount: amount * 100
+                paymentMethodType: 'card',
+                currency: 'usd'
             }),
+            headers: {
+                'Content-Type': 'application/json'
+            },
         }).then( async (r) => {
             const { clientSecret } = await r.json();
             console.log(clientSecret);

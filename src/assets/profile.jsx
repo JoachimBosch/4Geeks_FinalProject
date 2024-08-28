@@ -50,7 +50,7 @@ const Profile = () => {
                         </h4>
                     </div>
 
-                    <div className="">
+                    <div>
                         
                         <div className="mx-20 pt-8 grid md:grid-cols-2 gap-4 pt-8">
                             <div>

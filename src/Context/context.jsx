@@ -179,7 +179,8 @@ const boxes = [
 
 
 export const MyProvider = ({ children }) => {
-
+    const _APILINK_ = "https://39ngdl4z-3000.uks1.devtunnels.ms" 
+    /* const _APILINK_ = "" */        /* Add the public link of your browser and comment the one above */
   /*UseState*/
 
     const [loggingIn, setLoggingIn] = useState({email: "", password: ""});
@@ -232,7 +233,7 @@ export const MyProvider = ({ children }) => {
 
     const fetchUser = async (userId) => {
       try {
-        const response = await axios.get(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}`
+        const response = await axios.get(`${_APILINK_}/user/${userId}`
         );
         setPersonInfo(response.data);
         console.log(response.data);
@@ -258,7 +259,7 @@ export const MyProvider = ({ children }) => {
     
     const fetchAddresses = async (userId) => {
       try {
-        const response = await axios.get(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}/addresses`);
+        const response = await axios.get(`${_APILINK_}/user/${userId}/addresses`);
         setAddressInfo(response.data);
         localStorage.setItem('addressInfo', JSON.stringify(response.data))
       } catch (error) {
@@ -268,7 +269,7 @@ export const MyProvider = ({ children }) => {
 
     const fetchSubscriptions = async (userId) => {
       try {
-        const response = await axios.get(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}/subscriptions`);
+        const response = await axios.get(`${_APILINK_}/user/${userId}/subscriptions`);
         setSubscriptionInfo(response.data);
         localStorage.setItem('subscriptionInfo', JSON.stringify(response.data));
         console.log(response.data)
@@ -305,7 +306,7 @@ export const MyProvider = ({ children }) => {
 
     const register = async () => {
       try {
-        const response = await axios.post(`https://39ngdl4z-3000.uks1.devtunnels.ms/register`, {
+        const response = await axios.post(`${_APILINK_}/register`, {
           email: subscribe.email, 
           password: subscribe.password, 
         })
@@ -318,7 +319,7 @@ export const MyProvider = ({ children }) => {
 
     const login = async () => {
         try {
-          const response = await axios.post("https://39ngdl4z-3000.uks1.devtunnels.ms/login", {
+          const response = await axios.post(`${_APILINK_}/login`, {
             email: loggingIn.email,
             password: loggingIn.password
           }, {
@@ -358,7 +359,7 @@ export const MyProvider = ({ children }) => {
 
     const logout = async () => {
       try {
-        await axios.post('https://39ngdl4z-3000.uks1.devtunnels.ms/logout');
+        await axios.post(`${_APILINK_}/logout`);
         clearAll();
         window.location.href = "/";
       } catch (error) {
@@ -368,7 +369,7 @@ export const MyProvider = ({ children }) => {
 
     const updatePersonInfo = async (userId, data) => {
       try {
-        await axios.put(`https://39ngdl4z-3000.uks1.devtunnels.ms/user/${userId}`, data);
+        await axios.put(`${_APILINK_}/user/${userId}`, data);
         const updatedPersonInfo = { ...personInfo, ...data };
         setPersonInfo(updatedPersonInfo);
         localStorage.setItem('personInfo', JSON.stringify(updatedPersonInfo));
@@ -380,7 +381,7 @@ export const MyProvider = ({ children }) => {
     
     const change_Password = async () => {
       try {
-        const response = await axios.post(`https://39ngdl4z-3000.uks1.devtunnels.ms/change-password`, {
+        const response = await axios.post(`${_APILINK_}/change-password`, {
           email: personInfo.email, 
           old_password: changePassword.old_password,
           new_password: changePassword.new_password,
@@ -395,7 +396,7 @@ export const MyProvider = ({ children }) => {
 
     const storeAddress = async (addressData) => {
       try {
-        const response = await axios.post(`https://39ngdl4z-3000.uks1.devtunnels.ms/address`, 
+        const response = await axios.post(`${_APILINK_}/address`, 
           addressData
         );
         const updatedAddresses = [...addressInfo, addressData];
@@ -408,7 +409,7 @@ export const MyProvider = ({ children }) => {
 
     const updateAddress = async (addressId, updatedData) => {
       try {
-          const response = await axios.put(`https://39ngdl4z-3000.uks1.devtunnels.ms/address/${addressId}`, 
+          const response = await axios.put(`${_APILINK_}/address/${addressId}`, 
             updatedData
           );
           const updatedAddressList = addressInfo.map(address =>
@@ -423,7 +424,7 @@ export const MyProvider = ({ children }) => {
 
   const deleteAddress = async (addressId) => {
     try {
-      await axios.delete(`https://39ngdl4z-3000.uks1.devtunnels.ms/address/${addressId}`);
+      await axios.delete(`${_APILINK_}/address/${addressId}`);
       console.log(`Address deleted successfully`);
       const updatedAddressList = addressInfo.filter(address => address.id !== addressId);
       setAddressInfo(updatedAddressList);
@@ -447,7 +448,7 @@ export const MyProvider = ({ children }) => {
 
  const storeSubscription = async (subscriptionData) => {
   try {
-    const response = await axios.post(`https://39ngdl4z-3000.uks1.devtunnels.ms/subscriptions`, {
+    const response = await axios.post(`${_APILINK_}/subscriptions`, {
       subscriptionData
     });
     const updatedSubscriptions = [...subscriptionInfo, response.data];
@@ -460,7 +461,7 @@ export const MyProvider = ({ children }) => {
 
 const updateSubscription = async (subscriptionID, updatedData) => {
   try {
-      const response = await axios.put(`https://39ngdl4z-3000.uks1.devtunnels.ms/subscriptions/${subscriptionID}`, {
+      const response = await axios.put(`${_APILINK_}/subscriptions/${subscriptionID}`, {
         updatedData
       });
       const updatedSubscriptions = subscriptionInfo.map(subscription => 

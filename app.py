@@ -8,7 +8,6 @@ from datetime import datetime, timedelta, timezone
 import json
 import os
 import stripe
-#from dotenv import load_dotenv
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*", "allow_headers": ["Authorization", "Content-Type"]}})
@@ -327,18 +326,24 @@ def get_config():
 
 @app.route("/payment", methods=['POST'])
 def create_payment_intent():
+    try:
         data = request.get_json()
-        #amount = data.get('amount')
-        amount = 10
+        #payment_method_type = data['paymentMethodType']
+        #currency = data['currency']
+        
         payment_intent = stripe.PaymentIntent.create(
-            amount=amount,
-            currency='eur',
+            amount=2000,
+            currency="eur",
+            #payment_method_types = [payment_method_type]
             automatic_payment_methods={
                 'enabled': True
-            }
+            },
         )
         return jsonify({"client_secret": payment_intent.client_secret})
-
+    except stripe.error.StripeError as e:
+        return jsonify({'error': {'message': e.user_message}}), 400
+    except Exception as e:
+        return jsonify({'error': {'message': str(e)}}), 500
 
 
 
