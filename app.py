@@ -8,9 +8,14 @@ from datetime import datetime, timedelta, timezone
 import json
 import stripe
 
+STRIPE_PUBLISHABLE_KEY = STR_PUBLISHABLE_KEY
+stripe.api_key = STR_SECRET_KEY
+
 app = Flask(__name__)
 CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*", "allow_headers": ["Authorization", "Content-Type"]}})
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
+
+YOUR_DOMAIN = 'https://39ngdl4z-3000.uks1.devtunnels.ms'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{DB_UserName}:{DB_Password}@finalproject-4geeks-finalproject-4geeks.l.aivencloud.com:22468/defaultdb?sslmode=require'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -316,13 +321,11 @@ def update_user_subscription(subscription_id):
 
 
 # Stripe API integration
-STRIPE_PUBLISHABLE_KEY = STR_PUBLISHABLE_KEY
-stripe.api_key = STR_SECRET_KEY
 
-@app.route('/config', methods=['GET'])
+
+""" @app.route('/config', methods=['GET'])
 def get_config():
     return jsonify({"publishableKey": STRIPE_PUBLISHABLE_KEY})
-
 
 @app.route("/payment", methods=['POST'])
 def create_payment_intent():
@@ -342,8 +345,32 @@ def create_payment_intent():
     except stripe.error.StripeError as e:
         return jsonify({'error': {'message': e.user_message}}), 400
     except Exception as e:
-        return jsonify({'error': {'message': str(e)}}), 500
+        return jsonify({'error': {'message': str(e)}}), 500 """
 
+@app.route('/create-checkout-session', methods=['POST'])
+def create_checkout_session():
+    try:
+        session = stripe.checkout.Session.create(
+            ui_mode = 'embedded',
+            line_items=[
+                {
+                    # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+                    'price': 'price_1Pt3vR01ljCkoVRLGujo3Hvx',
+                    'quantity': 1,
+                },
+            ],
+            mode='payment',
+            return_url='http://localhost:5173/return?session_id={CHECKOUT_SESSION_ID}',
+        )
+    except Exception as e:
+        return str(e)
 
+    return jsonify(clientSecret=session.client_secret)
+
+@app.route('/session-status', methods=['GET'])
+def session_status():
+  session = stripe.checkout.Session.retrieve(request.args.get('session_id'))
+
+  return jsonify(status=session.status, customer_email=session.customer_details.email)
 
 app.run(host='0.0.0.0', port=3000)

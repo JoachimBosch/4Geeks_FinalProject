@@ -1,54 +1,42 @@
-import { useState } from 'react';
-import { useStripe, useElements } from "@stripe/react-stripe-js";
-import { PaymentElement } from '@stripe/react-stripe-js';
+import React, { useCallback, useState, useEffect, useContext } from "react";
+import {loadStripe} from '@stripe/stripe-js';
+import {
+  EmbeddedCheckoutProvider,
+  EmbeddedCheckout
+} from '@stripe/react-stripe-js';
+import MyContext from "../Context/context";
+
+// Make sure to call loadStripe outside of a component’s render to avoid
+// recreating the Stripe object on every render.
+// This is your test secret API key.
+const stripePromise = loadStripe(`${process.env.REACT_APP_STRIPE_PUBLIC_KEY}`);
 
 const CheckoutForm = () => {
-    const stripe = useStripe();
-    const elements = useElements();
+    const { _APILINK_ } = useContext(MyContext)
 
-    const [message, setMessage] = useState("");
-    const [isProcessing, setIsProcessing] = useState(false);
+    const fetchClientSecret = useCallback(() => {
+        // Create a Checkout Session
+        return fetch(`${_APILINK_}/create-checkout-session`, {
+        method: "POST",
+        })
+        .then((res) => res.json())
+        .then((data) => data.clientSecret);
+    }, []);
 
+    const options = {fetchClientSecret};
 
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        if(!stripe || !elements) {
-            return;
-        }
-
-        setIsProcessing(true);
-
-        const { error } = await stripe.confirmPayment({
-            elements,
-            confirmParams: {
-                return_url: `${window.location.origin}/` /* add completion component */
-            },
-        });
-
-        if(error.type === "card_error" || error.type === "validation_error") {
-            setMessage(error.message)
-        } else {
-            setMessage("Payment complete");
-        }
-
-        setIsProcessing(false);
-    };
-
-    return(
-        <>
-            <form id="payment-form" className="mb-10">
-                <PaymentElement />
-                <button disabled={isProcessing || !stripe || !elements} id="submit">
-                    <span id="button-text">
-                        {isProcessing ? "Processing..." : "Pay now"}
-                    </span>
-                </button>
-                {message && <div id="payment-message">{message}</div>}
-            </form>
-        </>
+    return (
+        <div id="checkout" className="mt-28">
+        <EmbeddedCheckoutProvider
+            stripe={stripePromise}
+            options={options}
+        >
+            <EmbeddedCheckout />
+        </EmbeddedCheckoutProvider>
+        </div>
     )
-};
+}
 
-export default CheckoutForm;
+
+
+export default CheckoutForm

@@ -11,8 +11,9 @@ import About from "../assets/about";
 import Profile from "../assets/profile";
 import ChangePassword from "../assets/changepassword";
 import Checkout from "../assets/checkout";
-import Payment from "../assets/payment"
 import { useAuth } from "../Context/authcontext";
+import CheckoutForm from "../assets/checkoutForm";
+import Return from "../assets/return";
 
 const AuthRoutes = () => {
     const { token } = useAuth();
@@ -39,7 +40,10 @@ const AuthRoutes = () => {
             <Route path="/checkout" element={<Checkout />} />
           </Route>
           <Route path="/payment" element={<ProtectedRoute />}>
-            <Route path="/payment" element={<Payment />} />
+            <Route path="/payment" element={<CheckoutForm />} />
+          </Route>
+          <Route path="/return" element={<ProtectedRoute />}>
+            <Route path="/return" element={<Return />} />
           </Route>
       </Routes>
   );
