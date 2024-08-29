@@ -11,8 +11,8 @@ const Login = () => {
     <div className="bg-orange-50 pt-52 pb-32 flex justify-center">
         
             
-            <div className="bg-[#faeae0] flex mx-10 shadow-[6px_6px_12px_rgba(0,0,0,0.4)]">
-                <div id="left-side" className="py-12 px-10 w-[70%]">
+            <div className="bg-[#faeae0] rounded flex mx-10 shadow-[6px_6px_12px_rgba(0,0,0,0.4)]">
+                <div id="left-side" className="py-12 px-10 w-[60%]">
                     <h2 className="text-center text-3xl pb-16">Sign in</h2>
                     <form className="space-y-4" action="#" method="POST">
                     <div>
@@ -47,7 +47,7 @@ const Login = () => {
                         </div>
                     </div>
 
-                    <div className="flex justify-center pt-4">
+                    <div className="flex justify-center pt-7">
                         <button type="submit" className="px-16 py-2 bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)] text-base"
                         onClick={(e) => {
                             e.preventDefault();
@@ -65,7 +65,7 @@ const Login = () => {
                     </p>
                 </div>
                 <div id="right-side" className="opacity-80">
-                    <img src="/Candles&lights.png"></img>
+                    <img src="/Candles&lights.png" className="h-[100%] object-cover rounded-r-md"></img>
                 </div>
             </div>
             
