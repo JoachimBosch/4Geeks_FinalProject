@@ -222,7 +222,7 @@ export const MyProvider = ({ children }) => {
     const [icon, setIcon] = useState(faEyeSlash);
     const [subData, setSubData] = useState();
     const [index, setIndex] = useState("");
-  
+    const [totalPrice, setTotalPrice] = useState(0);
     const [token, setToken_] = useState(localStorage.getItem("token"));
 
     /*UseEffect*/
@@ -478,7 +478,7 @@ const updateSubscription = async (subscriptionID, updatedData) => {
 };
     
     /* Add variable names within appContext */
-    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData,  type, setType, icon, setIcon, handleToggle, deleteAddress, fetchAddresses, fetchSubscriptions ,storeSubscription, updateSubscription, subData, setSubData, index, setIndex, saveToken, logout, token, setToken_, updatePersonInfo, _APILINK_ }
+    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData,  type, setType, icon, setIcon, handleToggle, deleteAddress, fetchAddresses, fetchSubscriptions ,storeSubscription, updateSubscription, subData, setSubData, index, setIndex, saveToken, logout, token, setToken_, updatePersonInfo, _APILINK_, totalPrice, setTotalPrice }
 
     return (
         <MyContext.Provider value={appContext}>

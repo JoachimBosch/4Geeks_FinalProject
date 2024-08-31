@@ -12,7 +12,7 @@ import MyContext from "../Context/context";
 const stripePromise = loadStripe(`${import.meta.env.VITE_APP_STRIPE_PUBLIC_KEY}`);
 
 const CheckoutForm = () => {
-    const { _APILINK_ } = useContext(MyContext)
+    const { _APILINK_, totalPrice } = useContext(MyContext)
 
     const fetchClientSecret = useCallback(() => {
         // Create a Checkout Session
@@ -26,7 +26,7 @@ const CheckoutForm = () => {
     const options = {fetchClientSecret};
 
     return (
-        <div id="checkout" className="mt-28">
+        <div id="checkout" className="my-28">
         <EmbeddedCheckoutProvider
             stripe={stripePromise}
             options={options}

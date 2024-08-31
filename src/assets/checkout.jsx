@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom';
 
 
 const Checkout = () => {
-    const { personInfo, addressInfo } = useContext(MyContext);
+    const { personInfo, addressInfo, totalPrice, setTotalPrice } = useContext(MyContext);
     const [checkoutCart, setCheckoutCart] = useState([]);
     const [billing, setBilling] = useState({Name: "", VATS: "", Billing_address: "", Country: ""});
-    const [totalPrice, setTotalPrice] = useState(0);
+    
 
     const { cart } = useContext(MyContext);
 
