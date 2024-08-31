@@ -40,7 +40,7 @@ const Profile = () => {
             <div className="" style={{backgroundColor: "#FAEAE0"}}>
                 <div className='max-w-[1100px] mx-auto py-20 bg-orange-50'>
 
-                <h2 className="text-center py-24 pb-16">Profile</h2>
+                <h2 className="text-center py-24 pb-16">My Profile</h2>
 
                 {/* Profile section */}
 

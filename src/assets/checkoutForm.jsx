@@ -9,7 +9,7 @@ import MyContext from "../Context/context";
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
 // This is your test secret API key.
-const stripePromise = loadStripe(`${process.env.REACT_APP_STRIPE_PUBLIC_KEY}`);
+const stripePromise = loadStripe(`${import.meta.env.VITE_APP_STRIPE_PUBLIC_KEY}`);
 
 const CheckoutForm = () => {
     const { _APILINK_ } = useContext(MyContext)

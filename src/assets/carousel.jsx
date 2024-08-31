@@ -5,7 +5,7 @@ import { Button, Modal } from "flowbite-react";
 
 
 
-export default function Carousel_content({id, name, background, callout, box_out, text_color, button_color, price, quantity, price_3, price_6, price_12}) {
+export default function Carousel_content({id, name, background, callout, box_out, text_color, button_color, price, quantity, price_3, price_6, price_12, tabId}) {
     const [opened, setOpened] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const { onAddToCart, cart } = useContext(MyContext)
@@ -18,7 +18,7 @@ export default function Carousel_content({id, name, background, callout, box_out
     return (
         <>
             
-            <div>
+            <div id={`carousel-${tabId}`} className="carousel-item">
                 <div className="flex bg-cover pt-28 justify-center gap-3" style={{ backgroundImage: `url(${background})`, opacity: "0.8"}}>
                     <div className="flex flex-col items-center align-bottom">
                         <img src={box_out} alt={`${name} box`} 

@@ -53,88 +53,87 @@ const ChangePassword = () => {
     };
 
     return (
-        <>
-            <div className="flex min-h-full flex-col justify-center px-6 py-8 lg:px-8">
-                <div className="md:mx-80 mt-20 flex flex-col">
-                    <div className="mt-4 mb-6 ml-2">
-                        <h2 className="text-center">Change password</h2>
-                    </div>
-                    <div className="profile mx-2 p-4 text-center flex flex-col">
-                        <span>Enter your current password:</span>
-                        <div className="mt-2 flex border-1 rounded">
+        <div className="bg-orange-50 pt-52 pb-32 flex justify-center">
+            <div className="bg-[#faeae0] rounded flex mx-10 shadow-[6px_6px_12px_rgba(0,0,0,0.4)]">
+                <div id="text-comp" className="py-12 px-8">
+                <h2 className="text-center text-3xl pb-12">Change password</h2>
+                    
+                <div className="flex flex-col">
+                    <p className="text-lg text-gray-900">Current password:</p>
+                    <div className="relative mt-1 flex">
                             <input
                                 id="old_password"
                                 name="old_password"
                                 type={type}
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mr-2"
+                                className="block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6 mr-2"
                                 onChange={handleChange}
                                 value={changePassword.old_password}
                             />
                             <button
                                 type="button"
-                                className="inset-y-0 right-0 pr-3 flex items-center"
+                                className="absolute right-5"
                                 onClick={handleToggle}
                             >
-                                <FontAwesomeIcon icon={icon} style={{ fontSize: "20px" }} />
+                                <FontAwesomeIcon icon={icon} style={{ fontSize: "15px" }} className="text-orange-950 opacity-60" />
                             </button>
                         </div>
                         
                         &nbsp;
-                        <span>Enter your new password:</span>
-                        <div className="mt-2 flex border-1 rounded">
+                        <p className="text-lg text-gray-900">Enter new password:</p>
+                        <div className="relative mt-1 flex border-1 rounded">
                             <input
                                 id="new_password"
                                 name="new_password"
                                 type={type}
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mr-2"
+                                className="block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6 mr-2"
                                 onChange={handleChange}
                                 value={changePassword.new_password}
                             />
                             <button
                                 type="button"
-                                className="inset-y-0 right-0 pr-3 flex items-center"
+                                className="absolute right-5"
                                 onClick={handleToggle}
                             >
-                                <FontAwesomeIcon icon={icon} style={{ fontSize: "20px" }} />
+                                <FontAwesomeIcon icon={icon} style={{ fontSize: "15px" }} className="text-orange-950 opacity-60" />
                             </button>
                         </div>
                         
                         &nbsp;
-                        <span>Repeat your new password:</span>
-                        <div className="mt-2 flex border-1 rounded">
+                        <p className="text-lg text-gray-900">Repeat new password:</p>
+                        <div className="relative mt-1 flex border-1 rounded">
                             <input
                                 id="identicalCheck"
                                 type={type}
-                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mr-2"
+                                className="block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6 mr-2"
                                 onChange={handleIdenticalCheck}
                                 value={identicalCheck}
                             />
                             <button
                                 type="button"
-                                className="inset-y-0 right-0 pr-3 flex items-center"
+                                className="absolute right-5"
                                 onClick={handleToggle}
                             >
-                                <FontAwesomeIcon icon={icon} style={{ fontSize: "20px" }} />
+                                <FontAwesomeIcon icon={icon} style={{ fontSize: "15px" }} className="text-orange-950 opacity-60" />
                             </button>
                         </div>
                         
                         &nbsp;
                         {error && <p className="error">{error}</p>}
-                        <div className="my-6 mx-auto flex flex-col justify-center">
+                        <div className="mt-3 mx-auto flex flex-col justify-center">
                             <button
                                 onClick={handleSubmit}
-                                className="profile-button px-2 py-1 border rounded bg-inherit"
+                                className="px-16 py-2 bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)] text-base"
                             >
                                 Confirm change
                             </button>
                             <Link to="/profile">
-                                <button className="cancel mx-3 px-2 py-1 bg-inherit">Back to profile</button>
+                                <button className="w-full text-center mt-3 text-base underline text-orange-700 hover:text-orange-900">Back to profile</button>
                             </Link>
                         </div>
                     </div>
                 </div>
             </div>
-    </>
+    </div>
         )
 }
 

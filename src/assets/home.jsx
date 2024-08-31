@@ -76,32 +76,33 @@ export default function Home() {
                 <div className = "w-full mt-16">
                     <ul className="pb-5 relative flex flex-wrap p-1 list-none text-base md:text-lg lg:text-xl" data-tabs="tabs" role="list">
                         <li className="z-30 flex-auto text-center hover:underline">
-                            <Link to="">RELAX</Link>
+                            <Link to="relax">RELAX</Link>
                         </li>
                         <li className="z-30 flex-auto text-center hover:underline">
-                            <Link to="">REVIVE</Link>
+                            <Link to="revive">REVIVE</Link>
                         </li>
                         <li className="z-30 flex-auto text-center hover:underline">
-                            <Link to="">RECONNECT</Link>
+                            <Link to="reconnect">RECONNECT</Link>
                         </li>
                         <li className="z-30 flex-auto text-center hover:underline">
-                            <Link to="">RECHARGE</Link>
+                            <Link to="recharge">RECHARGE</Link>
                         </li>
                         <li className="z-30 flex-auto text-center hover:underline">
-                            <Link to="">REFRESH</Link>
+                            <Link to="refresh">REFRESH</Link>
                         </li>
                         <li className="z-30 flex-auto text-center hover:underline">
-                            <Link to="">REFOCUS</Link>
+                            <Link to="refocus">REFOCUS</Link>
                         </li>
                         <li className="z-30 flex-auto text-center hover:underline">
-                            <Link to="">REBALANCE</Link>
+                            <Link to="rebalance">REBALANCE</Link>
                         </li>
                     </ul>
                 </div>
             </div>
             <div className="h-[585px]">
                 <Carousel slide={false}>
-                    {boxes.map((box) => <Carousel_content 
+                    {boxes.map((box, index) => (
+                        <Carousel_content 
                                             key={box.id}
                                             id={box.id}
                                             name={box.name}
@@ -115,9 +116,11 @@ export default function Home() {
                                             background={box.background}
                                             box_out={box.box_out}
                                             quantity={box.quantity}
-                                            />)}
+                                            tabId={index === 0 ? 'relax' : index === 1 ? 'revive' : index === 2 ? 'reconnect' : index === 3 ? 'recharge' : index === 4 ? 'refresh' : index === 5 ? 'refocus' : index === 6 ? 'rebalance': ''}
+                            />
+                        ))}
                     
-                </Carousel>
+                    </Carousel>
             </div>
 
 
