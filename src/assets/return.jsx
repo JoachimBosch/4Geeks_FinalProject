@@ -15,7 +15,10 @@ const Return = () => {
         .then((data) => {
           setStatus(data.status);
           setCustomerEmail(data.customer_email);
-        });
+        })
+        .catch((error) => {
+            console.error("Error fetching session status:", error)
+        })
     }, []);
   
     if (status === 'open') {
@@ -28,7 +31,7 @@ const Return = () => {
     if (status === 'complete') {
       return (
         <>
-            <div>
+            <div className="my-28">
                 <section id="success">
                 <p>
                     We appreciate your business! A confirmation email will be sent to {customerEmail}.
