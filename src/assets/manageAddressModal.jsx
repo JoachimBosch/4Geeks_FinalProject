@@ -39,58 +39,60 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
 
     return (
         <Modal dismissible show={show} onClose={onClose}>
-            <Modal.Header>Add New Address</Modal.Header>
+            <Modal.Header>
+                <h2 className="text-xl">Add new address</h2>
+            </Modal.Header>
             <Modal.Body>
-                <div className="space-y-2 modal-text">
-                    <p>Label:</p>
+                <div className="space-y-1 modal-text">
+                    <p className="text-base font-semibold">Label:</p>
                     <input
                         name="relation_to_user"
-                        className="indent-1 border"
+                        className="border px-2 py-1.5 w-[100%]"
                         style={{ width: '100%' }}
                         value={addAddress.relation_to_user || ''}
                         onChange={handleChange}
                         required
                     />
-                    <p>Street:</p>
+                    <p className="pt-3 text-base font-semibold">Street:</p>
                     <input
                         name="street"
-                        className="indent-1 border"
+                        className="border px-2 py-1.5 w-[100%]"
                         style={{ width: '100%' }}
                         value={addAddress.street || ''}
                         onChange={handleChange}
                         required
                     />
-                    <p>Street Number:</p>
+                    <p className="pt-3 text-base font-semibold">Street Number:</p>
                     <input
                         name="street_number"
-                        className="indent-1 border"
+                        className="border px-2 py-1.5 w-[100%]"
                         style={{ width: '100%' }}
                         value={addAddress.street_number || ''}
                         onChange={handleChange}
                         required
                     />
-                    <p>Postal Code:</p>
+                    <p className="pt-3 text-base font-semibold">Postal Code:</p>
                     <input
                         name="postal_code"
-                        className="indent-1 border"
+                        className="border px-2 py-1.5 w-[100%]"
                         style={{ width: '100%' }}
                         value={addAddress.postal_code || ''}
                         onChange={handleChange}
                         required
                     />
-                    <p>City:</p>
+                    <p className="pt-3 text-base font-semibold">City:</p>
                     <input
                         name="city"
-                        className="indent-1 border"
+                        className="border px-2 py-1.5 w-[100%]"
                         style={{ width: '100%' }}
                         value={addAddress.city || ''}
                         onChange={handleChange}
                         required
                     />
-                    <p>Country:</p>
+                    <p className="pt-3 text-base font-semibold">Country:</p>
                     <input
                         name="country"
-                        className="indent-1 border"
+                        className="border px-2 py-1.5 w-[100%]"
                         style={{ width: '100%' }}
                         value={addAddress.country || ''}
                         onChange={handleChange}
@@ -99,8 +101,8 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button color="dark" style={{padding: "8px 40px", borderRadius: "0"}} onClick={handleAddressSave}>Add Address</Button>
-                <Button color="dark" style={{padding: "8px 40px", borderRadius: "0"}} onClick={onClose}>
+                <Button size="sm" className="px-12 py-2 bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)] rounded-none" onClick={handleAddressSave}>Add Address</Button>
+                <Button color="gray" size="sm" className="px-12 py-2 border rounded-none" onClick={onClose}>
                     Cancel
                 </Button>
             </Modal.Footer>
