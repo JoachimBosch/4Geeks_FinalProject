@@ -358,9 +358,6 @@ def create_checkout_session():
             line_items=[{
                 'price_data': {
                     'currency': 'eur',
-                    'product_data': {
-                        'name': 'Custom Amount',
-                    },
                     'unit_amount': amount,
                 },
                 'quantity': 1,

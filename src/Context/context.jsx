@@ -179,9 +179,9 @@ const boxes = [
 
 
 export const MyProvider = ({ children }) => {
-    const _APILINK_ = "https://39ngdl4z-3000.uks1.devtunnels.ms"
-    /* const _APILINK_ = "https://vfs2303q-3000.uks1.devtunnels.ms/" */      
-    
+  /* const _APILINK_ = "https://39ngdl4z-3000.uks1.devtunnels.ms" */
+  const _APILINK_ = "https://vfs2303q-3000.uks1.devtunnels.ms/" 
+
     
     /* Add the public link of your browser and comment the one above */
   /*UseState*/
@@ -312,7 +312,10 @@ export const MyProvider = ({ children }) => {
         const response = await axios.post(`${_APILINK_}/register`, {
           email: subscribe.email, 
           password: subscribe.password, 
-        })
+        }, {
+          headers: {
+            'Content-Type': 'application/json'
+          }});
         alert('Successfully registered');
         setSubscribe({email: "", password: ""});
       } catch (error) {
@@ -400,7 +403,10 @@ export const MyProvider = ({ children }) => {
     const storeAddress = async (addressData) => {
       try {
         const response = await axios.post(`${_APILINK_}/address`, 
-          addressData
+          addressData, {
+            headers: {
+              'Content-Type': 'application/json'
+            }}
         );
         const updatedAddresses = [...addressInfo, addressData];
         setAddressInfo(updatedAddresses);

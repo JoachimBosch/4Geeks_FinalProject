@@ -92,12 +92,10 @@ const Checkout = () => {
         try {
             const response = await axios.post('/create-checkout-session', {
                 amount: Math.round(amount * 100), // Convert to cents
-                currency: 'eur',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-
-            });
+                currency: 'eur'}, {
+                    headers: {
+                      'Content-Type': 'application/json'
+                    }});
             // Redireciona diretamente para a URL do Checkout
             window.location.href = response.data.url;
         } catch (error) {
