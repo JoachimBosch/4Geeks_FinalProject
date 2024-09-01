@@ -353,7 +353,7 @@ def create_payment_intent():
 def create_checkout_session():
     try:
         data = request.get_json()
-        amount = int(50) * 100  # Convert to cents
+        amount = int(data['amount'])  
         checkout_session = stripe.checkout.Session.create(
             line_items=[{
                 'price_data': {

@@ -1,8 +1,11 @@
 import MyContext from "../Context/context"; 
 import { useContext, useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
 
 
+const stripePromise = loadStripe(`${import.meta.env.VITE_APP_STRIPE_PUBLIC_KEY}`);
 
 const Checkout = () => {
     const { personInfo, addressInfo, totalPrice, setTotalPrice } = useContext(MyContext);
@@ -73,6 +76,38 @@ const Checkout = () => {
       };
 
 
+      const handleSubmit = async (e) => {
+        e.preventDefault(); // Prevent default form submission
+        try {
+            await paymentSession(totalPrice); // Call our paymentSession function
+        } catch (error) {
+            console.error("Payment session creation failed:", error);
+            // Handle the error appropriately (e.g., show an error message to the user)
+        }
+    };
+
+
+
+    const paymentSession = async (amount) => {
+        try {
+            const response = await axios.post('/create-checkout-session', {
+                amount: Math.round(amount * 100), // Convert to cents
+                currency: 'eur',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+
+            });
+            // Redireciona diretamente para a URL do Checkout
+            window.location.href = response.data.url;
+        } catch (error) {
+            console.error('Error creating one-time payment session:', error);
+            throw error; // Re-throw the error to handle it em handleSubmit
+        }
+    };
+    
+
+    
 
     return (
         <div style={{backgroundColor: "#FAEAE0"}}>
@@ -209,12 +244,13 @@ const Checkout = () => {
                     </div>
                 </div>
                 <div className="flex gap-3 justify-center my-20">
-                    <form action="/create-checkout-session" method="POST">
-                        <button type="submit" 
+                        <form onSubmit={handleSubmit} className="flex gap-3 justify-center my-20">
+                            <button type="submit"
                                 id="checkout-button"
                                 className="px-24 py-2 items-center bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)]"
                                 >Proceed to Payment</button>
-                    </form>
+                        </form>
+                    
                 </div>
             </div>
         </div>
