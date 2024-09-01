@@ -21,8 +21,13 @@ export default function Carousel_content({id, name, background, callout, box_out
             <div id={`carousel-${tabId}`} className="carousel-item">
                 <div className="flex bg-cover pt-28 justify-center gap-3" style={{ backgroundImage: `url(${background})`, opacity: "0.8"}}>
                     <div className="flex flex-col items-center align-bottom">
-                        <img src={box_out} alt={`${name} box`} 
-                                className={`${opened ? "transition ease-in-out duration-1000 -translate-y-3/4" : "transition ease-in-out duration-1000 translate-y-0"}`}></img>
+                        <div className="relative">
+                            <img src={box_out} alt={`${name} box`} 
+                                className={`absolute top-0 left-0 ${opened ? "transition ease-in-out duration-1000 -translate-y-3/4" : "transition ease-in-out duration-1000 translate-y-0"}`}
+                                ></img>
+                            <img src="/Box_in.png"
+                                className=""></img>
+                        </div>
                         <button type="button" 
                                 className="border border-stone-800 my-10 px-10 md:px-16 py-1 md:py-2 text-stone-900 hover:bg-stone-100 shadow-[4px_4px_8px_rgba(0,0,0,0.2)] text-lg md:text-2xl"
                                 onClick={() => handleOpen()}>{opened ? "Close box" : "Open Box"}</button>

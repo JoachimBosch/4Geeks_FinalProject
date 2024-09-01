@@ -9,6 +9,7 @@ import { Button, Modal } from "flowbite-react";
 const Details = () => {
 
     const [openModal, setOpenModal] = useState(false);
+    const [seeBox, setSeeBox] = useState(true);
     
     const { id } = useParams();
 
@@ -23,16 +24,20 @@ const Details = () => {
     return (
         
             <div className={`${thisBox.bg_color} py-20`}>
-                <div className="border-b border-black flex">
+                <div className="border-b border-black flex mt-2">
                     <div className="max-w-[50%] lg:max-w-[40%] content-center">
-                        <img src={thisBox.box_out} className="mx-auto p-8"></img>
-                        <div className="flex gap-1 pb-5 px-8">
-                            <img src={thisBox.box_out} className="border border-black w-1/2"></img>
-                            <img src={thisBox.box_out} className="w-1/2"></img>
+                        <img src={seeBox ? `${thisBox.box_out}`: "/Box_in.png"} className="mx-auto p-8"></img>
+                        <div className="flex gap-1 pb-5 px-8 cursor-pointer">
+                            <img src={thisBox.box_out} 
+                                className={seeBox ? "border border-black w-1/2" : "w-1/2"}
+                                onClick={() => setSeeBox(true)}></img>
+                            <img src="/Box_in.png" 
+                                className={seeBox ? "w-1/2" : "border border-black w-1/2"}
+                                onClick={() => setSeeBox(false)}></img>
                         </div>
                     </div>
                     <div className="border-l border-black p-8 content-center">
-                        <h3 className={`text-6xl ${thisBox.text_color} [text-shadow:_5px_5px_8px_rgb(0_0_0_/_20%)]`}>{thisBox.name} box</h3>
+                        <h3 className={`text-6xl text-bçack [text-shadow:_5px_5px_8px_rgb(0_0_0_/_20%)]`}>{thisBox.name} box</h3>
                         <p className="text-black-500 [text-shadow:_3px_3px_3px_rgb(0_0_0_/_20%)] text-xl md:text-3xl my-3">from €{thisBox.price}</p>
                         <FontAwesomeIcon icon={faStar}></FontAwesomeIcon>
                         <FontAwesomeIcon icon={faStar}></FontAwesomeIcon>
@@ -70,32 +75,28 @@ const Details = () => {
                         <img src="" className="size-48"></img>
                         <div className="content-center gap-5">
                             <h4>{thisBox.item_1}</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras leo lectus, facilisis non f
-ermentum sit amet, ultrices vitae mauris. Maecenas enim augue, pretium ut nibh quis</p>
+                            <p>{thisBox.item_1_text}</p>
                         </div>
                     </div>
                     <div className = "flex mx-10 py-8 border-b border-black col gap-5">
                         <img src="" className="size-48"></img>
                         <div className="content-center gap-5">
                             <h4>{thisBox.item_2}</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras leo lectus, facilisis non f
-ermentum sit amet, ultrices vitae mauris. Maecenas enim augue, pretium ut nibh quis</p>
+                            <p>{thisBox.item_2_text}</p>
                         </div>
                     </div>
                     <div className = "flex mx-10 py-8 border-b border-black col gap-5">
                         <img src="" className="size-48"></img>
                         <div className="content-center gap-5">
                             <h4>{thisBox.item_3}</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras leo lectus, facilisis non f
-ermentum sit amet, ultrices vitae mauris. Maecenas enim augue, pretium ut nibh quis</p>
+                            <p>{thisBox.item_3_text}</p>
                         </div>
                     </div>
                     <div className = "flex mx-10 py-8 border-b border-black col gap-5">
                         <img src="" className="size-48"></img>
                         <div className="content-center gap-5">
                             <h4>{thisBox.item_4}</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras leo lectus, facilisis non f
-ermentum sit amet, ultrices vitae mauris. Maecenas enim augue, pretium ut nibh quis</p>
+                            <p>{thisBox.item_4_text}</p>
                         </div>
                     </div>
                 </div>
