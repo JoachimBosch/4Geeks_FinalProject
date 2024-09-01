@@ -11,6 +11,7 @@ import MyContext from "../Context/context";
 // This is your test secret API key.
 const stripePromise = loadStripe(`${import.meta.env.VITE_APP_STRIPE_PUBLIC_KEY}`);
 
+
 const CheckoutForm = () => {
     const { _APILINK_, totalPrice } = useContext(MyContext)
 
