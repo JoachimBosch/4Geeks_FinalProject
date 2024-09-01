@@ -7,6 +7,7 @@ import UpdatePersonalInfoModal from './personalInfoModal';
 import AddressModal from './manageAddressModal';
 import ManageSubscriptionModal from './manageSubscriptionModal';
 import UpdateAddressModal from './updateAddressModal';
+import { Button, Modal } from "flowbite-react";
 
 const Profile = () => {
     const { personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, deleteAddress, setFormData, setSubData, index, setIndex } = useContext(MyContext);
@@ -14,13 +15,12 @@ const Profile = () => {
     const [openAddressModal, setOpenAddressModal] = useState(false);
     const [openUpdateAddressModal, setOpenUpdateAddressModal] = useState(false);
     const [openManageSubscriptionModal, setOpenManageSubscriptionModal] = useState(false);
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
     
 
 
     const handleDeleteClick = (addressId) => {
-        if (window.confirm("Are you sure you want to delete this address?")) {
-          deleteAddress(addressId);
-        }
+        setOpenDeleteModal(true);
       };
 
       const handleUpdateAddress = (updatedAddress, index) => {
@@ -259,6 +259,31 @@ const Profile = () => {
                 subscriptionInfo={subscriptionInfo[index]}
                 setSubscriptionInfo={setSubscriptionInfo}
             /> */}
+
+
+            <Modal show={openDeleteModal} size="md" onClose={() => setOpenDeleteModal(false)} popup>
+                <Modal.Header />
+                <Modal.Body>
+                    <div className="text-center">
+                        
+                        <h3 className="mb-5 text-2xl font-normal text-black">
+                        Do you really want to delete this address?
+                        </h3>
+                        <div className="flex justify-center gap-4">
+                        <Button color="dark" style={{padding: "6px 30px", borderRadius: "0"}} 
+                                onClick={() => deleteAddress(address.id)}>
+                            <p className="xl">Yes</p>
+                        </Button>
+                        <Button style={{padding: "6px 20px", borderRadius: "0", backgroundColor: "white", border: "1px solid black", color: "black"}} 
+                                onClick={() => setOpenDeleteModal(false)}>
+                            <p className="xl">Cancel</p>
+                        </Button>
+                        </div>
+                    </div>
+                </Modal.Body>
+            </Modal>
+
+
         </>
         )
 }

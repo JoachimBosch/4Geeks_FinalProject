@@ -1,6 +1,6 @@
 import MyContext from "../Context/context"; 
 import { useContext, useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 
@@ -209,14 +209,12 @@ const Checkout = () => {
                     </div>
                 </div>
                 <div className="flex gap-3 justify-center my-20">
-                    <Link to={{
-                        pathname: "/payment",
-                        state: {totalPrice: totalPrice}
-                    }}>
-                        <button type="button" 
+                    <form action="/create-checkout-session" method="POST">
+                        <button type="submit" 
+                                id="checkout-button"
                                 className="px-24 py-2 items-center bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)]"
                                 >Proceed to Payment</button>
-                    </Link>
+                    </form>
                 </div>
             </div>
         </div>

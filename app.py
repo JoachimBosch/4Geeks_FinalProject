@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, redirect, request, jsonify
 from models import db, User, Addresses, Subscription, Order, Product
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager, create_access_token, unset_jwt_cookies, unset_jwt_cookies, jwt_required, get_jwt_identity, get_jwt, set_access_cookies, set_refresh_cookies
@@ -7,15 +7,17 @@ from config import *
 from datetime import datetime, timedelta, timezone
 import json
 import stripe
+import os
 
-STRIPE_PUBLISHABLE_KEY = STR_PUBLISHABLE_KEY
+#STRIPE_PUBLISHABLE_KEY = STR_PUBLISHABLE_KEY
 stripe.api_key = STR_SECRET_KEY
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='', static_folder='public')
 CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*", "allow_headers": ["Authorization", "Content-Type"]}})
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
 
-YOUR_DOMAIN = 'https://39ngdl4z-3000.uks1.devtunnels.ms'
+YOUR_DOMAIN = 'http://localhost:5173'
+
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{DB_UserName}:{DB_Password}@finalproject-4geeks-finalproject-4geeks.l.aivencloud.com:22468/defaultdb?sslmode=require'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -350,22 +352,29 @@ def create_payment_intent():
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
     try:
-        session = stripe.checkout.Session.create(
-            ui_mode = 'embedded',
-            line_items=[
-                {
-                    # Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-                    'price': 'price_1Pt8Gg01ljCkoVRLZLMXJrMx',
-                    'quantity': 1,
+        data = request.get_json()
+        amount = int(50) * 100  # Convert to cents
+        checkout_session = stripe.checkout.Session.create(
+            line_items=[{
+                'price_data': {
+                    'currency': 'eur',
+                    'product_data': {
+                        'name': 'Custom Amount',
+                    },
+                    'unit_amount': amount,
                 },
-            ],
+                'quantity': 1,
+            }],
             mode='payment',
-            return_url='http://localhost:5173/return?session_id={CHECKOUT_SESSION_ID}',
+            success_url=YOUR_DOMAIN + '/success',
+            cancel_url=YOUR_DOMAIN + '/canceled',
         )
     except Exception as e:
         return str(e)
+    return jsonify({'url': checkout_session.url})
 
-    return jsonify(clientSecret=session.client_secret)
+
+
 
 @app.route('/session-status', methods=['GET'])
 def session_status():
