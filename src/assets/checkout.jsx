@@ -90,7 +90,7 @@ const Checkout = () => {
 
     const paymentSession = async (amount) => {
         try {
-            const response = await axios.post('/create-checkout-session', {
+            const response = await axios.post('https://39ngdl4z-3000.uks1.devtunnels.ms/create-checkout-session', {
                 amount: Math.round(amount * 100), // Convert to cents
                 currency: 'eur'}, {
                     headers: {
