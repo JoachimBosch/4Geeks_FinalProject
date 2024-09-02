@@ -349,12 +349,15 @@ def create_payment_intent():
     except Exception as e:
         return jsonify({'error': {'message': str(e)}}), 500 """
 
+
+
 @app.route('/create-payment-intent', methods=['POST'])
 def create_payment_intent():
     try:
         data = request.get_json()
         amount = int(data['amount'])
-        payment_intent = stripe.PaymentIntent.create(
+        print(data)
+        intent = stripe.PaymentIntent.create(
             amount=amount,
             currency='eur',
             automatic_payment_methods={
@@ -364,9 +367,10 @@ def create_payment_intent():
     except stripe.error.StripeError as e:
         return jsonify({"error": str(e)}), 400
     return jsonify({
-        "client_secret": payment_intent.client_secret,
-        "status": payment_intent.status
-    })
+            'clientSecret': intent['client_secret'],
+            # [DEV]: For demo purposes only, you should avoid exposing the PaymentIntent ID in the client-side code.
+            'dpmCheckerLink': 'https://dashboard.stripe.com/settings/payment_methods/review?transaction_id={}'.format(intent['id']),
+        })
 
 
 
@@ -377,22 +381,17 @@ def create_checkout_session():
         amount = int(50) * 100  # Convert to cents
         checkout_session = stripe.checkout.Session.create(
             line_items=[{
-                'price_data': {
-                    'currency': 'eur',
-                    'product_data': {
-                        'name': 'Custom Amount',
-                    },
-                    'unit_amount': amount,
-                },
+                'price': "price_1PrhFG05RBw7ebmuegIzyb5s",
                 'quantity': 1,
             }],
-            mode='payment',
-            success_url=YOUR_DOMAIN + '/success',
-            cancel_url=YOUR_DOMAIN + '/canceled',
+            mode='subscription',
+            success_url=YOUR_DOMAIN + '/?success=true',
+            cancel_url=YOUR_DOMAIN + '/?canceled=true',
         )
     except Exception as e:
         return str(e)
-    return jsonify({'url': checkout_session.url})
+    print(checkout_session.url)
+    return jsonify(url=checkout_session.url)
 
 
 

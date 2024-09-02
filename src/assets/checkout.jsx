@@ -5,8 +5,6 @@ import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 
 
-const stripePromise = loadStripe(`${import.meta.env.VITE_APP_STRIPE_PUBLIC_KEY}`);
-
 
 
 const Checkout = () => {
@@ -81,7 +79,6 @@ const Checkout = () => {
 
 
       const handleSubmit = async (e) => {
-        e.preventDefault();
         setError(null); // Clear any existing error
         try {
             await paymentSession(totalPrice);
@@ -91,23 +88,22 @@ const Checkout = () => {
         }
     };
 
+    console.log(_APILINK_)
 
-
-    const paymentSession = async (amount) => {
+    const paymentSession = async (event) => {
+        event.preventDefault();
         try {
-            const response = await axios.post(`${_APILINK_}/create-payment-intent`, {
-                amount: Math.round(amount * 100),
-                currency: 'eur'
+            const response = await axios.post(`${_APILINK_}/create-checkout-session`, {
+                
             }, {
                 headers: {
                   'Content-Type': 'application/json'
                 }
             });
-            if (!response.data || !response.data.client_secret || !response.data.status) {
-                throw new Error(`Invalid response from server. Received data: ${JSON.stringify(response.data)}`);
-            }
+            console.log(response.data)
+            console.log(_APILINK_)
             // Redirect to Stripe Checkout
-            window.location.href = `https://checkout.stripe.com/pay/${response.data.client_secret}?redirect_uri=${encodeURIComponent(window.location.origin)}`;
+            window.location.href = response.data.url;
             // Optionally, you can add a loading indicator here
             // setTimeout(() => {
             //     window.location.reload();
@@ -256,12 +252,12 @@ const Checkout = () => {
                     </div>
                 </div>
                 <div className="flex gap-3 justify-center my-20">
-                        <form onSubmit={handleSubmit} className="flex gap-3 justify-center my-20">
-                            <button type="submit"
+                        <div  className="flex gap-3 justify-center my-20">
+                            <button onClick={(event) => paymentSession(event)}
                                 id="checkout-button"
                                 className="px-24 py-2 items-center bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)]"
                                 >Proceed to Payment</button>
-                        </form>
+                        </div>
                     
                 </div>
             </div>
