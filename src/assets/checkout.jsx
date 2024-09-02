@@ -94,7 +94,7 @@ const Checkout = () => {
         event.preventDefault();
         try {
             const response = await axios.post(`${_APILINK_}/create-checkout-session`, {
-                
+                'amount': totalPrice
             }, {
                 headers: {
                   'Content-Type': 'application/json'
