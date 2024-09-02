@@ -349,12 +349,34 @@ def create_payment_intent():
     except Exception as e:
         return jsonify({'error': {'message': str(e)}}), 500 """
 
+@app.route('/create-payment-intent', methods=['POST'])
+def create_payment_intent():
+    try:
+        data = request.get_json()
+        amount = int(1000)
+        payment_intent = stripe.PaymentIntent.create(
+            amount=amount,
+            currency='eur',
+            automatic_payment_methods={
+                'enabled': True
+            }
+        )
+    except stripe.error.StripeError as e:
+        return jsonify({"error": str(e)}), 400
+    return jsonify({
+        "client_secret": payment_intent.client_secret,
+        "status": payment_intent.status
+    })
+
+
+
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
     try:
         data = request.get_json()
-        amount = int(data['amount'])  
+        amount = int(data.get('amount'))
         checkout_session = stripe.checkout.Session.create(
+            payment_intent=data.get('payment_intent'),
             line_items=[{
                 'price_data': {
                     'currency': 'eur',

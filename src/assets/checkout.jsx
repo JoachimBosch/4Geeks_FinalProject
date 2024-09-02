@@ -7,13 +7,17 @@ import axios from "axios";
 
 const stripePromise = loadStripe(`${import.meta.env.VITE_APP_STRIPE_PUBLIC_KEY}`);
 
+
+
 const Checkout = () => {
     const { personInfo, addressInfo, totalPrice, setTotalPrice } = useContext(MyContext);
     const [checkoutCart, setCheckoutCart] = useState([]);
     const [billing, setBilling] = useState({Name: "", VATS: "", Billing_address: "", Country: ""});
+    const [error, setError] = useState(null);
     
 
     const { cart } = useContext(MyContext);
+
 
 
     useEffect(() => {
@@ -77,12 +81,13 @@ const Checkout = () => {
 
 
       const handleSubmit = async (e) => {
-        e.preventDefault(); // Prevent default form submission
+        e.preventDefault();
+        setError(null); // Clear any existing error
         try {
-            await paymentSession(totalPrice); // Call our paymentSession function
+            await paymentSession(totalPrice);
         } catch (error) {
             console.error("Payment session creation failed:", error);
-            // Handle the error appropriately (e.g., show an error message to the user)
+            setError(error.message || "An unexpected error occurred during payment processing.");
         }
     };
 
@@ -90,17 +95,27 @@ const Checkout = () => {
 
     const paymentSession = async (amount) => {
         try {
-            const response = await axios.post('/create-checkout-session', {
-                amount: Math.round(amount * 100), // Convert to cents
-                currency: 'eur'}, {
-                    headers: {
-                      'Content-Type': 'application/json'
-                    }});
-            // Redireciona diretamente para a URL do Checkout
-            window.location.href = response.data.url;
+            const response = await axios.post('https://vfs2303q-3000.uks1.devtunnels.ms/create-payment-intent', {
+                amount: Math.round(amount * 100),
+                currency: 'eur'
+            }, {
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+            });
+            if (!response.data || !response.data.client_secret || !response.data.status) {
+                throw new Error(`Invalid response from server. Received data: ${JSON.stringify(response.data)}`);
+            }
+            // Redirect to Stripe Checkout
+            window.location.href = `https://checkout.stripe.com/pay/${response.data.client_secret}?redirect_uri=${encodeURIComponent(window.location.origin)}`;
+            // Optionally, you can add a loading indicator here
+            // setTimeout(() => {
+            //     window.location.reload();
+            // }, 2000); // Wait for 2 seconds before reloading
         } catch (error) {
-            console.error('Error creating one-time payment session:', error);
-            throw error; // Re-throw the error to handle it em handleSubmit
+            console.error('Error creating payment intent:', error);
+            console.error('Response data:', error.response?.data);
+            throw error; // Re-throw the error to handle it in handleSubmit
         }
     };
     
