@@ -13,7 +13,7 @@ export default function About() {
 
 
             <h2 className="pt-20 pb-10 text-center [text-shadow:_5px_5px_8px_rgb(0_0_0_/_20%)]">About Us</h2>
-            <p className="mx-auto px-16 max-w-[900px] md:text-2xl text-center [text-shadow:_2px_2px_2px_rgb(0_0_0_/_20%)]">Welcome to RE7, your ultimate destination for curated 
+            <p className="mx-auto px-8 md:px-16 max-w-[900px] md:text-2xl text-center [text-shadow:_2px_2px_2px_rgb(0_0_0_/_20%)]">Welcome to RE7, your ultimate destination for curated 
 self-care experiences. Our mission is simple: to help you 
 reset, rejuvenate, and recharge with thoughtfully  selected 
 products designed to enhance your well-being.
@@ -25,7 +25,7 @@ products designed to enhance your well-being.
 
             <div className="md:flex py-24">
                 <img src={image1} className="max-w-96 object-contain"></img>
-                <div className="p-16 content-center">
+                <div className="p-10 md:p-16 content-center">
                     <h4>Our Story</h4>
                     <p>At RE7, we believe that self-care is essential, not optional. 
 Founded in 2024, our journey began with a passion for 
@@ -44,23 +44,23 @@ your mind, body, and spirit.
 
             {/* Section 3 */}
 
-            <div className = "bg-[#E9D0BD] text-center py-8">
+            <div className = "bg-[#E9D0BD] text-center pt-20 pb-8">
                 <h2>Our Core Values</h2>
-                <div className="grid grid-cols-4 gap-3 py-8">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 py-4 md:py-10">
                     <div>
-                        <FontAwesomeIcon className="text-6xl py-6" icon={faStar}></FontAwesomeIcon>
+                        <FontAwesomeIcon className="text-5xl md:text-6xl py-6" icon={faStar}></FontAwesomeIcon>
                         <h4>Quality</h4>
                     </div>
                     <div>
-                        <FontAwesomeIcon className="text-6xl py-6" icon={faBoxOpen}></FontAwesomeIcon>
+                        <FontAwesomeIcon className="text-5xl md:text-6xl py-6" icon={faBoxOpen}></FontAwesomeIcon>
                         <h4>Simplicity</h4>
                     </div>
                     <div>
-                        <FontAwesomeIcon className="text-6xl py-6" icon={faSpa}></FontAwesomeIcon>
+                        <FontAwesomeIcon className="text-5xl md:text-6xl py-6" icon={faSpa}></FontAwesomeIcon>
                         <h4>Wellness</h4>
                     </div>
                     <div>
-                        <FontAwesomeIcon className="text-6xl py-6" icon={faPeopleGroup}></FontAwesomeIcon>
+                        <FontAwesomeIcon className="text-5xl md:text-6xl py-6" icon={faPeopleGroup}></FontAwesomeIcon>
                         <h4>Community</h4>
                     </div>
                 </div>
@@ -69,9 +69,9 @@ your mind, body, and spirit.
 
             {/* Section 4 */}
             
-            <div className="bg-cover min-h-96 p-16 content-center bg-right-bottom lg:h-[650px]" style={{ backgroundImage: `url(${image2})`}}>
-                <h4>What we offer</h4>
-                <p className="max-w-[60%]">Every month, we deliver a themed box filled with high-quality, 
+            <div className="bg-cover min-h-96 p-10 md:p-16 content-center bg-right-bottom lg:h-[650px]" style={{ backgroundImage: `url(${image2})`}}>
+                <h4 className="">What we offer</h4>
+                <p className="md:max-w-[60%] ">Every month, we deliver a themed box filled with high-quality, 
 carefully curated items that align with our core values of renewal, 
 relaxation, and revitalization.
                 </p>
@@ -82,8 +82,8 @@ relaxation, and revitalization.
             {/* Section 5 */}
 
 
-            <div className="py-20">
-                <div className="p-16 content-center text-center px-16 max-w-[900px] mx-auto">
+            <div className="py-12">
+                <div className="p-6 md:p-16 content-center text-center px-16 max-w-[900px] mx-auto">
                     <h2 className="pb-8">Join Our Community</h2>
                     <p className="md:text-2xl">Embrace the journey to better self-care with RE7. Whether
  you’re looking to find balance, discover new wellness products, 

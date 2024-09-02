@@ -17,7 +17,7 @@ const Checkout = () => {
     
 
     const { cart } = useContext(MyContext);
-
+    const { _APILINK_ } = useContext(MyContext);
 
 
     useEffect(() => {
@@ -95,7 +95,7 @@ const Checkout = () => {
 
     const paymentSession = async (amount) => {
         try {
-            const response = await axios.post('https://vfs2303q-3000.uks1.devtunnels.ms/create-payment-intent', {
+            const response = await axios.post(`${_APILINK_}/create-payment-intent`, {
                 amount: Math.round(amount * 100),
                 currency: 'eur'
             }, {
@@ -118,7 +118,6 @@ const Checkout = () => {
             throw error; // Re-throw the error to handle it in handleSubmit
         }
     };
-    
 
     
 
