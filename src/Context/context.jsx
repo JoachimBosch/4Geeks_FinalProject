@@ -334,10 +334,10 @@ export const MyProvider = ({ children }) => {
           const response = await axios.post(`${_APILINK_}/login`, {
             email: loggingIn.email,
             password: loggingIn.password
-          }, {
+          }/* , {
             headers: {
               'Content-Type': 'application/json'
-            }});
+            }} */);
           console.log(response.data);
           const userId = response.data.user.id;
           saveToken(response.data.access_token);

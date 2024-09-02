@@ -14,7 +14,7 @@ stripe.api_key = STR_SECRET_KEY
 
 app = Flask(__name__, static_url_path='', static_folder='public')
 CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*", "allow_headers": ["Authorization", "Content-Type"]}})
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
+""" CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}}) """
 
 YOUR_DOMAIN = 'http://localhost:5173'
 
