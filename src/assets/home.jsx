@@ -22,10 +22,10 @@ export default function Home() {
 
 
         <header className="relative flex items-end justify-end h-screen overflow-hidden">
-            <div className="relative z-30 text-right mx-20 w-full max-w-[720px]">
-                <h1 className="md:my-2 [text-shadow:_5px_5px_8px_rgb(0_0_0_/_20%)] text-black-500 leading-tight text-5xl md:text-6xl">Reset your life, one box at a time</h1>
-                <p className="text-black-500 [text-shadow:_3px_3px_3px_rgb(0_0_0_/_20%)] text-1xl md:text-3xl">Find your gateway to a more mindful, peaceful life through curated  experiences delivered to your doorstep.</p>
-                <button className="mt-10 mb-16 px-10 py-5 bg-black text-white shadow-[6px_6px_12px_rgba(0,0,0,0.4)] text-xl md:text-1xl"><a href="#section_3">Choose your experience</a></button>
+            <div className="relative z-30 text-right mx-8 md:mx-20 w-full max-w-[720px]">
+                <h1 className="my-2 [text-shadow:_5px_5px_8px_rgb(0_0_0_/_20%)] text-black-500 leading-tight text-4xl md:text-5xl md:text-6xl">Reset your life, one box at a time</h1>
+                <p className="text-black-500 [text-shadow:_3px_3px_3px_rgb(0_0_0_/_20%)] text-xl md:text-3xl">Find your gateway to a more mindful, peaceful life through curated  experiences delivered to your doorstep.</p>
+                <button className="mt-8 md:mt-10 mb-16 px-6 md:px-10 py-5 bg-black text-white shadow-[6px_6px_12px_rgba(0,0,0,0.4)] text-lg md:text-1xl"><a href="#section_3">Choose your experience</a></button>
             </div>
             <video
                 autoPlay
@@ -47,17 +47,17 @@ export default function Home() {
         <div className="bg-orange-50 h-screen flex items-center" id="section_2">
             <div style={{backgroundColor: "#FAEAE0"}} className="box-border w-[30rem] mx-auto md:w-[38rem] md:ms-[10%] leading-loose z-20 py-9 relative shadow-[6px_6px_12px_rgba(0,0,0,0.4)] text-center">
                 <hr></hr>
-                <p className="px-9 md:text-2xl md:my-2">We've crafted unique boxes to create</p>
+                <p className="px-9 text-xl md:text-2xl md:my-2">We've crafted unique boxes to create</p>
                 <hr></hr>
-                <p className="px-9 md:text-2xl md:my-2"><strong> personalized experiences </strong> that nourish your</p>
+                <p className="px-9 text-xl md:text-2xl md:my-2"><strong> personalized experiences </strong> that nourish your</p>
                 <hr></hr>
-                <p className="px-9 md:text-2xl md:my-2">soul and enhance your well-being.</p>
+                <p className="px-9 text-xl md:text-2xl md:my-2">soul and enhance your well-being.</p>
                 <hr></hr>
                 <p><br></br></p>
                 <hr></hr>
-                <p className="px-9 md:text-2xl md:my-2">Each box is an invitation to <strong>create a ritual</strong></p>
+                <p className="px-9 text-xl md:text-2xl md:my-2">Each box is an invitation to <strong>create a ritual</strong></p>
                 <hr></hr>
-                <p className="px-9 md:text-2xl md:my-2">that suits your lifestyle and needs.</p>
+                <p className="px-9 text-xl md:text-2xl md:my-2">that suits your lifestyle and needs.</p>
                 <hr></hr>
             </div>
             <img src={image1} 

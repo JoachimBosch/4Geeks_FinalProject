@@ -118,7 +118,6 @@ const Checkout = () => {
             throw error; // Re-throw the error to handle it in handleSubmit
         }
     };
-    
 
     
 

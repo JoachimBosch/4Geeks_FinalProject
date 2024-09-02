@@ -10,7 +10,7 @@ import stripe
 import os
 
 #STRIPE_PUBLISHABLE_KEY = STR_PUBLISHABLE_KEY
-stripe.api_key = STR_SECRET_KEY
+stripe.api_key = "sk_test_51PrHoE05RBw7ebmuMJcsa3VFcjryNgRFyAdyf5s2oyzikiaHpZqeOzxL6YdTmYTIlxLJ9u82BDSWkWBRR6MVlFJ300WFzClCv2"
 
 app = Flask(__name__, static_url_path='', static_folder='public')
 CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*", "allow_headers": ["Authorization", "Content-Type"]}})
@@ -353,7 +353,7 @@ def create_payment_intent():
 def create_payment_intent():
     try:
         data = request.get_json()
-        amount = int(1000)
+        amount = int(data['amount'])
         payment_intent = stripe.PaymentIntent.create(
             amount=amount,
             currency='eur',
@@ -374,12 +374,14 @@ def create_payment_intent():
 def create_checkout_session():
     try:
         data = request.get_json()
-        amount = int(data.get('amount'))
+        amount = int(50) * 100  # Convert to cents
         checkout_session = stripe.checkout.Session.create(
-            payment_intent=data.get('payment_intent'),
             line_items=[{
                 'price_data': {
                     'currency': 'eur',
+                    'product_data': {
+                        'name': 'Custom Amount',
+                    },
                     'unit_amount': amount,
                 },
                 'quantity': 1,
