@@ -63,7 +63,7 @@ export default function Home() {
         
         
         
-        <div className="h-view text-center pt-24" style={{backgroundColor: "#FAEAE0"}} id="section_3">
+        <div className="text-center pt-24" style={{backgroundColor: "#FAEAE0"}} id="section_3">
                 <h2 className="text-3xl md:text-4xl px-4">Choose Your Experience</h2>
                 <div className = "w-full mt-16">
                     <ul className="pb-5 relative flex flex-wrap px-10 md:px-1 list-none text-base md:text-lg lg:text-xl" data-tabs="tabs" role="list">
@@ -266,7 +266,7 @@ export default function Home() {
                 </Accordion>
             </div>
             <div className="flex justify-center">
-                <button className="px-10 py-5 bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)] text-lg md:text-xl"><a href="#section_3">Choose your experience</a></button>
+                <button className="mx-auto px-6 md:px-10 py-5 bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)] text-lg md:text-1xl flex content-center"><a href="#section_3">Choose your experience</a></button>
             </div>
         </div>
 
