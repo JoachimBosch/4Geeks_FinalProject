@@ -15,6 +15,7 @@ import { useAuth } from "../Context/authcontext";
 import CheckoutForm from "../assets/checkoutForm";
 import Return from "../assets/return";
 import Success from "../assets/success";
+import Canceled from "../assets/canceled";
 
 const AuthRoutes = () => {
     const { token } = useAuth();
@@ -30,6 +31,7 @@ const AuthRoutes = () => {
           <Route path="/cart" element={<ShoppingCart />} />
           <Route path="/about" element={<About />} />
           <Route path="/success" element={<Success />} />
+          <Route path="/canceled" element={<Canceled />} />
 
           {/* Protected routes */}
           <Route path="/profile" element={<ProtectedRoute />}>
