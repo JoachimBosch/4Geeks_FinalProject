@@ -2,10 +2,17 @@ import { Link } from "react-router-dom";
 import MyContext from "../Context/context";
 import { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Modal } from "flowbite-react";
 
 const Login = () => {
-    const { loggingIn, setLoggingIn, login, type, icon, handleToggle } = useContext(MyContext);
-    
+    const { loggingIn, setLoggingIn, login, type, icon, handleToggle, loginModal, setLoginModal } = useContext(MyContext);
+
+    const handleLogin = async () => {
+        await login(loggingIn);
+        if (error) {
+            setLoginModal(true)
+        }
+    }
 
     return (
     <div className="bg-orange-50 pt-52 pb-32 flex justify-center">
@@ -51,7 +58,7 @@ const Login = () => {
                         <button type="submit" className="px-16 py-2 bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)] text-base"
                         onClick={(e) => {
                             e.preventDefault();
-                            login(loggingIn);
+                            handleLogin();
                             }}>Sign in</button>
                     </div>
                     </form>
@@ -69,6 +76,22 @@ const Login = () => {
                 </div>
             </div>
             
+            <Modal show={loginModal} size="md" onClose={() => setLoginModal(false)} popup>
+                <Modal.Header />
+                <Modal.Body>
+                    <div className="text-center">
+                        
+                        <h3 className="mb-5 text-2xl font-normal text-black">
+                        Username or password incorrect. Please try again.
+                        </h3>
+                        <div className="flex justify-center gap-4">
+                        <Button color="dark" style={{padding: "8px 40px", borderRadius: "0"}} onClick={() => setLoginModal(false)}>
+                            <p className="xl">Dismiss</p>
+                        </Button>
+                        </div>
+                    </div>
+                </Modal.Body>
+            </Modal>
         
     </div>
     )

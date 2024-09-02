@@ -179,8 +179,8 @@ const boxes = [
 
 
 export const MyProvider = ({ children }) => {
-  const _APILINK_ = "https://39ngdl4z-3000.uks1.devtunnels.ms"
-  /* const _APILINK_ = "https://vfs2303q-3000.uks1.devtunnels.ms/" */ 
+  /* const _APILINK_ = "https://39ngdl4z-3000.uks1.devtunnels.ms" */
+  const _APILINK_ = "https://vfs2303q-3000.uks1.devtunnels.ms/" 
 
     
     /* Add the public link of your browser and comment the one above */
@@ -224,6 +224,7 @@ export const MyProvider = ({ children }) => {
     const [index, setIndex] = useState("");
     const [totalPrice, setTotalPrice] = useState(0);
     const [token, setToken_] = useState(localStorage.getItem("token"));
+    const [loginModal, setLoginModal] = useState(false);
 
     /*UseEffect*/
 
@@ -358,14 +359,18 @@ export const MyProvider = ({ children }) => {
           setLoggingIn({email: "", password: ""});
           window.location.href = "/profile";
         } catch (error) {
-          alert('Incorrect username or password');
+          setLoginModal(true);
           setLoggingIn({email: "", password: ""});
           console.error('Login error:', error);
         }};
 
     const logout = async () => {
       try {
-        await axios.post(`${_APILINK_}/logout`);
+        await axios.post(`${_APILINK_}/logout`, {}, { 
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
         clearAll();
         window.location.href = "/";
       } catch (error) {
@@ -463,6 +468,7 @@ export const MyProvider = ({ children }) => {
     const updatedSubscriptions = [...subscriptionInfo, response.data];
     setSubscriptionInfo(updatedSubscriptions);
     localStorage.setItem('subscriptionInfo', JSON.stringify(updatedSubscriptions));
+    localStorage.removeItem('MyCart')
   } catch (error) {
     console.error('Error while adding subscription:', error);
   };
@@ -484,7 +490,7 @@ const updateSubscription = async (subscriptionID, updatedData) => {
 };
     
     /* Add variable names within appContext */
-    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData,  type, setType, icon, setIcon, handleToggle, deleteAddress, fetchAddresses, fetchSubscriptions ,storeSubscription, updateSubscription, subData, setSubData, index, setIndex, saveToken, logout, token, setToken_, updatePersonInfo, _APILINK_, totalPrice, setTotalPrice }
+    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData,  type, setType, icon, setIcon, handleToggle, deleteAddress, fetchAddresses, fetchSubscriptions ,storeSubscription, updateSubscription, subData, setSubData, index, setIndex, saveToken, logout, token, setToken_, updatePersonInfo, _APILINK_, totalPrice, setTotalPrice, loginModal, setLoginModal }
 
     return (
         <MyContext.Provider value={appContext}>
