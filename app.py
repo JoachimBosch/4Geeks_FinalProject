@@ -10,7 +10,7 @@ import stripe
 import os
 
 #STRIPE_PUBLISHABLE_KEY = STR_PUBLISHABLE_KEY
-stripe.api_key = "sk_test_51PrHoE05RBw7ebmuMJcsa3VFcjryNgRFyAdyf5s2oyzikiaHpZqeOzxL6YdTmYTIlxLJ9u82BDSWkWBRR6MVlFJ300WFzClCv2"
+stripe.api_key = STR_SECRET_KEY
 
 app = Flask(__name__, static_url_path='', static_folder='public')
 CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*", "allow_headers": ["Authorization", "Content-Type"]}})
