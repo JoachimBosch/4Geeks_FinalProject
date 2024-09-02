@@ -1,9 +1,21 @@
 import { Link } from "react-router-dom";
 import MyContext from "../Context/context";
 import { useContext } from "react";
+import { Button, Modal } from "flowbite-react";
 
 const Subscribe = () => {
-    const { subscribe, setSubscribe, setLogin, register } = useContext(MyContext)
+    const { subscribe, setSubscribe, setLogin, register, registerMsg, setRegisterMsg, registerModal, setRegisterModal } = useContext(MyContext)
+    
+    const handleSubscribe = async () => {
+        await register();
+        setRegisterModal(true);
+    }
+
+    const handleExit = () => {
+        setRegisterModal(false);
+        setRegisterMsg("");
+    }
+    
     return (
         <div className="bg-orange-50 pt-52 pb-32 flex justify-center">
             <div className="bg-[#faeae0] rounded flex mx-10 shadow-[6px_6px_12px_rgba(0,0,0,0.4)]">
@@ -42,7 +54,7 @@ const Subscribe = () => {
                             <button type="submit" className="px-16 py-2 bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)] text-base" 
                             onClick={(e) => {
                             e.preventDefault();
-                            register();
+                            handleSubscribe();
                             /* setSubscribe({email: "", password: ""}) */ /* This button is storing the value correctly */
                             }}>Register</button>
                         </div>
@@ -60,6 +72,35 @@ const Subscribe = () => {
                 </div>
                 
             </div>
+
+            <Modal show={registerModal} size="md" onClose={handleExit} popup>
+                <Modal.Header />
+                <Modal.Body>
+                    <div className="text-center">
+                        
+                        <h3 className="mb-5 text-2xl font-normal text-black">
+                        {registerMsg}
+                        </h3>
+                        <div className="flex justify-center gap-4">
+                            {registerMsg === "Successfully registered" 
+                            ?          
+                            <Link to={`/login`}>
+                                <Button color="dark" style={{padding: "8px 40px", borderRadius: "0"}} onClick={handleExit}>
+                                    <p className="xl">Log in</p>
+                                </Button>
+                            </Link>
+                                
+                            :
+                            <Button color="dark" style={{padding: "8px 40px", borderRadius: "0"}} onClick={handleExit}>
+                            <p className="xl">Dismiss</p>
+                            </Button>
+                        }
+                        
+                        </div>
+                    </div>
+                </Modal.Body>
+            </Modal>
+
         </div>
         )
 }
