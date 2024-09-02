@@ -179,8 +179,8 @@ const boxes = [
 
 
 export const MyProvider = ({ children }) => {
-  /* const _APILINK_ = "https://39ngdl4z-3000.uks1.devtunnels.ms" */
-  const _APILINK_ = "https://vfs2303q-3000.uks1.devtunnels.ms/" 
+  const _APILINK_ = "https://39ngdl4z-3000.uks1.devtunnels.ms"
+  /* const _APILINK_ = "https://vfs2303q-3000.uks1.devtunnels.ms/" */ 
 
     
     /* Add the public link of your browser and comment the one above */
@@ -225,6 +225,8 @@ export const MyProvider = ({ children }) => {
     const [totalPrice, setTotalPrice] = useState(0);
     const [token, setToken_] = useState(localStorage.getItem("token"));
     const [loginModal, setLoginModal] = useState(false);
+    const [registerModal, setRegisterModal] = useState(false);
+    const [registerMsg, setRegisterMsg] = useState("");
 
     /*UseEffect*/
 
@@ -317,9 +319,12 @@ export const MyProvider = ({ children }) => {
           headers: {
             'Content-Type': 'application/json'
           }});
-        alert('Successfully registered');
+        setRegisterMsg("Successfully registered")
+        setRegisterModal(true);
         setSubscribe({email: "", password: ""});
       } catch (error) {
+        setRegisterMsg("An error occurred, please try again.")
+        setRegisterModal(true);
         console.error('Error while registering:', error);
       };
     }
@@ -355,7 +360,6 @@ export const MyProvider = ({ children }) => {
           } else {
             await fetchSubscriptions(userId);
           };
-
           setLoggingIn({email: "", password: ""});
           window.location.href = "/profile";
         } catch (error) {
@@ -490,7 +494,7 @@ const updateSubscription = async (subscriptionID, updatedData) => {
 };
     
     /* Add variable names within appContext */
-    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData,  type, setType, icon, setIcon, handleToggle, deleteAddress, fetchAddresses, fetchSubscriptions ,storeSubscription, updateSubscription, subData, setSubData, index, setIndex, saveToken, logout, token, setToken_, updatePersonInfo, _APILINK_, totalPrice, setTotalPrice, loginModal, setLoginModal }
+    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData,  type, setType, icon, setIcon, handleToggle, deleteAddress, fetchAddresses, fetchSubscriptions ,storeSubscription, updateSubscription, subData, setSubData, index, setIndex, saveToken, logout, token, setToken_, updatePersonInfo, _APILINK_, totalPrice, setTotalPrice, loginModal, setLoginModal, registerModal, setRegisterModal, registerMsg, setRegisterMsg }
 
     return (
         <MyContext.Provider value={appContext}>
