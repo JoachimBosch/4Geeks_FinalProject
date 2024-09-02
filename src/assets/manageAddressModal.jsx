@@ -33,6 +33,7 @@ const AddressModal = ({ show, onClose, addressInfo, setAddressInfo, isEdit }) =>
             city: '',
             country: '',
           });
+          fetchAddresses();
     };
 
     

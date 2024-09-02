@@ -8,6 +8,7 @@ import AddressModal from './manageAddressModal';
 import ManageSubscriptionModal from './manageSubscriptionModal';
 import UpdateAddressModal from './updateAddressModal';
 import { Button, Modal } from "flowbite-react";
+import DeleteAddress from './deleteAddress';
 
 const Profile = () => {
     const { personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, deleteAddress, setFormData, setSubData, index, setIndex } = useContext(MyContext);
@@ -135,7 +136,10 @@ const Profile = () => {
                                                 </button>
                                             </Link>
                                             <Link to="">
-                                                <button className="ml-2 px-2 py-1 bg-inherit" onClick={() => handleDeleteClick(address.id)}>
+                                                <button className="ml-2 px-2 py-1 bg-inherit" onClick={() => {
+                                                    setIndex(index);
+                                                    setOpenDeleteModal(true);
+                                                }}>
                                                     <FontAwesomeIcon icon={faTrashCan} />
                                                 </button>
                                             </Link>
@@ -260,29 +264,13 @@ const Profile = () => {
                 setSubscriptionInfo={setSubscriptionInfo}
             /> */}
 
-
-            <Modal show={openDeleteModal} size="md" onClose={() => setOpenDeleteModal(false)} popup>
-                <Modal.Header />
-                <Modal.Body>
-                    <div className="text-center">
-                        
-                        <h3 className="mb-5 text-2xl font-normal text-black">
-                        Do you really want to delete this address?
-                        </h3>
-                        <div className="flex justify-center gap-4">
-                        <Button color="dark" style={{padding: "6px 30px", borderRadius: "0"}} 
-                                onClick={() => deleteAddress(address.id)}>
-                            <p className="xl">Yes</p>
-                        </Button>
-                        <Button style={{padding: "6px 20px", borderRadius: "0", backgroundColor: "white", border: "1px solid black", color: "black"}} 
-                                onClick={() => setOpenDeleteModal(false)}>
-                            <p className="xl">Cancel</p>
-                        </Button>
-                        </div>
-                    </div>
-                </Modal.Body>
-            </Modal>
-
+            <DeleteAddress
+                show={openDeleteModal}
+                onClose={() => setOpenDeleteModal(false)}
+                addressInfo={addressInfo[index]}
+                index={index}
+                setOpenDeleteModal={setOpenDeleteModal}
+            />
 
         </>
         )
