@@ -17,15 +17,15 @@ const Subscribe = () => {
     }
     
     return (
-        <div className="bg-orange-50 pt-52 pb-32 flex justify-center">
-            <div className="bg-[#faeae0] rounded flex mx-10 shadow-[6px_6px_12px_rgba(0,0,0,0.4)]">
+        <div className="bg-orange-50 pt-28 md:pt-52 pb-32 flex justify-center">
+            <div className="bg-[#faeae0] rounded flex flex-col md:flex-row mx-2 shadow-[6px_6px_12px_rgba(0,0,0,0.4)]">
                 <div id="left" >
-                    <img src="/Tea.jpg" className="h-[100%] object-cover rounded-l-md"></img>
+                    <img src="/Tea.jpg" className="h-[530px] md:h-[100%] object-cover rounded-t-md md:rounded-l-md"></img>
                 </div>
                 
                 
-                <div id="right" className="py-12 px-10 w-[60%]">
-                    <h2 className="text-center text-3xl pb-16">Create account</h2>
+                <div id="right" className="py-12 px-6 md:px-10 md:w-[60%]">
+                    <h2 className="text-center text-3xl pb-10 md:pb-16">Create account</h2>
                 
 
                     

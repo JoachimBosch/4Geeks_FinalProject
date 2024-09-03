@@ -15,19 +15,20 @@ const Login = () => {
     }
 
     return (
-    <div className="bg-orange-50 pt-52 pb-32 flex justify-center">
+    <div className="bg-orange-50 pt-28 md:pt-52 pb-32 flex justify-center">
         
             
-            <div className="bg-[#faeae0] rounded flex mx-10 shadow-[6px_6px_12px_rgba(0,0,0,0.4)]">
-                <div id="left-side" className="py-12 px-10 w-[60%]">
-                    <h2 className="text-center text-3xl pb-16">Sign in</h2>
+            <div className="bg-[#faeae0] rounded flex flex-col-reverse md:flex-row mx-2 shadow-[6px_6px_12px_rgba(0,0,0,0.4)]">
+                <div id="left-side" className="py-12 px-6 md:px-10 md:w-[60%]">
+                    <h2 className="text-center text-3xl pb-10 md:pb-16">Sign in</h2>
                     <form className="space-y-4" action="#" method="POST">
                     <div>
                         <label for="email" className="block text-base text-gray-900">Email address</label>
                         <div className="mt-2">
                         <input id="email" name="email" type="email" autocomplete="email" value={loggingIn.email} onChange={(e) => setLoggingIn({
                                 ...loggingIn,
-                                email: e.target.value})}required className="block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6" />
+                                email: e.target.value})}required 
+                                className="block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-base sm:leading-6" />
                         </div>
                     </div>
 
@@ -72,7 +73,7 @@ const Login = () => {
                     </p>
                 </div>
                 <div id="right-side" className="opacity-80">
-                    <img src="/Candles&lights.png" className="h-[100%] object-cover rounded-r-md"></img>
+                    <img src="/Candles&lights.png" className="h-[530px] md:h-[100%] object-cover rounded-t-md md:rounded-r-md"></img>
                 </div>
             </div>
             

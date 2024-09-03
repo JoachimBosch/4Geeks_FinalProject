@@ -55,23 +55,23 @@ const Profile = () => {
                         
                         <div className="mx-10 md:mx-16 pt-8 grid md:grid-cols-2 gap-4 pt-8">
                             <div>
-                                <h3 className="text-lg font-semibold">Name:</h3>
+                                <h4 className="text-lg font-semibold">Name:</h4>
                                 <input type="text" value={personInfo.first_name ? personInfo.first_name : "Add your first name"}
                                 readOnly className="text-xl px-4 py-3 focus:bg-transparent text-gray-800 w-full focus:outline-blue-600" />
                         
                             </div>
                             <div>
-                                <h3 className="text-lg font-semibold">Last name:</h3>
+                                <h4 className="text-lg font-semibold">Last name:</h4>
                                 <input type="text" value={personInfo.last_name ? personInfo.last_name : "Add your last name"}
                                 readOnly className="text-xl px-4 py-3 focus:bg-transparent text-gray-800 w-full focus:outline-blue-600" />
                             </div>
                             <div>
-                                <h3 className="text-lg font-semibold">Email address:</h3>
+                                <h4 className="text-lg font-semibold">Email address:</h4>
                                 <input type="text" value={personInfo.email ? personInfo.email : "Add your email address"}
                                 readOnly className="text-xl px-4 py-3 focus:bg-transparent text-gray-800 w-full focus:outline-blue-600" />
                             </div>
                             <div>
-                                <h3 className="text-lg font-semibold">Phone number:</h3>
+                                <h4 className="text-lg font-semibold">Phone number:</h4>
                                 <input type="text" value={personInfo.phone ? personInfo.phone : "Add your phone number"}
                                 readOnly className="text-xl px-4 py-3 focus:bg-transparent text-gray-800 w-full focus:outline-blue-600" />
                             </div>
@@ -117,7 +117,7 @@ const Profile = () => {
                                 <tbody>
                                 {addressInfo.map((address, index) => (
                                     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={index}>
-                                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             {address.relation_to_user}
                                         </td>
                                         <td className="px-6 py-4">
@@ -182,7 +182,7 @@ const Profile = () => {
                                         <th scope="col" className="px-6 py-3">
                                             Start date
                                         </th>
-                                        <th scope="col" classname="px-6 py-3">
+                                        <th scope="col" className="px-6 py-3">
                                             End date
                                         </th>
                                         
