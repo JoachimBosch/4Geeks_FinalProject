@@ -227,6 +227,16 @@ export const MyProvider = ({ children }) => {
     const [loginModal, setLoginModal] = useState(false);
     const [registerModal, setRegisterModal] = useState(false);
     const [registerMsg, setRegisterMsg] = useState("");
+    const [storeSub, setStoreSub] = useState({
+      active: true,
+      user_id: personInfo.id,
+      billing_address: 0,
+      shipping_address: 0,
+      order: "",
+      start_date: "",
+      end_date: "",
+      payment_method: "Card",
+    });
 
     /*UseEffect*/
 
@@ -491,9 +501,17 @@ const updateSubscription = async (subscriptionID, updatedData) => {
       console.error('Error while updating subscription:', error);
   }
 };
+
+  function getDate() {
+    const today = new Date();
+    const month = today.getMonth() + 1;
+    const year = today.getFullYear();
+    const day = today.getDate();
+    return `${day}/${month}/${year}`;
+  }
     
     /* Add variable names within appContext */
-    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData,  type, setType, icon, setIcon, handleToggle, deleteAddress, fetchAddresses, fetchSubscriptions ,storeSubscription, updateSubscription, subData, setSubData, index, setIndex, saveToken, logout, token, setToken_, updatePersonInfo, _APILINK_, totalPrice, setTotalPrice, loginModal, setLoginModal, registerModal, setRegisterModal, registerMsg, setRegisterMsg }
+    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData,  type, setType, icon, setIcon, handleToggle, deleteAddress, fetchAddresses, fetchSubscriptions ,storeSubscription, updateSubscription, subData, setSubData, index, setIndex, saveToken, logout, token, setToken_, updatePersonInfo, _APILINK_, totalPrice, setTotalPrice, loginModal, setLoginModal, registerModal, setRegisterModal, registerMsg, setRegisterMsg, storeSub, setStoreSub, getDate }
 
     return (
         <MyContext.Provider value={appContext}>
