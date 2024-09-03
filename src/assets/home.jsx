@@ -45,11 +45,11 @@ export default function Home() {
 
 
         <div className="bg-orange-50 h-screen flex items-center" id="section_2">
-            <div style={{backgroundColor: "#FAEAE0"}} className="box-border w-[30rem] mx-auto md:w-[38rem] mx-8 md:ms-[10%] leading-loose z-20 py-9 relative shadow-[6px_6px_12px_rgba(0,0,0,0.4)] text-center">
+            <div style={{backgroundColor: "#FAEAE0"}} className="box-border w-[30rem] md:w-[38rem] mx-6 md:ms-[10%] leading-loose z-20 py-9 relative shadow-[6px_6px_12px_rgba(0,0,0,0.4)] text-center">
                 
-                <p className="px-9 text-xl md:text-2xl md:my-2">We've crafted unique boxes to create personalized experiences that nourish your soul and enhance your well-being.</p>
+                <p className="px-9 text-1xl md:text-2xl md:my-2 leading-loose">We've crafted unique boxes to create personalized experiences that nourish your soul and enhance your well-being.</p>
                 <p><br></br></p>
-                <p className="px-9 text-xl md:text-2xl md:my-2">Each box is an invitation to create a ritual that suits your lifestyle and needs.</p>
+                <p className="px-9 text-1xl md:text-2xl md:my-2 leading-loose">Each box is an invitation to create a ritual that suits your lifestyle and needs.</p>
                 
             </div>
             <img src={image1} 
@@ -64,7 +64,7 @@ export default function Home() {
         
         
         <div className="text-center pt-24" style={{backgroundColor: "#FAEAE0"}} id="section_3">
-                <h2 className="text-3xl md:text-4xl px-4">Choose Your Experience</h2>
+                <h2 className="text-4xl md:text-5xl px-4">Choose Your Experience</h2>
                 <div className = "w-full mt-16">
                     <ul className="pb-5 relative flex flex-wrap px-10 md:px-1 list-none text-base md:text-lg lg:text-xl" data-tabs="tabs" role="list">
                         <li className="z-30 flex-auto text-center hover:underline">
@@ -125,7 +125,7 @@ export default function Home() {
 
 
         <div className="bg-orange-50 py-24" id="section_4">
-            <h2 className="text-3xl md:text-4xl text-center">Our boxes</h2>
+            <h2 className="text-4xl md:text-5xl text-center">Our boxes</h2>
             <div className="my-16 md:flex">
                 <img src={image2} alt="lady choosing products"></img>
                 <div className="grid gap-y-4 mx-8 mt-4 md:mt-0 w-4/5">
@@ -154,7 +154,7 @@ export default function Home() {
 
 
         <div className="z-10 relative pt-24 h-[650px]" id="section_5" style={{ backgroundImage: `url(${image3})`}}>
-            <h2 className="text-center [text-shadow:_3px_3px_5px_rgb(0_0_0_/_50%)] mb-10 text-3xl md:text-4xl px-4" style={{color: 'white'}}>Our Clients Love Us</h2>
+            <h2 className="text-center [text-shadow:_3px_3px_5px_rgb(0_0_0_/_50%)] mb-10 text-4xl md:text-5xl px-4" style={{color: 'white'}}>Our Clients Love Us</h2>
             <div className="flex :justify-center overflow-scroll overflow-hidden">
                 <div className="bg-white opacity-70 w-1/3 p-5 ms-5 my-10 rounded-sm min-w-80 max-w-96">
                     <p>"Absolutely life-changing! The Relax box has become my nightly ritual. The soothing scents and calming teas help me unwind like never before. I feel so much more at peace. Thank you, RE7!"</p>
@@ -180,7 +180,7 @@ export default function Home() {
         
 
         <div className="pt-24 mb-32" id="section_6">
-            <h2 className="text-center mb-16 text-3xl md:text-4xl px-4">Frequently Asked Questions</h2>
+            <h2 className="text-center mb-16 text-4xl md:text-5xl px-4">Frequently Asked Questions</h2>
             <div style={{backgroundColor: "#FAEAE0"}} className="md:max-w-[70%] mx-6 md:mx-auto my-10 leading-normal md:leading-loose md:py-2 shadow-[4px_4px_8px_rgba(0,0,0,0.2)] ">
                 <Accordion collapseAll>
                     <Accordion.Panel>

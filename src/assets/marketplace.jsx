@@ -11,7 +11,7 @@ const Marketplace = () => {
 
         
         <>
-            <div className="bg-[#FAEAE0] py-16">
+            <div className="bg-[#FAEAE0] pt-20 pb-36">
                 <h2 className="text-center pt-24 text-4xl md:text-5xl px-4">Our Experiences</h2>
                 <p className="text-center py-8 text-xl">FIND THE ONE THAT SUITS YOUR NEEDS</p>
             
