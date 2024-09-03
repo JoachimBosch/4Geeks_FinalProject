@@ -1,7 +1,32 @@
 import image1 from '../images/OurClients.jpg';
 import { Link } from 'react-router-dom'
+import { useContext, useState, useEffect } from 'react';
+import MyContext from '../Context/context';
 
 const Success = () => {
+    /* const { storeSub, setStoreSub, _APILINK_, storeSubscription } = useContext(MyContext);
+    const [error, setError] = useState(null);
+
+    console.log(storeSub)
+    const postSubscriptionData = async () => {
+        try {
+        if (storeSub && storeSub.length > 0) {
+            for (let sub of storeSub) {
+            storeSubscription(sub)
+            }
+        } else {
+            console.error('No subscription data available to post.');
+        }
+        } catch (error) {
+        console.error('Error posting subscription data:', error);
+        setError('Failed to post subscription data. Please contact support.');
+        }
+    };
+    
+    useEffect(() => {
+        postSubscriptionData();
+      }, [storeSub, _APILINK_]); */
+
     return(
         <div className ="bg-[#e9d0bd] pt-36 md:pt-56 pb-36 px-6 md:h-screen" style={{ backgroundImage: `url(${image1})`}}>
             <div className="bg-[#e9d0bd] space-y-8 md:space-y-12 mx-auto max-w-[800px] text-center pt-20 md:pt-24 pb-20 px-8 md:px-16">

@@ -4,19 +4,14 @@ import { Link } from 'react-router-dom';
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 
-
-
-
 const Checkout = () => {
-    const { personInfo, addressInfo, totalPrice, setTotalPrice } = useContext(MyContext);
+    const { personInfo, addressInfo, totalPrice, setTotalPrice, storeSub, setStoreSub, getDate, storeSubscription } = useContext(MyContext);
     const [checkoutCart, setCheckoutCart] = useState([]);
     const [billing, setBilling] = useState({Name: "", VATS: "", Billing_address: "", Country: ""});
     const [error, setError] = useState(null);
     
-
     const { cart } = useContext(MyContext);
     const { _APILINK_ } = useContext(MyContext);
-
 
     useEffect(() => {
         const newCheckoutCart = [];
@@ -38,8 +33,6 @@ const Checkout = () => {
             0,
         ))
       }, [cart]);
-
-      
 
     function handlePrice(box, term) {
         switch(term) {
@@ -78,7 +71,7 @@ const Checkout = () => {
       };
 
 
-      const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         setError(null); // Clear any existing error
         try {
             await paymentSession(totalPrice);
@@ -87,8 +80,6 @@ const Checkout = () => {
             setError(error.message || "An unexpected error occurred during payment processing.");
         }
     };
-
-    console.log(_APILINK_)
 
     const paymentSession = async (event) => {
         event.preventDefault();
@@ -100,14 +91,13 @@ const Checkout = () => {
                   'Content-Type': 'application/json'
                 }
             });
-            console.log(response.data)
-            console.log(_APILINK_)
             // Redirect to Stripe Checkout
             window.location.href = response.data.url;
             // Optionally, you can add a loading indicator here
-            // setTimeout(() => {
-            //     window.location.reload();
-            // }, 2000); // Wait for 2 seconds before reloading
+            /* setTimeout(() => {
+                window.location.href = response.data.url;
+             }, 2000);  */// Wait for 2 seconds before reloading    
+            
             localStorage.setItem('myCart', JSON.stringify([]));
         } catch (error) {
             console.error('Error creating payment intent:', error);
@@ -116,7 +106,50 @@ const Checkout = () => {
         }
     };
 
-    
+    /* const gatherSubData = async () => {
+        const updatedSubData = cart.map((box) => {
+          const checkoutCartItem = checkoutCart.find((item) => item.id === box.name);
+      
+          if (!checkoutCartItem) {
+            console.error(`Checkout cart item for order ${box.name} not found.`);
+            return {
+              ...storeSub,
+              billing_address: billing.Billing_address ? billing.Billing_address : addressInfo.id,
+              shipping_address: billing.Billing_address ? billing.Billing_address : addressInfo.id,
+              order: box.name,
+              start_date: getDate(),
+            };
+          }
+      
+          const { final_price, price_3, price_6, price_12 } = checkoutCartItem;
+          const subscriptionTerm = [price_3, price_6, price_12].findIndex((price) => price === final_price) + 1;
+      
+          const endDate = new Date(getDate());
+          endDate.setMonth(endDate.getMonth() + subscriptionTerm * 3);
+      
+          console.log(endDate)
+          return {
+            ...storeSub,
+            billing_address: billing.Billing_address ? billing.Billing_address : addressInfo.id,
+            shipping_address: billing.Billing_address ? billing.Billing_address : addressInfo.id,
+            order: box.name,
+            start_date: getDate(),
+            end_date: endDate,
+          };
+        });
+        setStoreSub(updatedSubData);
+        await storeAllSubs();
+      };
+
+    const storeAllSubs = async () => {
+        try {
+          for (let sub of storeSub) {
+            await storeSubscription(sub); 
+          }
+        } catch (error) {
+          console.error('Error while storing subscriptions:', error);
+        }
+      }; */
 
     return (
         <div style={{backgroundColor: "#FAEAE0"}}>
@@ -232,12 +265,12 @@ const Checkout = () => {
                         </div>
 
                         <div>
-                            <input type="text" name="VATS" value={billing.VATS} onChange={handleInputChange} placeholder="VATS"
+                            <input type="text" name="VATS" value={billing.VATS} onChange={handleInputChange} placeholder="VAT Number"
                                 className="px-4 py-3 focus:bg-transparent text-gray-800 w-full focus:outline-blue-600" />
                         </div>
 
                         <div>
-                            <select name="Billing_address" value={billing.Billing_address} onChange={handleInputChange}
+                            <select name="Billing_address" value={billing.Billing_address} onClick={handleInputChange}
                                 className="px-4 py-3 focus:bg-transparent text-gray-800 w-full focus:outline-blue-600">
                                 {addressInfo.map((address, index) => (
                                             <option key={address.id} value={address.id}>{address.street_number} {address.street}, {address.postal_code} {address.city}, {address.country}</option>
