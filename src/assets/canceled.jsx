@@ -9,7 +9,7 @@ const Canceled = () => {
                 <p className="text-2xl">
                     Did something go wrong?
                     We're happy to assist you in case you have any questions.</p>
-                <p>Feel free to contact us at info@reset.com if we can help in any way.</p>
+                <p>Feel free to contact us at <a href="mailto:info@reset.com?subject=I need help with my payment"><strong>info@reset.com</strong></a> if we can help in any way.</p>
                 <Link to="/">
                     <button className="mt-8 underline leading-6 text-orange-700 hover:text-orange-900">Back Home</button>
                 </Link>

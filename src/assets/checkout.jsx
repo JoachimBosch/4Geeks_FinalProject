@@ -108,6 +108,7 @@ const Checkout = () => {
             // setTimeout(() => {
             //     window.location.reload();
             // }, 2000); // Wait for 2 seconds before reloading
+            localStorage.setItem('myCart', JSON.stringify([]));
         } catch (error) {
             console.error('Error creating payment intent:', error);
             console.error('Response data:', error.response?.data);

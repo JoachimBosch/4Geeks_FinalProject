@@ -179,8 +179,8 @@ const boxes = [
 
 
 export const MyProvider = ({ children }) => {
-  /*const _APILINK_ = "https://39ngdl4z-3000.uks1.devtunnels.ms" */
-  const _APILINK_ = "https://vfs2303q-3000.uks1.devtunnels.ms"
+  const _APILINK_ = "https://39ngdl4z-3000.uks1.devtunnels.ms"
+  /* const _APILINK_ = "https://vfs2303q-3000.uks1.devtunnels.ms" */
 
     
     /* Add the public link of your browser and comment the one above */
@@ -472,7 +472,6 @@ export const MyProvider = ({ children }) => {
     const updatedSubscriptions = [...subscriptionInfo, response.data];
     setSubscriptionInfo(updatedSubscriptions);
     localStorage.setItem('subscriptionInfo', JSON.stringify(updatedSubscriptions));
-    localStorage.removeItem('MyCart')
   } catch (error) {
     console.error('Error while adding subscription:', error);
   };
