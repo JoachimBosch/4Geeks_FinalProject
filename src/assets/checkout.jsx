@@ -255,7 +255,7 @@ const Checkout = () => {
                 <div className="flex justify-center mx-2 my-20">
                             <button onClick={(event) => paymentSession(event)}
                                 id="checkout-button"
-                                className="px-10 md:px-24 py-2 items-center bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)]"
+                                className="px-10 md:px-16 py-2 items-center bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)]"
                                 >Proceed to Payment</button>
                         
                     
