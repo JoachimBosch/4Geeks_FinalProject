@@ -109,12 +109,12 @@ const ShoppingCart = () => {
                     <p className="text-2xl font-semibold">{parseFloat(totalPrice).toFixed(2) + "€"}</p>
                 </div>
                 <p className="text-center text-base">Shipping taxes calculated at checkout</p>
-                <div className="flex gap-3 justify-center my-5">
-                    <Link to="/">
-                        <button type="button" className="border border-stone-800 px-6 py-2 md:px-12 md:py-2 text-stone-900 shadow-[4px_4px_8px_rgba(0,0,0,0.2)]">Continue shopping</button>
-                    </Link>
+                <div className="flex flex-col items-center justify-center mx-auto my-10 w-full">
                     <Link to="/checkout">
-                        <button type="button" className="px-24 py-2 bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)]">Checkout</button>
+                        <button type="button" className="px-16 md:px-24 py-2 bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)]">Checkout</button>
+                    </Link>
+                    <Link to="/">
+                        <button type="button" className="underline mt-6 leading-6 text-orange-700 hover:text-orange-900">Continue shopping</button>
                     </Link>
                 </div>
             </div>

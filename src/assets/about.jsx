@@ -25,7 +25,7 @@ products designed to enhance your well-being.
 
             <div className="md:flex py-24">
                 <img src={image1} className="max-w-96 object-contain"></img>
-                <div className="p-10 md:p-16 content-center">
+                <div className="p-8 md:p-16 content-center">
                     <h4>Our Story</h4>
                     <p>At RE7, we believe that self-care is essential, not optional. 
 Founded in 2024, our journey began with a passion for 
@@ -69,9 +69,9 @@ your mind, body, and spirit.
 
             {/* Section 4 */}
             
-            <div className="bg-cover min-h-96 p-10 md:p-16 content-center bg-right-bottom lg:h-[650px]" style={{ backgroundImage: `url(${image2})`}}>
-                <h4 className="">What we offer</h4>
-                <p className="md:max-w-[60%] ">Every month, we deliver a themed box filled with high-quality, 
+            <div className="bg-cover min-h-96 p-10 md:p-16 md:content-center bg-right-bottom lg:h-[650px]" style={{ backgroundImage: `url(${image2})`}}>
+                <h4 className="text-orange-50 md:text-black">What we offer</h4>
+                <p className="md:max-w-[60%] text-orange-50 md:text-black">Every month, we deliver a themed box filled with high-quality, 
 carefully curated items that align with our core values of renewal, 
 relaxation, and revitalization.
                 </p>
@@ -83,7 +83,7 @@ relaxation, and revitalization.
 
 
             <div className="py-12">
-                <div className="p-6 md:p-16 content-center text-center px-16 max-w-[900px] mx-auto">
+                <div className="p-8 md:p-16 content-center text-center max-w-[900px] mx-auto">
                     <h2 className="pb-8">Join Our Community</h2>
                     <p className="md:text-2xl">Embrace the journey to better self-care with RE7. Whether
  you’re looking to find balance, discover new wellness products, 

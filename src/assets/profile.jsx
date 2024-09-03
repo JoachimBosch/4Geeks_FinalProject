@@ -45,7 +45,7 @@ const Profile = () => {
 
                 {/* Profile section */}
 
-                    <div className="mx-16 py-6 border-t border-b border-gray-800">
+                    <div className="mx-10 md:mx-16 py-6 border-t border-b border-gray-800">
                         <h4>
                         1. Personal information
                         </h4>
@@ -53,7 +53,7 @@ const Profile = () => {
 
                     <div>
                         
-                        <div className="mx-20 pt-8 grid md:grid-cols-2 gap-4 pt-8">
+                        <div className="mx-10 md:mx-16 pt-8 grid md:grid-cols-2 gap-4 pt-8">
                             <div>
                                 <h3 className="text-lg font-semibold">Name:</h3>
                                 <input type="text" value={personInfo.first_name ? personInfo.first_name : "Add your first name"}
@@ -76,12 +76,12 @@ const Profile = () => {
                                 readOnly className="text-xl px-4 py-3 focus:bg-transparent text-gray-800 w-full focus:outline-blue-600" />
                             </div>
                         </div>
-                        <div className="mt-12 mb-24 gap-2 flex justify-center">
+                        <div className="mt-12 mb-24 flex flex-col md:flex-row items-center justify-center space-y-2 md:space-y-0 md:space-x-4">
                             <Link to="/change-password">
-                                <button className="text-xl border border-black px-8 py-2 items-center shadow-[4px_4px_8px_rgba(0,0,0,0.2)] hover:bg-white">Change password</button>
+                                <button className="text-xl border border-black px-8 py-2 shadow-[4px_4px_8px_rgba(0,0,0,0.2)] hover:bg-white">Change password</button>
                             </Link>
                             
-                            <button onClick={() => setOpenPersonalModal(true)} className="text-xl px-8 py-2 items-center border border-black shadow-[4px_4px_8px_rgba(0,0,0,0.2)] hover:bg-white">
+                            <button onClick={() => setOpenPersonalModal(true)} className="text-xl px-8 py-2 border border-black shadow-[4px_4px_8px_rgba(0,0,0,0.2)] hover:bg-white">
                             Update profile information
                             </button>
                             
@@ -91,11 +91,11 @@ const Profile = () => {
 
                 {/* Address section */}
                 
-                    <div className="mx-16 py-6 border-t border-b border-gray-800">
+                    <div className="mx-10 md:mx-16 py-6 border-t border-b border-gray-800">
                         <h4>2. Address information</h4>
                     </div>
 
-                    <div className="mx-20 pt-8">
+                    <div className="mx-4 md:mx-16 pt-8">
                         <div className="relative overflow-x-auto ">
                             <table className="w-full text-lg text-left rtl:text-right text-gray-500">
                                 <thead className="bg-black text-sm text-white uppercase" >
@@ -167,11 +167,11 @@ const Profile = () => {
                     {/* Subscription section */}
 
                     
-                    <div className="mx-16 py-6 border-t border-b border-gray-800">
+                    <div className="mx-10 md:mx-16 py-6 border-t border-b border-gray-800">
                         <h4>3. Active subscriptions</h4>
                     </div>
 
-                    <div className="profile mx-20 pt-8">
+                    <div className="profile mx-4 md:mx-16 pt-8">
                         <div className="relative overflow-x-auto mt-3">
                             <table className="w-full text-lg text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                 <thead className="bg-black text-sm text-white uppercase">
@@ -220,7 +220,7 @@ const Profile = () => {
 
                     <div className="my-6 mx-auto flex justify-center">
                                 <Link to="/marketplace">
-                                    <p className="text-xl items-center underline underline-offset-2">
+                                    <p className="text-xl items-center underline underline-offset-2 text-orange-700 hover:text-orange-900">
                                             Buy another subscription 
                                     </p>
                                     

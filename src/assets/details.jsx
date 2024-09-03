@@ -24,8 +24,8 @@ const Details = () => {
     return (
         
             <div className={`${thisBox.bg_color} py-20`}>
-                <div className="border-b border-black flex mt-2">
-                    <div className="max-w-[50%] lg:max-w-[40%] content-center">
+                <div className="border-b border-black md:flex mt-2">
+                    <div className="md:max-w-[50%] lg:max-w-[40%] content-center">
                         <img src={seeBox ? `${thisBox.box_out}`: "/Box_in.png"} className="mx-auto p-8"></img>
                         <div className="flex gap-1 pb-5 px-8 cursor-pointer">
                             <img src={thisBox.box_out} 
@@ -37,7 +37,7 @@ const Details = () => {
                         </div>
                     </div>
                     <div className="border-l border-black p-8 content-center">
-                        <h3 className={`text-6xl text-bçack [text-shadow:_5px_5px_8px_rgb(0_0_0_/_20%)]`}>{thisBox.name} box</h3>
+                        <h3 className={`text-6xl text-black [text-shadow:_5px_5px_8px_rgb(0_0_0_/_20%)]`}>{thisBox.name} box</h3>
                         <p className="text-black-500 [text-shadow:_3px_3px_3px_rgb(0_0_0_/_20%)] text-xl md:text-3xl my-3">from €{thisBox.price}</p>
                         <FontAwesomeIcon icon={faStar}></FontAwesomeIcon>
                         <FontAwesomeIcon icon={faStar}></FontAwesomeIcon>
@@ -70,30 +70,30 @@ const Details = () => {
 
 
                 <div>
-                    <h2 className="p-8">See products inside</h2>
-                    <div className = "flex mx-10 pb-8 border-b border-black col gap-5">
-                        <img src="" className="size-48"></img>
+                    <h2 className="text-4xl p-8">See products inside</h2>
+                    <div className = "md:flex mt-6 mx-10 pb-8 border-b border-black col gap-5">
+                        <img src="" className="size-48 mb-4"></img>
                         <div className="content-center gap-5">
                             <h4>{thisBox.item_1}</h4>
                             <p>{thisBox.item_1_text}</p>
                         </div>
                     </div>
-                    <div className = "flex mx-10 py-8 border-b border-black col gap-5">
-                        <img src="" className="size-48"></img>
+                    <div className = "md:flex mx-10 py-8 border-b border-black col gap-5">
+                        <img src="" className="size-48 mb-4"></img>
                         <div className="content-center gap-5">
                             <h4>{thisBox.item_2}</h4>
                             <p>{thisBox.item_2_text}</p>
                         </div>
                     </div>
-                    <div className = "flex mx-10 py-8 border-b border-black col gap-5">
-                        <img src="" className="size-48"></img>
+                    <div className = "md:flex mx-10 py-8 border-b border-black col gap-5">
+                        <img src="" className="size-48 mb-4"></img>
                         <div className="content-center gap-5">
                             <h4>{thisBox.item_3}</h4>
                             <p>{thisBox.item_3_text}</p>
                         </div>
                     </div>
-                    <div className = "flex mx-10 py-8 border-b border-black col gap-5">
-                        <img src="" className="size-48"></img>
+                    <div className = "md:flex mx-10 py-8 border-b border-black col gap-5">
+                        <img src="" className="size-48 mb-4"></img>
                         <div className="content-center gap-5">
                             <h4>{thisBox.item_4}</h4>
                             <p>{thisBox.item_4_text}</p>
