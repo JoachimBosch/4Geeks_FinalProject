@@ -121,14 +121,14 @@ const Checkout = () => {
     return (
         <div style={{backgroundColor: "#FAEAE0"}}>
             <div className="max-w-[1100px] mx-auto py-20 bg-orange-50">
-                <div className="mx-auto py-20">
+                <div className="mx-auto py-20 px-4">
                     <h2 className="text-center pb-6">Checkout</h2>
-                    <p className="text-center text-lg ">
+                    <p className="text-center text-base md:text-lg ">
                         <span className="font-semibold hover:underline">
                             <Link to="/cart">Cart </Link></span>
-                        <span className="ps-4">&gt;</span> 
-                        <span className="px-4 font-semibold">Shipping Information</span> 
-                        <span className="pe-4">&gt;</span> Payment
+                        <span className="ps-2 md:ps-4">&gt;</span> 
+                        <span className="px-2 md:px-4 font-semibold">Shipping Information</span> 
+                        <span className="pe-2 md:pe-4">&gt;</span> Payment
                     </p>
                 </div>
 
@@ -136,7 +136,7 @@ const Checkout = () => {
                 {/* Personal Information */}
 
 
-                <div className="mx-16">
+                <div className="mx-10 md:mx-16">
                     <div className="py-6 border-t border-b border-gray-800">
                         <h4>1. Personal Information</h4>
                     </div>
@@ -164,7 +164,7 @@ const Checkout = () => {
                 {/* Shipping Information */}
 
 
-                <div className="mx-16 mt-24">
+                <div className="mx-10 md:mx-16 mt-24">
                     <div className="py-6 border-t border-b border-gray-800">
                         <h4>2. Shipping Information</h4>
                     </div>
@@ -221,7 +221,7 @@ const Checkout = () => {
                 {/*Billing details*/}
 
 
-                <div className="mx-16 mt-12">
+                <div className="mx-10 md:mx-16 mt-12">
                     <div className="py-6 border-t border-b border-gray-800">
                         <h4>3. Billing Details</h4>
                     </div>
@@ -252,13 +252,12 @@ const Checkout = () => {
               
                     </div>
                 </div>
-                <div className="flex gap-3 justify-center my-20">
-                        <div  className="flex gap-3 justify-center my-20">
+                <div className="flex justify-center mx-2 my-20">
                             <button onClick={(event) => paymentSession(event)}
                                 id="checkout-button"
-                                className="px-24 py-2 items-center bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)]"
+                                className="px-10 md:px-24 py-2 items-center bg-black text-white shadow-[4px_4px_8px_rgba(0,0,0,0.2)]"
                                 >Proceed to Payment</button>
-                        </div>
+                        
                     
                 </div>
             </div>
