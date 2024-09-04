@@ -20,7 +20,7 @@ const ShoppingCart = () => {
     return (
         <div style={{backgroundColor: "#FAEAE0"}}>
         <div className="max-w-[1100px] mx-auto py-20 bg-orange-50">
-            <h2 className="text-center py-24 pb-16">Shopping Cart</h2>
+            <h2 className="text-center px-2 py-24 pb-16">Shopping Cart</h2>
             
             <div className="grid grid-cols-12 max-md:hidden py-6 border-t border-b border-gray-800 mx-16">
                 <div className="col-span-12 md:col-span-7">

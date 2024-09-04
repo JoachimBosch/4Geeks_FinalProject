@@ -26,12 +26,12 @@ const Details = () => {
             <div className={`${thisBox.bg_color} py-20`}>
                 <div className="border-b border-black md:flex mt-2">
                     <div className="md:max-w-[50%] lg:max-w-[40%] content-center">
-                        <img src={seeBox ? `${thisBox.box_out}`: "/Box_in.png"} className="mx-auto p-8"></img>
+                        <img src={seeBox ? `${thisBox.box_out}`: `${thisBox.box_in}`} className="mx-auto p-8"></img>
                         <div className="flex gap-1 pb-5 px-8 cursor-pointer">
                             <img src={thisBox.box_out} 
                                 className={seeBox ? "border border-black w-1/2" : "w-1/2"}
                                 onClick={() => setSeeBox(true)}></img>
-                            <img src="/Box_in.png" 
+                            <img src={thisBox.box_in}
                                 className={seeBox ? "w-1/2" : "border border-black w-1/2"}
                                 onClick={() => setSeeBox(false)}></img>
                         </div>

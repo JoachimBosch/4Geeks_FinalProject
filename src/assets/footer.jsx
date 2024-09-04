@@ -20,11 +20,11 @@ const Footer = () => {
                         <div className="md:flex space-x-4 space-y-2 items-center py-3">
                             <p className="text-orange-50 text-base"></p>
                             <a href="https://github.com/inestell/" className="flex gap-2 text-gray-900 items-center" target="_blank">
-                                <img src="public/GitHub.png" className="max-w-8 max-h-8 md:max-w-6 md:max-h-6"></img>
+                                <img src="/GitHub.png" className="max-w-8 max-h-8 md:max-w-6 md:max-h-6"></img>
                                 <p className="text-xl text-orange-50 hover:underline">Ines Tellechea</p>
                             </a>
                             <a href="https://github.com/joachimbosch/" className="flex gap-2 text-gray-900 items-center" target="_blank">
-                                <img src="public/GitHub.png" className="max-w-8 max-h-8 md:max-w-6 md:max-h-6"></img>
+                                <img src="/GitHub.png" className="max-w-8 max-h-8 md:max-w-6 md:max-h-6"></img>
                                 <p className="text-xl text-orange-50 hover:underline">Joachim Bosch</p>
                             </a>
                         </div>

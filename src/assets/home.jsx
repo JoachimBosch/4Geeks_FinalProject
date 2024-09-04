@@ -66,26 +66,26 @@ export default function Home() {
         <div className="text-center pt-24" style={{backgroundColor: "#FAEAE0"}} id="section_3">
                 <h2 className="text-4xl md:text-5xl px-4">Choose Your Experience</h2>
                 <div className = "w-full mt-16">
-                    <ul className="pb-5 relative flex flex-wrap px-10 md:px-1 list-none text-base md:text-lg lg:text-xl" data-tabs="tabs" role="list">
-                        <li className="z-30 flex-auto text-center hover:underline">
+                    <ul className="pb-5 relative flex flex-wrap px-2 md:px-1 list-none text-base md:text-lg lg:text-xl" data-tabs="tabs" role="list">
+                        <li className="z-30 flex-auto text-center hover:underline px-1">
                             <Link to="relax">RELAX</Link>
                         </li>
-                        <li className="z-30 flex-auto text-center hover:underline">
+                        <li className="z-30 flex-auto text-center hover:underline px-1">
                             <Link to="revive">REVIVE</Link>
                         </li>
-                        <li className="z-30 flex-auto text-center hover:underline">
+                        <li className="z-30 flex-auto text-center hover:underline px-1">
                             <Link to="reconnect">RECONNECT</Link>
                         </li>
-                        <li className="z-30 flex-auto text-center hover:underline">
+                        <li className="z-30 flex-auto text-center hover:underline px-1">
                             <Link to="recharge">RECHARGE</Link>
                         </li>
-                        <li className="z-30 flex-auto text-center hover:underline">
+                        <li className="z-30 flex-auto text-center hover:underline px-1">
                             <Link to="refresh">REFRESH</Link>
                         </li>
-                        <li className="z-30 flex-auto text-center hover:underline">
+                        <li className="z-30 flex-auto text-center hover:underline px-1">
                             <Link to="refocus">REFOCUS</Link>
                         </li>
-                        <li className="z-30 flex-auto text-center hover:underline">
+                        <li className="z-30 flex-auto text-center hover:underline px-1">
                             <Link to="rebalance">REBALANCE</Link>
                         </li>
                     </ul>
@@ -107,6 +107,7 @@ export default function Home() {
                                             text_color={box.text_color}
                                             background={box.background}
                                             box_out={box.box_out}
+                                            box_in={box.box_in}
                                             quantity={box.quantity}
                                             tabId={index === 0 ? 'relax' : index === 1 ? 'revive' : index === 2 ? 'reconnect' : index === 3 ? 'recharge' : index === 4 ? 'refresh' : index === 5 ? 'refocus' : index === 6 ? 'rebalance': ''}
                             />
@@ -129,17 +130,17 @@ export default function Home() {
             <div className="my-16 md:flex">
                 <img src={image2} alt="lady choosing products"></img>
                 <div className="grid gap-y-4 mx-8 mt-4 md:mt-0 w-4/5">
-                    <div className="border border-zinc-500 text-center content-center px-10">
+                    <div className="border border-zinc-500 text-center content-center px-10 py-4">
                         <h4>Personalized Experience</h4>
-                        <p>Each box is tailored to meet your unique needs and preferences.</p>
+                        <p className="text-xl md:text-1xl">Each box is tailored to meet your unique needs and preferences.</p>
                     </div>
-                    <div className="border border-zinc-500 text-center content-center px-10">
+                    <div className="border border-zinc-500 text-center content-center px-10 py-4">
                         <h4>Quality and Sustainability</h4>
-                        <p>We prioritize high-quality, ethically sourced and eco-friendly products.</p>
+                        <p className="text-xl md:text-1xl">We prioritize high-quality, ethically sourced and eco-friendly products.</p>
                     </div>
-                    <div className="border border-zinc-500 text-center content-center px-10">
+                    <div className="border border-zinc-500 text-center content-center px-10 py-4">
                         <h4>Expert curation</h4>
-                        <p>Each item is carefully selected by a team of wellness experts.</p>
+                        <p className="text-xl md:text-1xl">Each item is carefully selected by a team of wellness experts.</p>
                     </div>
                 </div>
             </div>

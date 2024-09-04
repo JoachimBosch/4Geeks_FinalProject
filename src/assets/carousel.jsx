@@ -5,7 +5,7 @@ import { Button, Modal } from "flowbite-react";
 
 
 
-export default function Carousel_content({id, name, background, callout, box_out, text_color, button_color, price, quantity, price_3, price_6, price_12, tabId}) {
+export default function Carousel_content({id, name, background, callout, box_out, box_in, text_color, button_color, price, quantity, price_3, price_6, price_12, tabId}) {
     const [opened, setOpened] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const { onAddToCart, cart } = useContext(MyContext)
@@ -25,7 +25,7 @@ export default function Carousel_content({id, name, background, callout, box_out
                             <img src={box_out} alt={`${name} box`} 
                                 className={`absolute top-0 left-0 ${opened ? "transition ease-in-out duration-1000 -translate-y-3/4" : "transition ease-in-out duration-1000 translate-y-0"}`}
                                 ></img>
-                            <img src="/Box_in.png"
+                            <img src={box_in}
                                 className=""></img>
                         </div>
                         <button type="button" 
