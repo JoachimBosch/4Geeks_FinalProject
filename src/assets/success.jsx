@@ -9,6 +9,8 @@ const Success = () => {
 
     console.log(storeSub)
     const postSubscriptionData = async () => {
+        setStoreSub = localStorage.getItem('subData')
+        console.log(storeSub)
         try {
         if (storeSub && storeSub.length > 0) {
             for (let sub of storeSub) {
