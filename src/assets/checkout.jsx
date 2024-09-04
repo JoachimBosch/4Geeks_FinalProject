@@ -71,7 +71,7 @@ const Checkout = () => {
       };
 
 
-    const handleSubmit = async (e) => {
+    /* const handleSubmit = async (e) => {
         setError(null); // Clear any existing error
         try {
             await paymentSession(totalPrice);
@@ -79,10 +79,11 @@ const Checkout = () => {
             console.error("Payment session creation failed:", error);
             setError(error.message || "An unexpected error occurred during payment processing.");
         }
-    };
+    }; */
 
     const paymentSession = async (event) => {
         event.preventDefault();
+        gatherSubData();
         try {
             const response = await axios.post(`${_APILINK_}/create-checkout-session`, {
                 'amount': totalPrice
@@ -106,7 +107,11 @@ const Checkout = () => {
         }
     };
 
+
     /* const gatherSubData = async () => {
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+        const today = new Date().toLocaleDateString('en-GB', options);
+
         const updatedSubData = cart.map((box) => {
           const checkoutCartItem = checkoutCart.find((item) => item.id === box.name);
       
@@ -117,15 +122,14 @@ const Checkout = () => {
               billing_address: billing.Billing_address ? billing.Billing_address : addressInfo.id,
               shipping_address: billing.Billing_address ? billing.Billing_address : addressInfo.id,
               order: box.name,
-              start_date: getDate(),
+              start_date: today,
             };
           }
       
           const { final_price, price_3, price_6, price_12 } = checkoutCartItem;
           const subscriptionTerm = [price_3, price_6, price_12].findIndex((price) => price === final_price) + 1;
       
-          const endDate = new Date(getDate());
-          endDate.setMonth(endDate.getMonth() + subscriptionTerm * 3);
+          const endDate = today.setMonth(today.getMonth() + subscriptionTerm * 3);
       
           console.log(endDate)
           return {
@@ -133,15 +137,16 @@ const Checkout = () => {
             billing_address: billing.Billing_address ? billing.Billing_address : addressInfo.id,
             shipping_address: billing.Billing_address ? billing.Billing_address : addressInfo.id,
             order: box.name,
-            start_date: getDate(),
+            start_date: today,
             end_date: endDate,
           };
         });
         setStoreSub(updatedSubData);
-        await storeAllSubs();
-      };
+        localStorage.setItem('subData', JSON.stringify(storeSub))
+      }; */
 
-    const storeAllSubs = async () => {
+    /* const storeAllSubs = async () => {
+        setStoreSub = localStorage.getItem('subData')
         try {
           for (let sub of storeSub) {
             await storeSubscription(sub); 

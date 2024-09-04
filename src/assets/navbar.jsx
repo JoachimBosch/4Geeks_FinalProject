@@ -18,7 +18,7 @@ const navigation = [
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [badge, setBadge] = useState(null)
-  const { cart, logout, token, personInfo } = useContext(MyContext);
+  const { cart, logout, token, personInfo, } = useContext(MyContext);
 
   useEffect(() => {
     const newCheckoutCart = [];
@@ -31,8 +31,6 @@ export default function Navbar() {
     setBadge(newCheckoutCart.length)
     
   }, [cart]);
-
-console.log(badge);
 
 
   return (
@@ -83,7 +81,7 @@ console.log(badge);
           }
             
             
-            <Link to='./cart'>
+            <Link to='/cart'>
                 <div className="cart px-4 relative">
                   <FontAwesomeIcon className="text-3xl p-2 hover:cursor-pointer" icon={faCartShopping} />
                   {cart.length > 0 ? <div className="badge bg-red-500 text-white text-center text-base px-1 absolute bottom-9 right-8 rounded">{badge}</div> : ""}
@@ -138,7 +136,7 @@ console.log(badge);
                     </a>
                   ))}
                     <a
-                        href='./cart'
+                        href='/cart'
                         className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                       ><FontAwesomeIcon icon={ faCartShopping } className="pe-2"></FontAwesomeIcon>
                         Shopping Cart
@@ -147,7 +145,7 @@ console.log(badge);
                 <div className="py-4">
                   {!token ? 
                     <a
-                    href="./login"
+                    href="/login"
                     className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                     >
                     Log in
@@ -155,13 +153,13 @@ console.log(badge);
                     :
                     <div>
                       <a
-                      href="./profile"
+                      href="/profile"
                       className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                       >
                       Go to profile
                       </a>
                       <a
-                      href="./"
+                      href="/"
                       className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                       onClick={(e) => {
                         e.preventDefault();
