@@ -30,8 +30,6 @@ const AuthRoutes = () => {
           <Route path="/details/:id" element={<Details />} />
           <Route path="/cart" element={<ShoppingCart />} />
           <Route path="/about" element={<About />} />
-          <Route path="/success" element={<Success />} />
-          <Route path="/canceled" element={<Canceled />} />
 
           {/* Protected routes */}
           <Route path="/profile" element={<ProtectedRoute />}>
@@ -48,6 +46,12 @@ const AuthRoutes = () => {
           </Route>
           <Route path="/return" element={<ProtectedRoute />}>
             <Route path="/return" element={<Return />} />
+          </Route>
+          <Route path="/success" element={<ProtectedRoute />}>
+            <Route path="/success" element={<Success />} />
+          </Route>
+          <Route path="/canceled" element={<ProtectedRoute />}>
+            <Route path="/canceled" element={<Canceled />} />
           </Route>
       </Routes>
   );

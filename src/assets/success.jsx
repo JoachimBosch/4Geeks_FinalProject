@@ -46,7 +46,6 @@ const Success = () => {
             };
         });
         setStoreSub(updatedSubData);
-        console.log('updated sub data:', updatedSubData)   
         localStorage.setItem('subData', JSON.stringify(updatedSubData));
     };
 
@@ -73,11 +72,11 @@ const Success = () => {
         }
     };
 
-    useEffect(() => {
 
+    useEffect(() => {
         gatherSubData();
         postSubscriptionData();
-    }, [_APILINK_]);
+    }, []);
 
     return(
         <div className ="bg-[#e9d0bd] pt-36 md:pt-56 pb-36 px-6 md:h-screen" style={{ backgroundImage: `url(${image1})`}}>
