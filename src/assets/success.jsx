@@ -4,30 +4,83 @@ import { useContext, useState, useEffect } from 'react';
 import MyContext from '../Context/context';
 
 const Success = () => {
-    /* const { storeSub, setStoreSub, _APILINK_, storeSubscription } = useContext(MyContext);
+    const { storeSub, setStoreSub, _APILINK_, storeSubscription, billingAddress, shippingAddress, personInfo, addressInfo } = useContext(MyContext);
     const [error, setError] = useState(null);
+    const user_id = personInfo.id; 
+    const billing_address = billingAddress ? billingAddress : addressInfo[0].id;
+    const shipping_address = shippingAddress ? shippingAddress : addressInfo[0].id;
 
-    console.log(storeSub)
+    const calculateEndDate = (startDate, months) => {
+        const endDate = new Date(startDate);
+        endDate.setMonth(endDate.getMonth() + months);
+        return endDate.toLocaleDateString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit' });
+    };
+
+    const gatherSubData = () => {
+        let cart = JSON.parse(localStorage.getItem('myCart'));
+        
+        if (!cart || cart.length === 0) {
+            console.error('No cart data found');
+            return;
+          }
+
+        const today = new Date().toLocaleDateString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit' });
+
+        const updatedSubData = cart.map((item) => {
+
+            const subscriptionTerm = item.price === item.price_3 ? 3 
+                                : item.price === item.price_6 ? 6 
+                                : 12;  
+
+            const endDate = calculateEndDate(new Date(), subscriptionTerm);
+
+            return {
+                active: true,
+                user_id: user_id,                         
+                billing_address: billing_address,         
+                shipping_address: shipping_address,       
+                order: item.name,                         
+                start_date: today,                        
+                end_date: endDate,                        
+                payment_method: 'credit card',            
+            };
+        });
+
+        setStoreSub({...storeSub, updatedSubData});
+        console.log(updatedSubData)
+        localStorage.setItem('subData', JSON.stringify(updatedSubData));
+    };
+
     const postSubscriptionData = async () => {
-        setStoreSub = localStorage.getItem('subData')
-        console.log(storeSub)
-        try {
-        if (storeSub && storeSub.length > 0) {
-            for (let sub of storeSub) {
-            storeSubscription(sub)
-            }
-        } else {
+        const storedSubData = JSON.parse(localStorage.getItem('subData'));
+
+        if (!storedSubData || storedSubData.length === 0) {
             console.error('No subscription data available to post.');
-        }
+            return;
+          }
+
+        try {
+            for (let sub of storedSubData) {
+                await storeSubscription(sub); 
+              }
+
+            //localStorage.removeItem('subData');
         } catch (error) {
         console.error('Error posting subscription data:', error);
         setError('Failed to post subscription data. Please contact support.');
         }
     };
-    
+
     useEffect(() => {
+        const storedSubData = JSON.parse(localStorage.getItem('subData'));
+  
+        if (!storedSubData || storedSubData.length === 0) {
+            gatherSubData();
+        } else {
+            console.log('Subscription data already exists in localStorage');
+        }
         postSubscriptionData();
-      }, [storeSub, _APILINK_]); */
+    }, [_APILINK_]);
 
     return(
         <div className ="bg-[#e9d0bd] pt-36 md:pt-56 pb-36 px-6 md:h-screen" style={{ backgroundImage: `url(${image1})`}}>
@@ -43,6 +96,7 @@ const Success = () => {
             </div>
         </div>
     )
+
 }
 
 export default Success

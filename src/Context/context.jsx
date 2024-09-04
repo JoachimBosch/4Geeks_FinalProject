@@ -272,6 +272,8 @@ export const MyProvider = ({ children }) => {
       end_date: "",
       payment_method: "Card",
     });
+    const [billingAddress, setBillingAddress] = useState('');
+    const [shippingAddress, setShippingAddress] = useState('');
 
     /*UseEffect*/
 
@@ -511,9 +513,7 @@ export const MyProvider = ({ children }) => {
 
  const storeSubscription = async (subscriptionData) => {
   try {
-    const response = await axios.post(`${_APILINK_}/subscriptions`, {
-      subscriptionData
-    });
+    const response = await axios.post(`${_APILINK_}/subscriptions`, subscriptionData);
     const updatedSubscriptions = [...subscriptionInfo, response.data];
     setSubscriptionInfo(updatedSubscriptions);
     localStorage.setItem('subscriptionInfo', JSON.stringify(updatedSubscriptions));
@@ -544,9 +544,15 @@ const updateSubscription = async (subscriptionID, updatedData) => {
     const day = today.getDate();
     return `${day}/${month}/${year}`;
   }
+
+  const storeSubData = async () => {
+    let fetchCartInfo = JSON.parse(localStorage.getItem('myCart'))
+
+    return localStorage.setItem('subData', JSON.stringify(fetchCartInfo))
+  }
     
     /* Add variable names within appContext */
-    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData,  type, setType, icon, setIcon, handleToggle, deleteAddress, fetchAddresses, fetchSubscriptions ,storeSubscription, updateSubscription, subData, setSubData, index, setIndex, saveToken, logout, token, setToken_, updatePersonInfo, _APILINK_, totalPrice, setTotalPrice, loginModal, setLoginModal, registerModal, setRegisterModal, registerMsg, setRegisterMsg, storeSub, setStoreSub, getDate }
+    let appContext = {loggingIn, setLoggingIn, boxes, subscribe, setSubscribe, personInfo, setPersonInfo, addressInfo, setAddressInfo, subscriptionInfo, setSubscriptionInfo, cart, setCart, onAddToCart, onDeleteFromCart, increaseQuantity, decreaseQuantity, register, login, changePassword, setChangePassword, change_Password, storeAddress, updateAddress, formData, setFormData,  type, setType, icon, setIcon, handleToggle, deleteAddress, fetchAddresses, fetchSubscriptions ,storeSubscription, updateSubscription, subData, setSubData, index, setIndex, saveToken, logout, token, setToken_, updatePersonInfo, _APILINK_, totalPrice, setTotalPrice, loginModal, setLoginModal, registerModal, setRegisterModal, registerMsg, setRegisterMsg, storeSub, setStoreSub, getDate, storeSubData, billingAddress, setBillingAddress, shippingAddress, setShippingAddress }
 
     return (
         <MyContext.Provider value={appContext}>

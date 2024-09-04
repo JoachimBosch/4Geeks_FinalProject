@@ -5,15 +5,15 @@ import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 
 const Checkout = () => {
-    const { personInfo, addressInfo, totalPrice, setTotalPrice, storeSub, setStoreSub, getDate, storeSubscription } = useContext(MyContext);
+    const { personInfo, addressInfo, totalPrice, setTotalPrice, storeSubData, setBillingAddress, setShippingAddress } = useContext(MyContext);
     const [checkoutCart, setCheckoutCart] = useState([]);
     const [billing, setBilling] = useState({Name: "", VATS: "", Billing_address: "", Country: ""});
-    const [error, setError] = useState(null);
     
     const { cart } = useContext(MyContext);
     const { _APILINK_ } = useContext(MyContext);
 
     useEffect(() => {
+        
         const newCheckoutCart = [];
         cart.map(item => {
           
@@ -83,7 +83,9 @@ const Checkout = () => {
 
     const paymentSession = async (event) => {
         event.preventDefault();
-        gatherSubData();
+
+        await storeSubData();
+        
         try {
             const response = await axios.post(`${_APILINK_}/create-checkout-session`, {
                 'amount': totalPrice
@@ -106,55 +108,6 @@ const Checkout = () => {
             throw error; // Re-throw the error to handle it in handleSubmit
         }
     };
-
-
-    /* const gatherSubData = async () => {
-        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-        const today = new Date().toLocaleDateString('en-GB', options);
-
-        const updatedSubData = cart.map((box) => {
-          const checkoutCartItem = checkoutCart.find((item) => item.id === box.name);
-      
-          if (!checkoutCartItem) {
-            console.error(`Checkout cart item for order ${box.name} not found.`);
-            return {
-              ...storeSub,
-              billing_address: billing.Billing_address ? billing.Billing_address : addressInfo.id,
-              shipping_address: billing.Billing_address ? billing.Billing_address : addressInfo.id,
-              order: box.name,
-              start_date: today,
-            };
-          }
-      
-          const { final_price, price_3, price_6, price_12 } = checkoutCartItem;
-          const subscriptionTerm = [price_3, price_6, price_12].findIndex((price) => price === final_price) + 1;
-      
-          const endDate = today.setMonth(today.getMonth() + subscriptionTerm * 3);
-      
-          console.log(endDate)
-          return {
-            ...storeSub,
-            billing_address: billing.Billing_address ? billing.Billing_address : addressInfo.id,
-            shipping_address: billing.Billing_address ? billing.Billing_address : addressInfo.id,
-            order: box.name,
-            start_date: today,
-            end_date: endDate,
-          };
-        });
-        setStoreSub(updatedSubData);
-        localStorage.setItem('subData', JSON.stringify(storeSub))
-      }; */
-
-    /* const storeAllSubs = async () => {
-        setStoreSub = localStorage.getItem('subData')
-        try {
-          for (let sub of storeSub) {
-            await storeSubscription(sub); 
-          }
-        } catch (error) {
-          console.error('Error while storing subscriptions:', error);
-        }
-      }; */
 
     return (
         <div style={{backgroundColor: "#FAEAE0"}}>
@@ -221,13 +174,17 @@ const Checkout = () => {
                                     <div className="flex flex-col gap-3" id={box.id}>
                                         <p className=" text-black font-semibold">{box.name}</p>
                                         <label htmlFor="address" className="text-lg text-gray-600">Select Address:</label>
-                                        <select name="address" id="address">
+                                        <select name="address" id="address" onClick={(e) => {
+                                                setShippingAddress(e.target.value); 
+                                            }}>
                                             {addressInfo.map((address, index) => (
-                                            <option key={address.id} value={address.id}>{address.street_number} {address.street}, {address.postal_code} {address.city}, {address.country}</option>
-                                            ))};
+                                            <option key={address.id} value={address.id}>{address.street_number} {address.street}, {address.postal_code} {address.city}, {address.country}
+                                            </option>
+                                            ))}
                                         </select>
                                         <label htmlFor="subscription" className="text-lg mt-4 text-gray-600 ">Select Subscription Term:</label>
-                                        <select name="subscription" id="subscription" onChange={(event) => handleSubscriptionChange(event, index)}>
+                                        <select name="subscription" id="subscription" onChange={(event) => handleSubscriptionChange(event, index)}
+                                        >
                                             <option value="price_3">3 months subscription - get a box every month</option>
                                             <option value="price_6">6 months subscription - get a box every month</option>
                                             <option value="price_12">12 months subscription - get a box every month</option>
@@ -275,7 +232,7 @@ const Checkout = () => {
                         </div>
 
                         <div>
-                            <select name="Billing_address" value={billing.Billing_address} onClick={handleInputChange}
+                            <select name="Billing_address" value={billing.Billing_address} onClick={(e) => {handleInputChange; setBillingAddress(e.target.value)}}
                                 className="px-4 py-3 focus:bg-transparent text-gray-800 w-full focus:outline-blue-600">
                                 {addressInfo.map((address, index) => (
                                             <option key={address.id} value={address.id}>{address.street_number} {address.street}, {address.postal_code} {address.city}, {address.country}</option>
