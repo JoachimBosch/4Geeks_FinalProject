@@ -72,28 +72,28 @@ const Details = () => {
                 <div>
                     <h2 className="text-4xl p-8">See products inside</h2>
                     <div className = "md:flex mt-6 mx-10 pb-8 border-b border-black col gap-5">
-                        <img src="" className="size-48 mb-4"></img>
+                        <img src={thisBox.img1} className="size-48 mb-4"></img>
                         <div className="content-center gap-5">
                             <h4>{thisBox.item_1}</h4>
                             <p>{thisBox.item_1_text}</p>
                         </div>
                     </div>
                     <div className = "md:flex mx-10 py-8 border-b border-black col gap-5">
-                        <img src="" className="size-48 mb-4"></img>
+                        <img src={thisBox.img2} className="size-48 mb-4"></img>
                         <div className="content-center gap-5">
                             <h4>{thisBox.item_2}</h4>
                             <p>{thisBox.item_2_text}</p>
                         </div>
                     </div>
                     <div className = "md:flex mx-10 py-8 border-b border-black col gap-5">
-                        <img src="" className="size-48 mb-4"></img>
+                        <img src={thisBox.img3} className="size-48 mb-4"></img>
                         <div className="content-center gap-5">
                             <h4>{thisBox.item_3}</h4>
                             <p>{thisBox.item_3_text}</p>
                         </div>
                     </div>
                     <div className = "md:flex mx-10 py-8 border-b border-black col gap-5">
-                        <img src="" className="size-48 mb-4"></img>
+                        <img src={thisBox.img4} className="size-48 mb-4"></img>
                         <div className="content-center gap-5">
                             <h4>{thisBox.item_4}</h4>
                             <p>{thisBox.item_4_text}</p>
