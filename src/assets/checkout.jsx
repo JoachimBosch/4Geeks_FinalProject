@@ -5,7 +5,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 
 const Checkout = () => {
-    const { personInfo, addressInfo, totalPrice, setTotalPrice, storeSubData, setBillingAddress, setShippingAddress } = useContext(MyContext);
+    const { personInfo, addressInfo, totalPrice, setTotalPrice, setBillingAddress, setShippingAddress, storeSubData } = useContext(MyContext);
     const [checkoutCart, setCheckoutCart] = useState([]);
     const [billing, setBilling] = useState({Name: "", VATS: "", Billing_address: "", Country: ""});
     
@@ -31,7 +31,8 @@ const Checkout = () => {
         setTotalPrice(newCheckoutCart.reduce(
             (acc, curr) => acc + curr.final_price,
             0,
-        ))
+        ));
+        
       }, [cart]);
 
     function handlePrice(box, term) {
@@ -83,7 +84,6 @@ const Checkout = () => {
 
     const paymentSession = async (event) => {
         event.preventDefault();
-
         await storeSubData();
         
         try {
@@ -101,7 +101,7 @@ const Checkout = () => {
                 window.location.href = response.data.url;
              }, 2000);  */// Wait for 2 seconds before reloading    
             
-            localStorage.setItem('myCart', JSON.stringify([]));
+            //localStorage.setItem('myCart', JSON.stringify([]));
         } catch (error) {
             console.error('Error creating payment intent:', error);
             console.error('Response data:', error.response?.data);

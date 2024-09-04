@@ -45,14 +45,15 @@ const Success = () => {
                 payment_method: 'credit card',            
             };
         });
-
-        setStoreSub({...storeSub, updatedSubData});
-        console.log(updatedSubData)
+        setStoreSub(updatedSubData);
+        console.log('updated sub data:', updatedSubData)   
         localStorage.setItem('subData', JSON.stringify(updatedSubData));
     };
 
     const postSubscriptionData = async () => {
         const storedSubData = JSON.parse(localStorage.getItem('subData'));
+
+        console.log('retrieved data:', storedSubData);
 
         if (!storedSubData || storedSubData.length === 0) {
             console.error('No subscription data available to post.');
@@ -64,7 +65,8 @@ const Success = () => {
                 await storeSubscription(sub); 
               }
 
-            //localStorage.removeItem('subData');
+            localStorage.removeItem('subData');
+            localStorage.removeItem('myCart');
         } catch (error) {
         console.error('Error posting subscription data:', error);
         setError('Failed to post subscription data. Please contact support.');
@@ -72,13 +74,8 @@ const Success = () => {
     };
 
     useEffect(() => {
-        const storedSubData = JSON.parse(localStorage.getItem('subData'));
-  
-        if (!storedSubData || storedSubData.length === 0) {
-            gatherSubData();
-        } else {
-            console.log('Subscription data already exists in localStorage');
-        }
+
+        gatherSubData();
         postSubscriptionData();
     }, [_APILINK_]);
 

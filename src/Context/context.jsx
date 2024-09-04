@@ -255,7 +255,7 @@ export const MyProvider = ({ children }) => {
     const [cart, setCart] = useState(JSON.parse(localStorage.getItem("myCart")) || []);
     const [type, setType] = useState("password");
     const [icon, setIcon] = useState(faEyeSlash);
-    const [subData, setSubData] = useState();
+    const [subData, setSubData] = useState([]);
     const [index, setIndex] = useState("");
     const [totalPrice, setTotalPrice] = useState(0);
     const [token, setToken_] = useState(localStorage.getItem("token"));
@@ -274,12 +274,13 @@ export const MyProvider = ({ children }) => {
     });
     const [billingAddress, setBillingAddress] = useState('');
     const [shippingAddress, setShippingAddress] = useState('');
+    
 
     /*UseEffect*/
 
     useEffect(() => {
       localStorage.setItem("myCart", JSON.stringify(cart));
-      
+
   }, [cart]);
 
     /* FUNCTIONS */
@@ -308,6 +309,7 @@ export const MyProvider = ({ children }) => {
       localStorage.removeItem('personInfo');
       localStorage.removeItem('addressInfo');
       localStorage.removeItem('subscriptionInfo');
+      localStorage.removeItem('subData');
     }
     
     const fetchAddresses = async (userId) => {
